@@ -1,0 +1,14 @@
+\section*{P1.1 {\footnotesize\hyperref[prob:P1.1]{(prob:P1.1)} \normalsize}}
+ \addcontentsline{toc}{section}{P1.1 (prob:P1.1)}
+ \markboth{Chapter\ 1\ \ Running Python}{Solutions: P1.1}
+ \begin{itemize}
+ \item[]
+ \InputIfFileExists{solutions/prob:P1.1}{}{No Solution File Found}
+ \end{itemize} \hrule
+\section*{P1.2 {\footnotesize\hyperref[prob:P1.2]{(prob:P1.2)} \normalsize}}
+ \addcontentsline{toc}{section}{P1.2 (prob:P1.2)}
+ \markboth{Chapter\ 1\ \ Running Python}{Solutions: P1.2}
+ \begin{itemize}
+ \item[]
+ \InputIfFileExists{solutions/prob:P1.2}{}{No Solution File Found}
+ \end{itemize} \hrule
