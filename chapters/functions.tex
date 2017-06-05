@@ -1,0 +1,152 @@
+\chapter{Functions and Libraries}
+\label{chap:Functions}
+
+In the previous chapter I showed you how to perform very simple
+mathematical calculations using variables.  You were also briefly
+introduced to some simple functions that are available in the Python
+language.  However, you were probably left wondering about more complex
+mathematical calculations, like $sin(\frac{\pi}{2})$ or $e^{2.5}$.
+The native Python language does not include functions for these
+mathematical operations and they must be imported from libaries.  In
+this chapter we will discussion functions and libraries.
+
+\section{User-defined functions}
+A function is simply a set of instructions to be performed when called
+upon.  You (the user) can create your own function like this
+\begin{Verbatim}
+def myFunction(a,b):
+    c = a + b
+    d = 3.0 * c
+    f = 5.0 * d**4
+    return f
+\end{Verbatim}
+This function performs several simple calculations and then uses the
+\texttt{return} statement to pass the final result back out of the
+function.  Every user-defined function must begin with the keyword
+\texttt{def} followed by the function name (you can choose it). The
+variables \texttt{a} and \texttt{b} are the arguments to the function.
+This means that when you want to call this function, you must provide
+these numbers.  This function can be called like this
+\begin{Verbatim}
+r = 10
+t = 15
+result = myFunction(r,t)
+\end{Verbatim}
+In this case, when the function is called, \texttt{a} gets assigned
+the value of $10$ and \texttt{b} gets assigned the value of $15$.  The
+result of this calculation is stored in the variable \texttt{result},
+which is outside the function.  You can think of a function as a black
+box. You create the contents of the box and specify what information
+must be passed into the black box.  The user of the black box need not
+know, or fully understand, everything that the designer put inside
+it.  He only needs to know what to give the box and what the box will
+give back to him.
+
+\section{Native functions}
+Python has many native functions: functions that are included with the
+programming language.  You have already been using some of them, like these
+\begin{Verbatim}
+len(mylist)  % Returns the length of a list.
+float(5)     % Converts an integer to a float.
+str(67.3)    % Converts a float to a string.
+\end{Verbatim}
+The functions: \texttt{len}, \texttt{float}, and \texttt{str} are all
+built-in functions, and they each take a single argument.  Other
+built-in function are found in the margin tables in the previous chapter.
+
+\section{Imported Functions and Libraries}
+If a function isn't included in the standard Python distribution and
+you don't want to write your own function, you may be able to find the
+function that you need elsehwere.  For the vast majority of the things
+you will want to do, there will be an existing libary that has the
+function you need. Many third-party developers have
+written very useful functions and bundled them into libraries.  To
+gain access to these great tools requires that you first install
+them.\sidenote{If you are using Enthought's Canopy package, all of the
+  libraries that you need are already installed} Once they are
+installed, you can import the library of functions like this:
+\begin{Verbatim}
+import math
+\end{Verbatim}
+This imports a library called \texttt{math}.  You can use a function
+inside of this libary like this
+\begin{Verbatim}
+math.sqrt(5.2)  % Take the square root of 5.2
+math.pi         % Get the value of pi
+math.sin(34)    % Find the sine of 34 radians
+\end{Verbatim}
+Using the functions inside a libary requires that you know what
+functions are available.  This information is usually available in the
+library's documentation.  Google will be a great resource here.
+
+A library can be imported and then called by a different name like
+this:
+\begin{Verbatim}
+import math as mt
+\end{Verbatim}
+Here, the short name \texttt{mt} was chosen for this library.
+The desired functions can then be called like this
+\begin{Verbatim}
+mt.sqrt(5.2)  % Take the square root of 5.2
+mt.pi         % Get the value of pi
+mt.sin(34)    % Find the sine of 34 radians
+\end{Verbatim}
+
+Sometimes you may not want to import the entire library, just a few
+functions. This can be done like this
+\begin{Verbatim}
+from math import sqrt
+\end{Verbatim}
+and the \texttt{sqrt} function can then be used without the library
+name before it, like this
+\begin{Verbatim}
+sqrt(5.5)
+\end{Verbatim}
+If you want to import every function inside of a libary, do this
+\begin{Verbatim}
+from math import *
+\end{Verbatim}
+Now, every function contained in \texttt{math} is available without
+needing the \texttt{math.} prefix in front of it.
+
+Throughout this book, we will use a variety of libaries to accomplish
+important tasks.  Instead of giving a complete description of each
+library used and every function that it contains, we will simply
+discuss the functions needed for each specific task.  The interested
+reader is referred to the documentation of the various libaries for
+further details.
+
+\section{The numpy (numerical python) library}
+Previously, we learned about lists.  Recall that lists were not
+designed to do vector/matrix math.  For all of your math needs in
+python, you should use a library called Numpy\sidenote{Short for
+  numerical python} (prounounced num-pie).  Covering every function
+avaialble in the numpy library would take way too long.  For now,
+we'll just discuss some common tasks.
+
+\subsection*{Arrays}
+Arrays are numpy objects and are the main object used by this
+library.  You can create an array using numpy's array function, like
+this
+\begin{Verbatim}
+from numpy import array
+
+a = [1,5,6,7]
+b = array(a)     
+\end{Verbatim}
+The \texttt{array} function converts a python list to a numpy array.
+There are many other ways to create numpy arrays.  Here are a few
+examples
+\begin{Verbatim}
+from numpy import zeros, eye
+
+a = zeros(5)
+b = zeros([5,5])
+b = eye(5)       
+\end{Verbatim}
+
+\texttt{zeros} will create an array of zeros, with the size of the
+array specified as an argument.
+
+
+

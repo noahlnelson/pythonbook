@@ -1,0 +1,689 @@
+\chapter{Running Python}
+\label{chap:RunningPython}
+
+\marginfig{Figures/pythonCW.jpg}{Canopy's environment for running
+  Python code.}
+
+Python is a computer programming language (don't freak out) with broad
+applicability in science and engineering.  For those that are brand
+new to computer programming, Python is simply a way to communicate a
+set of instructions to your computer.  You'll quickly learn that your
+computer is great at doing exactly what you tell it to do.  If you
+find that your computer isn't doing what you think it should, it is
+not because the machine is malfunctioning, rather you just probably
+don't fully understand what you are telling it to do.
+
+There are two ways to run python. One is at the command line and the
+other is through an IDE (integrated development environment). If you
+don't know what the command line is, I recommend you start out using
+an IDE. A good IDE for python is called Canopy, which can
+be downloaded \href{https://store.enthought.com/downloads/}{here}. If
+you know what the command line is then you probably don't need any
+help getting started. Feel free to use whatever editor you'd
+like. Once you have downloaded and installed Canopy, launch the
+editor. You should see a window that looks similar to the one
+displayed in the margin. As you read this book, type the commands that
+appear in \texttt{this font} in the editor window and run the code by
+pushing the green arrow.
+
+When writing a computer program, there are several big ideas, or main
+pillars, that you should grasp to be successful.  Two of those pillars
+are variables and functions. This chapter will focus on helping you
+get comfortable with these ideas.  Later chapters will focus on other
+main ideas and some more specific tasks that can be accomplished using
+these foundational ideas.
+\section{It's a Calculator}
+Simple math can be performed pretty much just as you would
+expect. Here are a few examples
+\begin{Verbatim}
+print(1+2)
+print(5.0/6.0)
+print(5**6)  # 5 raised to the power 6
+print(678 * (3.5 + 2.8)**3.)
+\end{Verbatim}
+Note that typing the calculation alone, without the \texttt{print}
+statement, will not produce any output to the screen.  Even though the
+calculation has been performed, you will not see the result unless you
+\texttt{print} it. Throughout this book, the \texttt{print}
+statement will usually be omitted in code examples to maintain
+brevity.  You should always print your result so you can see what you
+have done.
+
+%You may be wondering about more complex mathematical calculations like
+%$sin(\frac{\pi}{2})$ or $e^{2.5}$.  Can Python evaluate them
+%too?\sidenote{One would sincerely hope so, otherwise it would be of
+%  little use as a scientific tool} We'll save that discussion until
+%we explain functions and libraries.
+
+\section{Variables}
+The simplest, and most fundamental object when programming a computer
+is the variable, which is nothing more than a name which is given to a
+piece of information. It allows the information to be saved (stored)
+so that it can be recalled and used later.  \index{Data types} There
+are different types of variables and each has it's use and
+limitations.  Python has many types of variables, but you will mostly
+use the following types: integer, float, and list.  What follows is a
+brief description of each variable type with some examples to
+illustrate.
+
+\subsection*{Integer variables}
+Some of you may be used to programming in C++\sidenote{C++ is a
+  compiled language, whereas Python is an interpreted language}, where
+the variables are declared before a value is assigned.  In python,
+variables are created and assigned in one statement using the
+assignment operator (\texttt{=}).  The simplest type of data is an
+integer, a decimal-less number.  An integer variable is created and
+assigned a value like this:\index{Assigning values}
+\begin{Verbatim}
+a = 20
+\end{Verbatim}
+This statement creates the variable {\tt a} and assigns it a value of
+$20$ (an \textbf{integer}).  The value of \texttt{a} can be modified in
+any way you choose.  For instance, the statement
+\begin{Verbatim}
+a = a + 1
+\end{Verbatim}
+adds one to whatever value was previously stored in
+\texttt{a}. \sidenote{An assign statement in programming is not a
+  mathematical equation.  It makes perfect sense to write
+  \texttt{a=a+1} as assign statement: it tells the computer to get the
+  value of \texttt{a} and add 1 to it and then store the evaluated
+  quantity back in the variable \texttt{a}.  However, the mathematical
+  equation $a=a+1$ is clearly false.}  Note that {\it variable names
+  in Python are case sensitive,} so watch your capitalization.
+\index{Case sensitive} If you want to see the value of a variable, you
+must use the \texttt{print} command, like this
+\begin{Verbatim}
+print a
+\end{Verbatim}
+\sidenote{If you are using version 3 or higher of python,
+  printing a variable is done like this: \texttt{print(a)}.}
+%\reminder{\lefthand}{If you are using version 3 or higher of python,
+%  printing a variable is done like this: \texttt{print(a)}.}
+Other common mathematical operations can be performed on integer
+variables.\sidenote{For more complex mathematical calculation, wait
+  until we discuss functions.}  For example:
+\begin{Verbatim}
+a = 20
+b = 15
+c = a + b  # add two numbers
+d = a/b    # divide two numbers  
+r = a//b   # return only the quotient(an integer) of the division
+r = a % b   # return only the remainder(an integer) of the division
+e = a * b  # multiply two numbers together
+f = c**4   # raise number to a power (use **, not ^)
+\end{Verbatim}
+Notice that performing an operation on two integers \ul{usually}
+yields another integer.  The one exception is division if you are
+using Python version 2 or earlier.  For
+example, what would be the value of \texttt{d} above if the result has
+to be an integer? 
+
+\subsection*{Float variables}
+Most meaningful calculations should be performed using floating point
+numbers, or floats in Python.  Float variables are created and assigned in
+one of two ways.  The first way is to simply include a decimal place
+in the number, like this
+\begin{Verbatim}
+a = 20.
+\end{Verbatim}
+You can also cast an integer variable to a float variable using the
+\texttt{float} command
+\begin{Verbatim}
+a = 20
+b = float(a)
+\end{Verbatim}
+\begin{enumerate}
+\prob Check that the calculations that you performed above using integers
+yield different answers when floats are used instead
+\end{enumerate}
+You may wonder what would happen when a float is multiplied by an
+integer, like this
+\begin{Verbatim}
+a = 0.1
+b = 3 * a  #Integer multiplied by a float results in a float.
+\end{Verbatim}
+\marginpar{\footnotesize\captionsetup{type=table}
+  \vspace{-2.5in}
+\begin{tabular}{lp{1.05in}}
+\texttt{abs(x)}        & Find the absolute value of x\\ \\
+\texttt{divmod(x,y)}        & Returns the quotient and remainder when
+using long division.\\ \\
+\texttt{x \% y}      & Return the remainder of $\frac{x}{y}$ \\ \\
+\texttt{float(x)}      & convert \texttt{x} to a float. \\ \\
+\texttt{int(x)}      & convert \texttt{x} to an integer. \\ \\
+\texttt{round(x)}  & Round the number \texttt{x} using standard
+rounding rules \\ \\
+\end{tabular}
+\captionof{table}{A sampling of built-in functions commonly used with integers
+  and floats.\label{tab:HousekeepingFloats}}
+} .  The result of such a calculation is always a float.  Only when
+all of the numbers used in a calculation are integers is the result an
+integer.  
+Numbers can be entered using scientific notation like this
+\begin{Verbatim}
+1.23e15
+\end{Verbatim}
+Python floats are stored as a 53-digit, base-2 binary number(that's a
+mouthful).  If you're interested in what that means, we can talk more.
+If you're not that interested, just know that when you define a float
+in python, the number that is stored in the computer is not
+\textbf{exactly} the number that you think it is.  This can cause
+problems when you are comparing two numbers that you think should be
+equal but actually aren't equal in the computer. \sidenote{There is a
+  library called \texttt{Decimal} that will fix a lot of these
+  problems.}  Try the following to get a feel for this
+\begin{Verbatim}
+a = 0.1
+b = 3 * a
+print(b)
+print(" {:.45f} ".format(b))  #Formatted print: you haven't learned
+                              #about this yet
+\end{Verbatim}
+The first print statement displays the value of \texttt{b} to one
+decimal place.  The second print statement is called a formatted print
+and you'll learn about it a little later.  In this case I am forcing
+Python to display the value of \texttt{b} out to 45 decimal places.
+Notice that the true value of \texttt{b} is not \ul{exactly} equal to
+0.3.  You'll want to keep this fact in mind when you are comparing two
+numbers that you think are equal.  When we study logical statements
+this should become more clear.
+
+\subsection*{Boolean variables}
+A boolean variable is one that stores one of two possible values: True
+or False.  A boolean variable is created and assigned similar to the
+other variables you've studied so far
+\begin{Verbatim}
+myVar = True
+\end{Verbatim}
+The purpose for using a boolean variable will become more clear as you
+study loops and logical statements, so stay tuned.
+
+\subsection*{Lists}
+Lists are heavily-used data types in mathematical and
+scientific programming.  You can think of a list as a
+container that holds multiple pieces of information. The list could
+hold integers, floats, strings, or really just about anything. A list
+is created and assigned in a manner similar to the way floats and
+integers are, like this:
+\begin{Verbatim}
+a = [5.6 , 2.1 , 3.4 , 2.9]
+\end{Verbatim}
+Note the use of brackets (\texttt{[]}) when creating the list. If you
+accidentally use parenthesis (\texttt{()})\sidenote{Use parenthesis to
+  create a tuple, which is just like a list but cannot be modified.}
+or curly brackets (\texttt{\{\}})\sidenote{Use curly brackets to
+  create a dictionary, which is like a list but can be indexed on any
+  data type, not just integers} you'll end up creating something other
+than a list.
+
+\noindent Python has a built-in function called \texttt{range} that can be used
+to construct a list of integers, like this
+\begin{Verbatim}
+a = range(10,52,3)  
+\end{Verbatim}
+This will construct a list of \ul{integers} starting at $10$, ending at
+$52$, while stepping in increments of $3$. This function can also be
+called with $1$ or $2$ arguments and default values will be assigned
+to the missing ones.  
+\begin{Verbatim}
+a = range(3,9)  # Creates a list starting at 3, ending a 9 stepping
+                # in increments of 1 (default value)
+b = range(10)   # Creates a list starting at 0(default), ending at 10 stepping
+                # in increments of 1(default value)
+\end{Verbatim}
+\noindent You can make a list of anything.  For example, here is a
+list of strings:
+\begin{Verbatim}
+a = ['Physics' , 'is' , 'so' , 'great']
+\end{Verbatim}
+The individual elements of any list need not be the same type of
+data.  For instance, the following list is perfectly valid
+\begin{Verbatim}
+# Here is a list of strings and integers
+a = ['Ben',90,'Chad',75,'Andrew',22]  
+\end{Verbatim}
+You can even define a list of lists:
+\begin{Verbatim}
+a = [[4,3,2],[1,2.5,90],[4.2,2.9,10.5],[239.4,1.4],[2.27,98,234,16.2]]
+\end{Verbatim}
+though you should not think of this as a matrix and try to perform
+matrix math on it. To do that sort of thing, we'll need to learn about
+arrays.
+\subsection*{Accessing and Slicing lists}
+Accessing an element of a list (this will be done frequently so pay
+attention!) can be accomplished using square brackets, like this
+\begin{Verbatim}
+a[0]  # Access the 1st element of array a
+a[4]  # Access the 5th element of array a
+a[-1] # Access the last element of array a
+a[-2]  # Access the second to last element of array a
+\end{Verbatim}
+Take special note to the last two statements where a negative index is
+used.  Using a negative index means that you are counting from the
+back of the list forward.
+Please note that python lists are zero-indexed: the first element of
+any list is 0, the second element is 1, etc.  Lists can be easily
+modified by specifying which element you want to change and what you
+want it changed to:
+\begin{Verbatim}
+a = ['Physics' , 'is' , 'so' , 'great']
+a[3] = 'tough'  # Change the 4th element of a to "tough"
+\end{Verbatim}
+At times you may want to access entire sections of list, though not
+the entire list.  You can do this with the \texttt{:} operator, like
+this
+\begin{Verbatim}
+aList = [4,5,10,1560,23,19]
+aList[1:]  
+aList[1:3] 
+aList[:3]  
+aList[1:4:2]
+\end{Verbatim}
+There can be three numbers inside the brackets, each seperated by the
+\texttt{:} symbol, like this \texttt{[x:y:z]}.  The section of the
+list that is extracted starts at element \texttt{x}, ends at element
+\texttt{y} (but does not include element \texttt{y}), while stepping in
+increments of \texttt{z}.  Note that the last number is optional, and
+omitting it will result in a default value of 1 for the step size.
+ \marginpar{\footnotesize\captionsetup{type=table}
+  \vspace{-4.5in}
+\begin{tabular}{lp{1.05in}}
+\texttt{a[x]}        & Access element \texttt{x} in list \texttt{a}\\
+\texttt{a[x:y:z]}        & Extract a slice of list \texttt{a}\\ 
+\texttt{a.append(x)}        & Append \texttt{x} to list \texttt{a} \\
+\texttt{a.pop()}      & Remove the last element of list \texttt{a}. \\
+\texttt{len(a)}  & Find the number of elements in \texttt{a} \\
+\texttt{range(x,y,z)}  & Create a list of integers, starting at x,
+ending at y, and stepping in increments of z.\\
+\texttt{a.insert(x,y)}    & Insert \texttt{y} at location
+\texttt{x} in list \texttt{a} \\
+\texttt{a.sort()}  & Sort list \texttt{a} from least to greatest. \\
+\texttt{filter(f,x)}        & Filter list \texttt{x} using the
+criteria function \texttt{f}(see lambda functions).\\
+\texttt{a.reverse()}  & Reverse the order of list \texttt{a}. \\
+\texttt{a.index(x)}  & Find the index where element x resides. \\
+\texttt{a + b}  & Join list \texttt{a} to list \texttt{b} to form one list. \\ \\
+\texttt{max(a)}  & Find the largest element of \texttt{a} \\ \\
+\texttt{min(a)}  & Find the smallest element of \texttt{a} \\ \\
+\texttt{sum(a)}  & Returns the sum of the elements of \texttt{a} \\ \\
+\end{tabular}
+\captionof{table}{A sampling of ``housekeeping'' functions for lists.\label{tab:HousekeepingList}}
+}
+
+When working with a list of list (also called a 2-dimensional list)
+accessing an individual element requires two indices, like this
+\begin{Verbatim}
+a = [[4,3,2],[1,2.5,90],[4.2,2.9,10.5],[239.4,1.4],[2.27,98,234,16.2]]
+c = a[3][1]  
+\end{Verbatim}
+Here \texttt{[3][1]} means we are accessing the 2nd element of the 4th
+list. (remember: Python lists are zero-indexed) You may also think of
+this as the 4th row and 2nd column of the matrix.  Warning: Don't
+conceptualize 2-d lists as matrices and try to slice out a
+sub-matrix.  For example, try this
+\begin{Verbatim}
+a = [[4,3,2],[1,2.5,90],[4.2,2.9,10.5],[239.4,1.4],[2.27,98,234,16.2]]
+c = a[0:3][0:2]  
+\end{Verbatim}
+Slicing a 2-d list like this is rather redundant.  First you slice out
+the first three elements of the main list, resulting in a list of 3
+lists.  The second slice is performed on the result of the first
+slice giving a list of 2 lists.  The same result could have been
+extracted with the following slice:
+\begin{Verbatim}
+a = [[4,3,2],[1,2.5,90],[4.2,2.9,10.5],[239.4,1.4],[2.27,98,234,16.2]]
+c = a[0:2]
+\end{Verbatim}
+The take home message here is to just not ever think of lists as
+mathematical matrices.  Just think of them as data containers.
+\subsection*{Built-in Functions for Lists}
+Python has many built-in functions that work on lists.  You've already
+seem some of them.  Here are a few examples
+\begin{Verbatim}
+myList = range(5,25,2)  # Create list starting at 5, ending at 25,
+                        # in increments of 2  
+len(myList)             # Find how many elements are in myList
+myList.append(520)      # Add the number 520 to the end of myList
+\end{Verbatim}
+ Here, \texttt{range} will create a list \underline{of integers }
+starting at $5$, ending at $25$ in increments of $2$.  The
+\texttt{len} function will find the length of a list, and
+\texttt{append} will add an element to the end of a list.  Table
+\ref{tab:HousekeepingList} lists some of the more common built-in
+functions/operations for lists.  Please note that this is not a
+comprehensive list.  A complete list of available function can be
+found in the appendix.
+
+
+\subsection*{Vector and Matrix Math: A warning}
+ You may feel tempted to associate a
+list with a mathematical vector and try to perform vector math on
+them. We've mentioned this warning before but just want to further emphasis
+what list cannot be used to do. For instance, it may seem natural to try
+\begin{Verbatim}
+a = [5.1 , 3.2 , 6.8 , 9.2]
+b = 5 * a
+\end{Verbatim}
+or 
+\begin{Verbatim}
+a = [5.1 , 3.2 , 6.8 , 9.2]
+b = [2.7 , 1.9 , 3.2 , 9.9]
+c = a + b
+\end{Verbatim}
+\begin{enumerate}
+\prob  Try the above operations and explain the results.
+\end{enumerate}
+Doing vector or matrix math (any math that involves an operation on
+lists of numbers, not just single numbers) \underline{cannot be done
+  with a list}.  If you were allowed to do that, what would happen
+when your lists were filled with non-numerical data.  This doesn't
+mean that the numbers \ul{stored in lists} can't be extracted and used in
+mathematical calculations, like this 
+\begin{Verbatim}
+a = [4.5,8,2.1,10.8,12]
+c = a[0]**a[1]  # Take the first element of a and raise it to a power
+                # equal to the second element of a
+\end{Verbatim}
+It just means that mathematical calculations involving entire arrays
+of numbers (like vector and matrix math) cannot be done using the list
+data type.  However, don't think for one second that Python is unable
+to handle this kind of math.  Just keep reading and you'll learn how
+this is done.  
+\subsection*{String Variables}
+\index{Strings} String variables contain a sequence of characters, and
+can be created and assigned using quotes, like this
+\begin{Verbatim}
+s='This is a string'
+\end{Verbatim}
+\sidenote{You may also enclose the characters in double quotes. }
+%If you need an apostrophe in your string, repeat a single quote,
+%like this:
+%\begin{Verbatim}
+%t='Don''t worry'
+%\end{Verbatim}
+Some Python functions require options to be passed to them using
+strings. Make sure you enclose them in quotes, as shown
+above.  There are many useful function that can be used with strings.
+For example, strings can be concatenated (joined) together using the
+\texttt{+} operator:
+\begin{Verbatim}
+a = 'Hello'
+b = ', my name is B. Nelson'
+c = a + b
+\end{Verbatim}
+The number of characters in a string can be calculated using the
+\texttt{len} function.
+\begin{Verbatim}
+a = 'Hello'
+b = ', my name is B. Nelson'
+c = a + b
+d = len(c)
+\end{Verbatim}
+Individual characters inside of a string may be accessed  and sliced
+in the same way that elements of a list are accessed and sliced.
+\begin{Verbatim}
+a = 'Hello, my name is B. Nelson'
+a[18]
+a[2:15]
+\end{Verbatim}
+\marginpar{\footnotesize\captionsetup{type=table}
+  \vspace{-2.5in}
+\begin{tabular}{lp{1.05in}}
+\texttt{a.join(b)}  & Join all elements in list \texttt{b} while
+placing string \texttt{a} between each pair of elements.\\ \\
+%\texttt{str.capitalize()}  & Capitalize all characters in string
+%\texttt{str} \\ \\
+\texttt{a.count(b)}  & Count the number of occurrences of
+string \texttt{b} in string \texttt{a}\\ \\
+\texttt{a.lower()}  & Convert upper case letters to lower case \\ \\
+\texttt{a[x]}  &  Access element \texttt{x} in string \texttt{a} \\ \\
+\texttt{a[x:y:z]}  &  Slice a string, starting at element
+\texttt{x}, ending at element \texttt{y}, with a step size of \texttt{z} \\ \\
+\texttt{a + b}  &  Concatenate strings \texttt{a} and \texttt{b}.  \\ \\
+\end{tabular}
+\captionof{table}{A sampling of ``housekeeping'' functions for strings.\label{tab:HousekeepingStrings}}
+}
+ However, you'll have little luck modifying a single character in a
+string unless you first convert the string to a list, like this
+\begin{Verbatim}
+a = 'Hello, my name is B. Nelson'
+b = list(a)  # convert string \texttt{a} to a list
+b[18] = 'S'  # Modify the 18th element in the list.
+c = "".join(b)  # Join all the elements back together into one string.
+\end{Verbatim}
+The \texttt{join} function used here was probably unfamiliar to you.
+It is a built-in function for use with strings.  It joins together all
+of the elements in list \texttt{b} into one string, putting whatever
+is in "" in between
+each element.  There are many built-in functions that can be used with
+strings.  Some of the more commonly used ones are shown in Table \ref{tab:HousekeepingStrings}
+\section{Displaying Results}
+It's great to calculate something useful, but not that helpful unless
+you can see it.  Beginners often ask the question, ``I calculted XX
+but Python didn't do anything.''  Actually, Python did exactly what
+you told it:  It calculted XX and called it a day.  If you want to see
+XX, you have to print it.   The fastest way to see something, as
+you've already seen is using the print statement:
+\begin{Verbatim}
+a = 5.3
+b = [5,3,2.2]
+c = 'Physics is fun'
+print(a)
+print(b)
+print(c)
+\end{Verbatim}
+As you can see, you can \texttt{print} anything and Python will dump
+it to screen as it pleases.  There are times when you may want to be
+more careful about the formatting of your print statments.  For
+example:
+\begin{Verbatim}
+a = 22
+b = 3.5
+print("Hi, I am Joe. I am {:d} years old and my GPA is: {:5.2f}".format(a, b))
+\end{Verbatim}
+Notice the structure of this print statement: A string followed by the
+\texttt{.} operator and the \texttt{format()} function. The variables to
+be printed are provided as arguments to the \texttt{format} statement
+and are inserted into the string sequentially wherever curly braces
+(\texttt{\{\}}) are found.
+ The odd characters inside of the curly braces indicate how you would
+ like the variable formatted when it is printed. The \texttt{:d} is
+ used to indicate an integer variable and \texttt{:f} is used for
+ floats.  Further specifications regarding spacing can also be made.
+ The \texttt{5.2} in the float formatting indicates that I'd like the
+ number to be displayed with at least 5 digits and 2 numbers after the
+ decimal.  A
+ summary of what is available is given in table \ref{tab:HousekeepingFormat}
+
+\marginpar{\footnotesize\captionsetup{type=table}
+  \vspace{-2.5in}
+\begin{tabular}{lp{1.05in}}
+\texttt{\{:4d\}}  & Display integer with 4 spaces\\ \\
+\texttt{\{:.4f\}}  & Display float with 4 numbers after the decimal\\ \\
+\texttt{\{:8.4f\}}  & Display float with at leasat 8 total spaces and 4 numbers after the decimal\\ \\
+\end{tabular}
+\captionof{table}{Formatting strings available when printing.\label{tab:HousekeepingFormat}}
+}
+
+\section{Functions}
+A function is simply a set of instructions that will be performed when
+called upon.  The function can be as long and complex or short and
+succinct as you wish.  You can think of a function as a black box. You
+create the contents of the box, specify what information needs to
+enter the box for it to be able to accomplish it's task, and what
+information will exit the box.  Why a black box?  Well, one benefit of
+functions is that the user of it doesn't need to know what's inside.
+She only needs to know what information the box needs and what
+information the box will give back to her.
+
+\subsection*{User-defined functions}
+At times it will be beneficial for you to write a function that you
+have designed.  You (the programmer) can create your own function like
+this
+\begin{Verbatim}
+def myFunction(a,b):
+    c = a + b
+    d = 3.0 * c
+    f = 5.0 * d**4
+    return f
+\end{Verbatim}
+This function performs several simple calculations and then uses the
+\texttt{return} statement to pass the final result back out of the
+function.(what exits the black box) Every user-defined function must
+begin with the keyword \texttt{def} followed by the function name (you
+can choose it). The variables \texttt{a} and \texttt{b} are the
+arguments to the function. (the things that must enter the black box)
+Python does not use an \texttt{end} statement or anything like it to
+signal the end of a function.  Instead, it looks for indentation to
+determine where the function ends.  
+
+The function can be called like this
+\begin{Verbatim}
+r = 10
+t = 15
+result = myFunction(r,t)
+\end{Verbatim}
+In this case, when the function is called, \texttt{a} gets assigned
+the value of $10$ and \texttt{b} gets assigned the value of $15$.  The
+result of this calculation is stored in the variable \texttt{result},
+which is outside the function.  
+\subsection*{Lambda (unnamed) functions}
+The user-defined function above had 4 lines in it.  Other functions
+could be even longer.  Sometimes, however, the function you need to
+define is quite simple (maybe even one line) and it'd be nice if you
+could define it in one line.  Luckily, you can.  It's
+called a lambda function and here is an example:
+\begin{Verbatim}
+f = lambda x: x**3  #Define the function
+print f(5)   # Evaluate the function
+g = lambda x,y: x + y # Function of two variables
+pritn g(5,6)
+\end{Verbatim}
+Here we defined the function $f(x) = x^3$, a function of one variable,
+and quickly evaluated it.  Your lambda functions can have as many
+arguments as you'd like: just seperate the arguments with commas.  At
+this point, you may be asking yourself why this is such a big deal:
+Why would you ever really need to do this.  Well, there are some
+python \underline{functions that take functions as their
+  arguments}.\sidenote{Stop and process that for a minute.}(as opposed
+to taking simple numbers or strings) An example of this is the
+\texttt{filter} function which serves to extract elements of a list
+according to some criteria.  The exact details of the criteria are
+specified using a lambda function.  Here's an example:
+\begin{Verbatim}
+a = [1,3,4,6,9,2,3,8]
+b = list( filter( lambda x: (x % 2 == 0) , a ) )
+print b
+\end{Verbatim}
+Notice how the \texttt{filter} function is used.  The first argument
+is the criteria function: the function the dictates which of the list
+elements you want extracted. It's not an integer or a float or a
+sting.  It's actually a function: something that takes an argument and
+returns a result.  In this case, the filter function was being used to
+extract the elements of \texttt{a} that were multiples of $2$ and the
+lambda function serves to check each number in the list and return
+either \texttt{True} or \texttt{False}.
+
+\subsection*{Imported Functions and Libraries}
+Thus far you have performed very simple mathematical
+calculations. ($5/6, 8^4$, etc..)
+However, you were probably left wondering about more complex
+mathematical calculations, like $\sin(\frac{\pi}{2})$ or $e^{2.5}$.
+ 
+Many times, the function that you need is available already. Somebody
+else has already created the function and made it available to anyone
+who wants it.  Groups of functions that perform similar tasks are usually
+bundled together into libraries. These libaries can then be imported
+and the functions that they contain can be used.  Just as with
+user-defined functions, it is critical that you know what
+information(variables) the function expects you to give it and what
+useful information the function will hand back to you.  This
+information can be found in the library's documentation.  Google will
+be your friend in this regard.
+
+
+If you are using Enthought's Canopy package, all of the
+  libraries that you need are already installed.  If they aren't
+  installed you'll have to download the libary and install it. Once
+  the library is installed, it can be imported like this:
+\begin{Verbatim}
+import math
+\end{Verbatim}
+This imports a library called \texttt{math}.  Functions inside the
+math library can be used like this
+\begin{Verbatim}
+math.sqrt(5.2)  # Take the square root of 5.2
+math.pi         # Get the value of pi
+math.sin(34)    # Find the sine of 34 radians
+\end{Verbatim}
+Using the functions inside a libary requires that you know what
+functions are available.  This information is usually available in the
+library's documentation.  Google will be a great resource here.
+
+A library can be imported and then called by a different name like
+this:
+\begin{Verbatim}
+import math as mt
+\end{Verbatim}
+Here, the short name \texttt{mt} was chosen for this library.
+The desired functions can then be called like this
+\begin{Verbatim}
+mt.sqrt(5.2)  # Take the square root of 5.2
+mt.pi         # Get the value of pi
+mt.sin(34)    # Find the sine of 34 radians
+\end{Verbatim}
+
+Sometimes you may not want to import the entire library, just a few
+functions. This can be done like this
+\begin{Verbatim}
+from math import sqrt,sin
+\end{Verbatim}
+and the \texttt{sqrt} and \texttt{sin} functions can then be used
+without the library name before it, like this
+\begin{Verbatim}
+sqrt(5.5)
+\end{Verbatim}
+If you want to import every function inside of a libary, do this
+\begin{Verbatim}
+from math import *
+\end{Verbatim}
+Now, every function contained in \texttt{math} is available without
+needing the \texttt{math.} prefix in front of it. \sidenote{For larger libraries, importing all of the
+  functions can take a few seconds.  A better choice is to import only
+  the functions that you need}
+
+\subsection*{Native functions}
+Python has many native functions: functions that are included with the
+programming language.  You don't have to import native functions
+because they came with the langauge.  You have already been using some
+of them, like these
+\begin{Verbatim}
+len(mylist)  # Returns the length of a list.
+float(5)     # Converts an integer to a float.
+str(67.3)    # Converts a float to a string.
+\end{Verbatim}
+The functions: \texttt{len}, \texttt{float}, and \texttt{str} are all
+built-in functions, and they each take a single argument.  Other
+built-in function are found in the margin tables in the previous section.
+
+
+
+
+
+Throughout this book, we will use a variety of libaries to accomplish
+important tasks.  Instead of giving a complete description of each
+library used and every function that it contains, we will simply
+discuss the functions needed for each specific task.  The interested
+reader is referred to the documentation of the various libaries for
+further details.
+
+
+
+
+
+
+
+
+
+

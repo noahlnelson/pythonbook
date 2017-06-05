@@ -1,0 +1,236 @@
+\chapter{Calculating}
+\label{chap:Calculating}
+In a scientific setting, much of what you will ask Python to do will
+involve math.  You've already seen how to do very simple math. Here we
+will give you all the tools you will need to do any mathematical
+calculation you could want.
+
+
+\section{Mathematical functions}
+\marginpar{\footnotesize\captionsetup{type=table}
+  \vspace{0.5in}
+\begin{tabular}{l}
+\texttt{sin(x)} \\
+\texttt{cos(x)} \\
+\texttt{tan(x)} \\
+\texttt{arcsin(x)} \\
+\texttt{arccos(x)} \\
+\texttt{arctan(x)} \\
+\texttt{sinh(x)} \\
+\texttt{cosh(x)} \\
+\texttt{tanh(x)} \\
+\texttt{sign(x)} \\
+\texttt{exp(x)} \\
+\texttt{sqrt(x)} \\
+\texttt{log(x)} \\
+\texttt{log10(x)} \\
+\texttt{log2(x)} \\
+\end{tabular}
+\captionof{table}{A very small sampling of functions belonging to the
+  \texttt{numpy} library.\label{tab:Numpy}}
+}
+ Common (and not-so common) mathematical functions like \texttt{exp}
+and \texttt{sqrt} are available via the libraries \texttt{numpy},
+\texttt{scipy}, and \texttt{math}.  There are some good reasons to not
+use the \texttt{math} library, which we will discuss shortly.  Some
+commonly-used mathemtical functions from these libraries can be found
+in the tables.
+
+\section{Numpy Arrays}
+Often you'll find that you want to perform math on an entire set of
+data.  For example, let's say you had the following data set
+\begin{Verbatim}
+x = [2.42762254  2.53691271  3.15932278  1.7128872   2.54105921  2.54094893
+  2.55284336  2.36430906  2.37972415  2.70342833  2.2846214   2.37636944
+  2.74236195  3.06429336  2.29889954  1.99944808  2.46066766  1.86346638
+  2.69619554  1.81298331  2.96144256  3.020208    2.71914935  2.59783385
+  2.41512769  2.84674515  2.92394769  3.15879826  2.25886137  3.04074924
+  3.14635756  2.60488105  2.79643916  2.67695452  2.77874282  1.94903284
+  2.60399377  1.88255081  2.38624122  3.43726289  2.46514806  2.74985076
+  2.33684695  2.58710514  2.10996793  3.19191947  3.93418676  2.90987071
+  2.52449511  1.71514896  2.42465365  2.24485334  2.88390193  2.97911184
+  2.86770773  2.97543667  2.00454583  2.56522443  2.99691011  2.79259592
+  2.01617544  1.66098216  2.59230004  2.31295971  3.49570792  2.37890997
+  2.14965171  2.40578128  2.44831872  2.0519382   2.41011389  3.07252157
+  2.50662296  2.49878442  1.97225157  2.00764702  2.67472532  3.02465629
+  2.45257132  2.9325564   2.69301075  2.81356219  2.49886432  1.97998459
+  2.86166356  3.24091275  2.83846089  2.58103089  2.23525104  2.85815534
+  3.33391592  2.6850452   2.3267767   3.27800198  2.17433118  2.17612604
+  2.80002452  2.48975877  3.01856681  2.34280246]
+\end{Verbatim}
+and you wanted to calculate
+\begin{equation}
+\sum_{i=1}^N (x_i - D)^3
+\end{equation}
+where $x_i$ are the data and $D = 5$.  You could write a loop and,
+one-by-one, calculate each contribution in the sum.  But there has to
+be an easier way.  The easier way involves a library called
+\texttt{numpy} (pronounced num-pie, short for numerical python).  The main object used in this
+library is called an \texttt{array}.  A Python list can be converted
+into a numpy array using \texttt{numpy}'s \texttt{array} function, like
+this:
+\begin{Verbatim}
+from numpy import array
+xList = [2 , 3 , 5.2 , 2 , 6.7]
+xArray = array(xList)
+\end{Verbatim}
+Once the array object is created, a whole host of mathematical
+operations become available.  For example, you can square the
+array and python knows that you want to square each element, or you
+can add two arrays together and python knows that you want to add the
+individual elements of the arrays.  You can add a constant value to every
+element of an array, or even multiply two arrays together and
+the elements of the first array are multiplied by the corresponding element
+in the second.  Here's a sampling of examples.
+\begin{Verbatim}
+from numpy import array
+xList = [2 , 3 , 5.2 , 2 , 6.7]
+xArray = array(xList)    # Create first array
+yArray = array([4,8,9.8,2.1,8.2,4.5])  # Create second array
+
+c = xArray**2   # Square the elements of the first array
+d = xArray + 3  # Add 3 to every element of the first array
+e = xArray * 5  # Multipy every element of the first array by 5
+f = xArray + yArray  # Add the elements of array one to the elements of
+                     # array two
+g = xArray * yArray  # Multiply the elements of array one to the elements of
+                     # array two
+\end{Verbatim}
+In short, you can do all of the math that you were hoping you could do
+when you first learned about Python lists.
+\subsection*{Evaluating Functions on Arrays}
+What if you wanted to evaluate the \texttt{sin} function over an
+entire data set.  You surely don't want to loop over every single
+value in the data set and evaluate the sine function on each number.
+It turns out that the \texttt{math} library and the \texttt{numpy}
+library both contain a function called \texttt{sin}.  The one from the
+\texttt{numpy} library is designed to work on arrays but the one from
+the \texttt{math} library is not. Here is an example
+\begin{Verbatim}
+import numpy as np
+import math 
+
+xList = [2 , 3 , 5.2 , 2 , 6.7]
+xArray = array(xList)
+
+c = np.sin(xArray)   # Works just fine, returning array of numbers.
+d = math.sin(xArray) # Returns an error.
+\end{Verbatim}
+Notice that \texttt{math}'s version of \texttt{sin} does not
+know what to do when you give it an array of numbers.  It only works
+for single numbers.  \texttt{Numpy}'s \texttt{sin} function, on the
+other hand, does know what to do with an array of numbers: it
+calculates the sin of all the numbers.
+
+\subsection*{Summing the elements}
+Suppose you have a list(or array) of numbers and you'd like to add up
+all of the elements.  Python has a built-in \texttt{sum} function and
+there is also a \texttt{sum} function inside of \texttt{numpy} that
+will do this. They both do the same thing for one-dimensional lists.
+\begin{Verbatim}
+a = [1.5,2.2,9.8,4.6]
+b = sum(a)   #Use built-in sum function
+from numpy import sum
+c = sum(a)   # Use numpy's sum function
+\end{Verbatim}
+If you are summing up the elements of a two-dimensional list, the
+built-in version of the function will not work and you will have to
+use \texttt{numpy}'s version.
+\begin{Verbatim}
+a = [[1.5,2.2],[9.8,4.6]]  # Define a 2-d list, a list of lists
+b = sum(a)   #Use built-in sum function, notice the error
+from numpy import sum
+c = sum(a)   # Use numpy's sum function, no error.
+d = sum(a,axis = 1) 
+\end{Verbatim}
+Notice the extra argument to the \texttt{sum} function in the last
+line.  The \texttt{axis=1} indicates that you want to sum up the
+elements in each individual list and return a list of sums.  If you
+had a higher-dimensional list, you could use \texttt{axis=2} or
+\texttt{axis = 3} as well.
+\subsection*{Accessing and Slicing Arrays}
+Often times, though not always, an array is used to represent a
+matrix.  In that case it may be necessary to extract a sub array.  For
+example, let's say that you define the following array:
+\begin{Verbatim}
+from numpy import array
+a = [[1,2,3],[4,5,6],[7,8,9]]
+b = array(a)
+\end{Verbatim}
+which could be interpreted as this matrix:
+\begin{equation}
+\left( \begin{tabular}{ccc}
+1 & 2 & 3\\
+4 & 5 & 6\\
+7 & 8 & 9\\
+\end{tabular}
+\right)
+\end{equation}
+If you wanted to slice out the following 2 x 2 sub-matrix:
+\begin{equation}
+\left(\begin{tabular}{cc}
+5 & 6 \\
+8 & 8 \\
+\end{tabular}
+\right)
+\end{equation}
+you could do it like this:
+\begin{Verbatim}
+b[1:3,1:3]  # Slice out a sub-array (Exactly what you wanted!)
+\end{Verbatim}
+This can't be done with lists, but using an array it's very simple.
+Also note that you must use the \texttt{[x1:y1,x2:y2]} notation rather
+than the \texttt{[x1:y1][x2:y2]} notation.  Use of the latter will not
+fail, but it will not produce the sub-matrix desired.
+\section{Matrices}
+Matrix math is different from normal math.  That will become more
+clear after you take a linear algebra class.  If you want to do matrix
+math or linear algebra, \texttt{numpy}'s \texttt{matrix} object is what you
+want to use.  A \texttt{matrix} object can be created in a few ways.  Here are
+a few examples
+\begin{Verbatim}
+from numpy import matrix
+
+a = matrix('1 2; 3 4')  # Create a 2 x 2 matrix from string
+b = matrix([[1,2],[3,4]])  # Create 2 x 2 matrix from list
+c = matrix('1;2;3;4')  #Create column vector: a 4 x 1 matrix
+\end{Verbatim}
+The first definition is a nice way to create a matrix from a string.
+The \texttt{;} indicates the end of the rows.  You can also convert a
+list or array into a matrix.  Note that if you print a matrix object
+to screen, it will probably look the same as an array or list (or
+similar).  The differences are the things you can do with a matrix
+object as compared to an array object, or list object.
+
+Once the matrix is defined, lots of cool and useful math becomes
+available to you.  Here are a few examples:
+
+\begin{Verbatim}
+from numpy import matrix
+
+a = matrix('1 2; 3 4')  # Create 2 x 2 matrix from string
+b = matrix('5 6; 8 9')  # Create 2 x 2 matrix from string
+col = matrix('3;4')  # Create 2 x 1 column vector
+
+c = a.T   # Transpose the matrix
+d = a.I   # Find inverse of matrix
+e = a.H   # Find conjugate transpose of matrix
+f = a * b # Matrix multiplication
+g = b * col # Multiply matrix b to column vector
+h = a**2   # Square the matrix. Not the same as squaring an array.
+\end{Verbatim}
+ 
+
+\section{Statistics}
+\texttt{Numpy} has a statistical package that includes many useful
+functions.  Below is an example that calculates the mean and standard
+deviation of a data set
+\begin{Verbatim}
+import numpy as np
+
+data = [1.3,7.8,4.5,9.83,2.23,3.67]  # Define the data set
+dataMean = np.mean(data)    # Calculate the arithmetic mean
+dataSD = np.std(data)       # Calculate the standard deviation
+\end{Verbatim}
+
+\subsection*{Sampling from a Distribution}
