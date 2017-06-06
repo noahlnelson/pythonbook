@@ -38,7 +38,7 @@ in the tables.
 
 \section{Numpy Arrays}
 Often you'll find that you want to perform math on an entire set of
-data.  For example, let's say you had the following data set
+data.  For example, let's say you had a large data set
 \begin{Verbatim}
 x = [2.42762254  2.53691271  3.15932278  1.7128872   2.54105921  2.54094893
   2.55284336  2.36430906  2.37972415  2.70342833  2.2846214   2.37636944
@@ -58,30 +58,87 @@ x = [2.42762254  2.53691271  3.15932278  1.7128872   2.54105921  2.54094893
   3.33391592  2.6850452   2.3267767   3.27800198  2.17433118  2.17612604
   2.80002452  2.48975877  3.01856681  2.34280246]
 \end{Verbatim}
-and you wanted to calculate
+and you wanted to calculate the summation
 \begin{equation}
 \sum_{i=1}^N (x_i - D)^3
 \end{equation}
-where $x_i$ are the data and $D = 5$.  You could write a loop and,
-one-by-one, calculate each contribution in the sum.  But there has to
-be an easier way.  The easier way involves a library called
-\texttt{numpy} (pronounced num-pie, short for numerical python).  The main object used in this
-library is called an \texttt{array}.  A Python list can be converted
-into a numpy array using \texttt{numpy}'s \texttt{array} function, like
-this:
+where $x_i$ are the data given above and $D = 5$.  You could
+calculate, one-by-one, each contribution in the sum and then add them
+up.  But there has to be an easier way.  The easier way involves a
+library called \texttt{numpy} (pronounced num-pie, short for numerical
+python).  The main object used in this library is called an
+\texttt{array}, which is very similar to a list except that an array
+is intended for mathematical use.  Let's explore arrays a little more.
+
+\subsection*{Array Creation}
+There are several ways to create an array.  If you already have a list
+of numbers and you just want to convert it to an array, you can do it
+with \texttt{numpy}'s \texttt{array} function.:
 \begin{Verbatim}
 from numpy import array
 xList = [2 , 3 , 5.2 , 2 , 6.7]
 xArray = array(xList)
 \end{Verbatim}
+If you are looking for a function to create an array from scratch,
+there are plenty of options.  The function \texttt{arange} is very similar to
+the native \texttt{range} function that you have already seen.  The
+difference is that \texttt{arange} creates an array object instead of
+a list object and \texttt{arange} allows the stepsize to be less than
+one.  Here is an example:
+\begin{Verbatim}
+from numpy import arange
+myArray = arange(0,10,.1)
+\end{Verbatim}
+This will create an array that looks like this:
+\begin{Verbatim}
+[0,.1,.2,.3,.4,.5,.6.... 9.5,9.6,9.7,9.8,9.9,10]
+\end{Verbatim}
+\marginpar{\footnotesize\captionsetup{type=table} \vspace{-2.5in}
+\begin{tabular}{lp{1.05in}}
+\texttt{logspace}        & Returns numbers evenly spaced on a
+log scale.  Same arguments as \texttt{linspace}\\ \\
+\texttt{empty}        & Returns an empty array with the
+specified shape\\ \\
+\texttt{zeros}        & Returns an array of zeros with the
+specified shape\\ \\
+\texttt{ones}        & Returns an array of ones with the
+specified shape.\\ \\
+\texttt{zeros\_like}        & Returns an array of zeros with the
+same shape as the provided array. \\ \\
+\texttt{fromfile}        & Read in a file and create an array from the
+data.\\ \\
+\texttt{copy}        & Make a copy of another array.\\ \\
+\texttt{mgrid}        & Create coordinate matrices from coordinate vectors.\\ \\
+\texttt{meshgrid}        & Create coordinate matrices from coordinate vectors.\\ \\
+\end{tabular}
+\captionof{table}{A sampling of array-building functions in
+  numpy. The arguments to the functions has been omitted to maintain
+  brevity.  See online documentation for further details.\label{tab:Arraybuilding}}
+}
+ Another very useful function for array-creation is \texttt{linspace},
+which creates an array by specifying the starting value, ending value,
+and the number of elements that the array should contain.  For example:
+\begin{Verbatim}
+from numpy import linspace
+myArray = linspace(0,10,10)
+\end{Verbatim}
+This will create an array that looks like this:
+\begin{Verbatim}
+[0,1.11111,2.222222,3.333333,4.4444444,5.55555555,6.666666,7.7777777,8.8888888,10]
+\end{Verbatim}
+Many other useful function for creating arrays are available.  Online
+documentation is freely available.  Table \ref{tab:Arraybuilding} gives some of the more
+heavily-used ones:
+
+\subsection*{Simple Math with Arrays}
 Once the array object is created, a whole host of mathematical
-operations become available.  For example, you can square the
-array and python knows that you want to square each element, or you
-can add two arrays together and python knows that you want to add the
-individual elements of the arrays.  You can add a constant value to every
-element of an array, or even multiply two arrays together and
-the elements of the first array are multiplied by the corresponding element
-in the second.  Here's a sampling of examples.
+operations become available.  For example, you can square the array
+and python knows that you want to square each element, or you can add
+two arrays together and python knows that you want to add the
+individual elements of the arrays.  You can add a constant value to
+every element of an array, or even multiply two arrays together and
+the elements of the first array are multiplied by the corresponding
+element in the second.  Here's a sampling of examples.
 \begin{Verbatim}
 from numpy import array
 xList = [2 , 3 , 5.2 , 2 , 6.7]
@@ -148,14 +205,63 @@ line.  The \texttt{axis=1} indicates that you want to sum up the
 elements in each individual list and return a list of sums.  If you
 had a higher-dimensional list, you could use \texttt{axis=2} or
 \texttt{axis = 3} as well.
-\subsection*{Accessing and Slicing Arrays}
-Often times, though not always, an array is used to represent a
-matrix.  In that case it may be necessary to extract a sub array.  For
-example, let's say that you define the following array:
+\subsection*{Accessing Multiple Elements}
+There is additional functionality for accessing and slicing arrays
+than for lists when the arrays become higher dimensional.  As an
+example, here is a two-dimensional array
 \begin{Verbatim}
 from numpy import array
-a = [[1,2,3],[4,5,6],[7,8,9]]
-b = array(a)
+a = array([[1,2,3],[4,5,6],[7,8,9]])
+\end{Verbatim}
+Single elements of this array can easily be extracted, just as with
+lists.
+\begin{Verbatim}
+from numpy import array
+a = array([[1,2,3],[4,5,6],[7,8,9]])
+b = a[0][2]
+\end{Verbatim}
+This will extract the number 3, which is the third element in the
+first list.  In other words, it's element 0,2 in array \texttt{a}.
+What if you wanted to extract multiple elements in one shot.  Could
+you do that?  In fact you can and here is how:
+\begin{Verbatim}
+from numpy import array
+a = array([[1,2,3],[4,5,6],[7,8,9]])
+b = a[[0,2],[1,1]]
+\end{Verbatim}
+Pay special attention to the last line.  It will extract the numbers
+2 and 8.  The first list (\texttt{[0,2]}) indicate the rows (first
+dimension of the array) where the element is to be extracted and the
+second list (\texttt{[1,1]}) indicate the columns that correspond to
+the rows provided.  So elements \texttt{[0,1]} and \texttt{[2,1]} from
+list \texttt{a} will be extracted.  The lists of indices can be as
+long as you want them to be and all of the corresponding elements will
+be extracted.
+\subsection*{Boolean Slicing}
+The accessing and slicing of Numpy arrays can be done in exactly the
+same way that it is done for lists.  However, there is some
+additionaly functionality available specifically for arrays that you
+will at times find very helpful.  Most of these features involve
+two-dimensional (or higher) arrays.  An array can be sliced according
+to a provided criteria very easily by replacing the index with the
+selection criteria as a boolean statement.
+\begin{Verbatim}
+from numpy import array
+a = array([1,2,3,4,5,6])
+b = a[a>2]
+\end{Verbatim}
+Here, only those elements that are greater than 2 will be extracted
+from the array.
+\subsection*{Multi-dimensional Slicing}
+We've already shown you how to slice a list using the \texttt{:}
+operator.  The same can be done with arrays.  However, for 2D (and
+higher) arrays the slicing is more powerful (intuitive).  It can be
+helpful to visualize an array as a matrix, even if it is not being
+treated that way Mathematically.  For example, let's say that you
+define the following array:
+\begin{Verbatim}
+from numpy import array
+a = array([[1,2,3],[4,5,6],[7,8,9]])
 \end{Verbatim}
 which could be interpreted as this matrix:
 \begin{equation}
