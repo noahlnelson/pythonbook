@@ -227,31 +227,29 @@ you do that?  In fact you can and here is how:
 \begin{Verbatim}
 from numpy import array
 a = array([[1,2,3],[4,5,6],[7,8,9]])
-b = a[[0,2],[1,1]]
+b = a[[0,2,1],[1,1,2]]
 \end{Verbatim}
 Pay special attention to the last line.  It will extract the numbers
-2 and 8.  The first list (\code{[0,2]}) indicate the rows (first
-dimension of the array) where the element is to be extracted and the
-second list (\code{[1,1]}) indicate the columns that correspond to
-the rows provided.  So elements \code{[0,1]} and \code{[2,1]} from
-list \code{a} will be extracted.  The lists of indices can be as
-long as you want them to be and all of the corresponding elements will
-be extracted.
+2,8, and 6.  The first list (\texttt{[0,2,1]}) indicate the rows
+(first dimension of the array) where the element is to be extracted
+and the second list (\texttt{[1,1,2]}) indicate the columns that
+correspond to the rows provided.  So elements \texttt{[0,1]},
+\texttt{[2,1]}, and \texttt{[1,2]} from list \texttt{a} will be
+extracted.  The lists of indices can be as long as you want them to be
+and all of the corresponding elements will be extracted.
 \subsection*{Boolean Slicing}
-The accessing and slicing of Numpy arrays can be done in exactly the
-same way that it is done for lists.  However, there is some
-additionaly functionality available specifically for arrays that you
-will at times find very helpful.  Most of these features involve
-two-dimensional (or higher) arrays.  An array can be sliced according
-to a provided criteria very easily by replacing the index with the
-selection criteria as a boolean statement.
+Imagine wanting to extract the elements of an array that meet some
+provided criteria.  An array can be sliced according to the provided
+criteria very easily by replacing the index with the selection
+criteria as a boolean statement.
 \begin{Verbatim}
 from numpy import array
 a = array([1,2,3,4,5,6])
 b = a[a>2]
 \end{Verbatim}
 Here, only those elements that are greater than 2 will be extracted
-from the array.
+from the array.  It will work on multi-dimensional arrays as well:
+
 \subsection*{Multi-dimensional Slicing}
 We've already shown you how to slice a list using the \code{:}
 operator.  The same can be done with arrays.  However, for 2D (and
@@ -294,6 +292,11 @@ clear after you take a linear algebra class.  If you want to do matrix
 math or linear algebra, \code{numpy}'s \code{matrix} object is what you
 want to use.  A \code{matrix} object can be created in a few ways.  Here are
 a few examples
+
+\subsection*{Creating Matrices}
+A \texttt{matrix} object can be created in a
+few ways.  Here are a few examples
+>>>>>>> Added plotting chapters
 \begin{Verbatim}
 from numpy import matrix
 
@@ -308,6 +311,7 @@ to screen, it will probably look the same as an array or list (or
 similar).  The differences are the things you can do with a matrix
 object as compared to an array object, or list object.
 
+\subsection*{Math with Matrices}
 Once the matrix is defined, lots of cool and useful math becomes
 available to you.  Here are a few examples:
 
@@ -340,3 +344,30 @@ dataSD = np.std(data)       # Calculate the standard deviation
 \end{Verbatim}
 
 \subsection*{Sampling from a Distribution}
+
+\section{Complex Arithmetic}
+Python can work with complex numbers just as easily as real numbers.
+The variable \texttt{j} is the imaginary number $\sqrt{-1}$ and a
+complex number can be specified by placing the \texttt{j} after the
+imaginary number:
+\begin{Verbatim}
+a = 1 + 2j
+b = 2 + 3j
+print(a+b)
+\end{Verbatim}
+You may also create a complex number using the \texttt{complex}
+function:
+\begin{Verbatim}
+a = complex(1,2j)
+b = complex(2,3j)
+print(a+b)
+\end{Verbatim}
+There are several native functions that work on complex numbers:
+\begin{Verbatim}
+a = 1 + 2j
+b = 2 + 3j
+c = a.real
+d = a.imag
+e = a.conjugate()
+\end{Verbatim}
+More functions are available in the \texttt{cmath} package.

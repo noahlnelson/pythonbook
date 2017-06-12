@@ -159,4 +159,50 @@ while term > 1e-10:  # Loop while term is bigger than 1e-10
     if n > 1000:
         print 'This is taking too long. I''m outta here...'
         break
+\end{Verbatim} 
+
+\section{Combining loops and functions}
+One task that will be repeated many times is that of evaluating a
+function on a discrete set of points.  There are two possibilities here. If
+the function of interest is found in numpy, you can simply pass the
+array of domain values into the function and it will return an array
+of function values, like this:
+\begin{Verbatim}
+from numpy import arange,sin
+x = arange(0,10,.01)
+y = sin(myDomain)
 \end{Verbatim}
+Notice that numpy's \texttt{sin} function was used here.  It was
+designed to accept an array of numbers for its argument and it knows
+that you want it to evaluate the function at all of the points.  If
+the function you're interested is not found in numpy, you'll have to
+be a little more clever.For example, what if I defined
+the following function:
+\begin{Verbatim}
+def myFunction(a,b):
+    c = a + b
+    d = a * b
+    return c /d
+\end{Verbatim}
+and wanted to sample it over a chosen domain, saving all of the
+values in a list along the way.  You could create a
+loop and one-by-one append the function values to the list, like this:
+\begin{Verbatim}
+from numpy import arange
+myFuncVals = []
+myDomain = arange(0,10,.01)
+for i in myDomain:
+    myFuncVals.append(myFunction(i))
+\end{Verbatim}
+It turns
+out that there is a simpler way to accomplish this:
+\begin{Verbatim}
+from numpy import arange
+myDomain = arange(0,10,.01)
+myFuncVals = [myFunction(n) for n in myDomain]
+\end{Verbatim}
+Study the last line until it makes sense to you.  I have combined a
+loop with a list to create the list of function values.  Some would
+call this a {\bf mapping} between my function and the list of domain
+values.  This will save you a lot of time so spend the necessary time
+now to understand what is happening.  
