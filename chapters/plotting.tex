@@ -9,7 +9,7 @@ Python does not plot functions.  This is true of any computer
 software used to make plots.  Rather, the computer samples the
 function at a series of points in the domain and plots those points.
 In python, we can create a plot like this using a library called
-\texttt{matplotlib}.  A simple scatter plot can be generated like this
+\code{matplotlib}.  A simple scatter plot can be generated like this
 
 \begin{Verbatim} 
 from matplotlib import pyplot  #Import necessary functions
@@ -23,7 +23,7 @@ Here we have plotted some data and displayed them to the screen.
 \subsection*{Customizing Scatter Plots}
 You can easily modify the style,color, and size of the plot markers.
 The change the style of the plot marker, add the optional
-\texttt{marker} argrument to the scatter function, like this
+\code{marker} argrument to the scatter function, like this
 \begin{Verbatim} 
 pyplot.scatter(xData,yData,marker='+') # Use plus sign as the marker  
 \end{Verbatim} 
@@ -31,14 +31,14 @@ A list of plot marker styles is given in table \ref{tab:styles}
 \marginpar{\footnotesize\captionsetup{type=table}
   \vspace{0.5in}
 \begin{tabular}{ll}
-\texttt{'+'} & Plus \\
-\texttt{'.'} & Point \\
-\texttt{','} & Pixel \\
-\texttt{'v'} & Triangle down \\
-\texttt{'8'} & Octagon \\
-\texttt{'s'} & Square \\
-\texttt{'p'} & Pentagon \\
-\texttt{'x'} & X \\
+\code{'+'} & Plus \\
+\code{'.'} & Point \\
+\code{','} & Pixel \\
+\code{'v'} & Triangle down \\
+\code{'8'} & Octagon \\
+\code{'s'} & Square \\
+\code{'p'} & Pentagon \\
+\code{'x'} & X \\
 \end{tabular}
 \captionof{table}{Sampling of available plot markers.\label{tab:styles}}
 }
@@ -48,7 +48,7 @@ A list of plot marker styles is given in table \ref{tab:styles}
 
 Sometimes you actually do want to plot a function and don't really
 want to see the data points individually.  You can do this using the
-\texttt{plot} function (also inside of \texttt{matplotlib}).
+\code{plot} function (also inside of \code{matplotlib}).
 \begin{Verbatim}
 from math import sin
 from matplotlib import pyplot
@@ -57,12 +57,12 @@ yData = [sin(x) for x in xData]
 pyplot.plot(xData,yData)
 pyplot.show()
 \end{Verbatim}
-The \texttt{plot} function connects the data points being plotted.  In
+The \code{plot} function connects the data points being plotted.  In
 this case, we only had 10 data points, so the plot looked pretty
 jagged.  To get a better plot of the function, we need to generate
 more data points in our range (0,10).  Unfortunately, Python's
-built-in \texttt{range} function can't do that for us.  However, the
-\texttt{numpy} library has a function called \texttt{arange} that does
+built-in \code{range} function can't do that for us.  However, the
+\code{numpy} library has a function called \code{arange} that does
 just that.
 \begin{Verbatim}
 from math import sin
@@ -74,22 +74,22 @@ yData = [sin(x) for x in xData]  #<-  This is cool, but probably new
 pyplot.plot(xData,yData)
 pyplot.show()
 \end{Verbatim}
-Notice that \texttt{arange} takes three arguments: starting position,
+Notice that \code{arange} takes three arguments: starting position,
 ending position, and step size.  You should take a look at the
-variable \texttt{xData} to see what you just created.  Also note the
-line that was used to generate the function values (\texttt{yData}).
+variable \code{xData} to see what you just created.  Also note the
+line that was used to generate the function values (\code{yData}).
 This is a compact way to combine a loop with a list and is worthwhile
-to learn.  Notice that I am evaluating \texttt{sin(x)} at each point
-in my list called \texttt{xData} and saving each number in a list
+to learn.  Notice that I am evaluating \code{sin(x)} at each point
+in my list called \code{xData} and saving each number in a list
 (hence the brackets enclosing the whole things).  When
 I'm all done, I have a list of function values evaluated at the exact
-points in \texttt{xData}.\sidenote{Think about this until it makes
+points in \code{xData}.\sidenote{Think about this until it makes
   sense.  It will save you time.}
 
 \section{Histograms}
 Histograms are very useful plots when thinking about mean values and
 spread in data sets.  As with the other plots, the library
-\texttt{matplotlib} has the needed function to create this plot.
+\code{matplotlib} has the needed function to create this plot.
 Below is an example
 \begin{Verbatim}
 from matplotlib import pyplot
@@ -102,7 +102,7 @@ pyplot.show()
 \section{Displaying multiple plots}
 Frequently you will want to display multiple plots on the same figure.
  To do this, simply execute multiple plot commands and wait until the
- end to use the \texttt{show} command, like this:
+ end to use the \code{show} command, like this:
 \begin{Verbatim}
 from matplotlib import pyplot
 measurements = [3.46, 2.48, 1.98, 3.42, 3.56, 3.87, 3.9, 4.2, 2.9]
@@ -114,18 +114,18 @@ pyplot.scatter(x,measurements)
 pyplot.show()
 
 \end{Verbatim}
-Notice that the \texttt{pyplot.show()}  is only performed once after
+Notice that the \code{pyplot.show()}  is only performed once after
 all of the plot objects have been created.
 
 If you want to display multiple plots on the same canvas, you have to
-use the \texttt{subplots} command, like this:
+use the \code{subplots} command, like this:
 \begin{Verbatim}
 f, (ax1, ax2) = pyplot.subplots( 2, sharex=True) 
 \end{Verbatim}
 
 This command creates a figure with 2 plots on it: one on top of the other.
 If you wanted the plots to be in a grid pattern, you could replace the
-\texttt{2} in the subplots command with \texttt{(2,2)} (for example).
+\code{2} in the subplots command with \code{(2,2)} (for example).
 This would create a 2 x 2 grid of plots, a total of 4 plots.  Notice
 that the subplots command is returning 2 things: the figure, and the 2
 plots.  The figure is the canvas that the plots are being placed on.

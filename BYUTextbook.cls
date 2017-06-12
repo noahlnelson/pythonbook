@@ -228,7 +228,6 @@
     \noindent\makebox[\textwidth][\side]{#1}\par
     }
 
-
 % Define the margin note reminders
 \newcommand{\reminder}[3][0pt]{\marginpar{\vskip#1\begin{enumerate}\item[#2] \small \RaggedRight #3\end{enumerate}}}
 
@@ -260,6 +259,19 @@
     }
 
 \newcommand{\listingFile}{none}
+
+%Add an inline listing environment code ==================
+%Comment/uncomment the option that you'd like to use
+
+%Match Verbatim settings exactly
+\newcommand{\code}[1]{\lstinline{#1}}
+
+%Match font and style choices exactly, but no coloring.
+%\newcommand{\code}[1] {\lstinline[keywordstyle=\color{black},commentstyle=\color{black},stringstyle=\color{black}]{#1}}
+
+
+
+%End of inline listing options =========================================
 
 \newcounter{listingCtr}[chapter]
 \renewcommand{\thelistingCtr}{\arabic{chapter}.\arabic{listingCtr}}

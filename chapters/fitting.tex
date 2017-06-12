@@ -20,8 +20,8 @@ the function until the above sum is minimized, you are finding the
 function that best mimicks the data.
 
 \section{Fitting to an Arbitrary Function}
-The \texttt{scipy.optimizes} library contains a wealth of useful function, one
-of which is called \texttt{curve\_fit}.  Sounds promising, right?
+The \code{scipy.optimizes} library contains a wealth of useful function, one
+of which is called \code{curve\_fit}.  Sounds promising, right?
 Let's use this function to fit to some made-up data.  Let's extract
 some data from the function
 \begin{equation}
@@ -53,17 +53,17 @@ c = -1
 y = array([func(n,a,b,c)  for n in x]) + norm.rvs(0,.0069,len(x))
 \end{Verbatim}
 All of these things should be familiar to you if you have read through
-previous chapters.  Notice the use of \texttt{norm.rvs} to sample a
+previous chapters.  Notice the use of \code{norm.rvs} to sample a
 normal distrubution.
 
-Now we're ready to send our data into the function \texttt{curve\_fit}
+Now we're ready to send our data into the function \code{curve\_fit}
 perform the fitting. First, we need to import the library
 \begin{Verbatim}
 import scipy.optimize as opt
 
 fit = opt.curve_fit(func,x,y)
 \end{Verbatim}
-The \texttt{curve\_fit} function requires three arguments: The function
+The \code{curve\_fit} function requires three arguments: The function
 that is being fitted, the independent variable values, and the
 dependent variables values.  There are several optional arguments that
 can be passed to this function.  For example, you can specify a guess
@@ -89,11 +89,11 @@ fit = opt.curve_fit(func,x,y,sigma=uncertainty)
 \end{Verbatim}
 
 \section{Plotting the Fit}
-The function \texttt{curve\_fit} will return several things.  The
+The function \code{curve\_fit} will return several things.  The
 first thing is the values of the fit parameters, which is the thing
 you are most interested in.  Once you have those you can proceed to
 plot the function just as we showed you in chapter \ref{chap:Plotting}.
-Here I'll show you again (recall that the variable \texttt{fit}
+Here I'll show you again (recall that the variable \code{fit}
 contains the fit results)
 \begin{Verbatim}
 fitA = fit[0][0]  # Pull out value of a

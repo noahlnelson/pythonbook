@@ -21,10 +21,10 @@ def myFunction(a,b):
     return f
 \end{Verbatim}
 This function performs several simple calculations and then uses the
-\texttt{return} statement to pass the final result back out of the
+\code{return} statement to pass the final result back out of the
 function.  Every user-defined function must begin with the keyword
-\texttt{def} followed by the function name (you can choose it). The
-variables \texttt{a} and \texttt{b} are the arguments to the function.
+\code{def} followed by the function name (you can choose it). The
+variables \code{a} and \code{b} are the arguments to the function.
 This means that when you want to call this function, you must provide
 these numbers.  This function can be called like this
 \begin{Verbatim}
@@ -32,9 +32,9 @@ r = 10
 t = 15
 result = myFunction(r,t)
 \end{Verbatim}
-In this case, when the function is called, \texttt{a} gets assigned
-the value of $10$ and \texttt{b} gets assigned the value of $15$.  The
-result of this calculation is stored in the variable \texttt{result},
+In this case, when the function is called, \code{a} gets assigned
+the value of $10$ and \code{b} gets assigned the value of $15$.  The
+result of this calculation is stored in the variable \code{result},
 which is outside the function.  You can think of a function as a black
 box. You create the contents of the box and specify what information
 must be passed into the black box.  The user of the black box need not
@@ -50,7 +50,7 @@ len(mylist)  % Returns the length of a list.
 float(5)     % Converts an integer to a float.
 str(67.3)    % Converts a float to a string.
 \end{Verbatim}
-The functions: \texttt{len}, \texttt{float}, and \texttt{str} are all
+The functions: \code{len}, \code{float}, and \code{str} are all
 built-in functions, and they each take a single argument.  Other
 built-in function are found in the margin tables in the previous chapter.
 
@@ -68,7 +68,7 @@ installed, you can import the library of functions like this:
 \begin{Verbatim}
 import math
 \end{Verbatim}
-This imports a library called \texttt{math}.  You can use a function
+This imports a library called \code{math}.  You can use a function
 inside of this libary like this
 \begin{Verbatim}
 math.sqrt(5.2)  % Take the square root of 5.2
@@ -84,7 +84,7 @@ this:
 \begin{Verbatim}
 import math as mt
 \end{Verbatim}
-Here, the short name \texttt{mt} was chosen for this library.
+Here, the short name \code{mt} was chosen for this library.
 The desired functions can then be called like this
 \begin{Verbatim}
 mt.sqrt(5.2)  % Take the square root of 5.2
@@ -97,7 +97,7 @@ functions. This can be done like this
 \begin{Verbatim}
 from math import sqrt
 \end{Verbatim}
-and the \texttt{sqrt} function can then be used without the library
+and the \code{sqrt} function can then be used without the library
 name before it, like this
 \begin{Verbatim}
 sqrt(5.5)
@@ -106,8 +106,8 @@ If you want to import every function inside of a libary, do this
 \begin{Verbatim}
 from math import *
 \end{Verbatim}
-Now, every function contained in \texttt{math} is available without
-needing the \texttt{math.} prefix in front of it.
+Now, every function contained in \code{math} is available without
+needing the \code{math.} prefix in front of it.
 
 Throughout this book, we will use a variety of libaries to accomplish
 important tasks.  Instead of giving a complete description of each
@@ -134,7 +134,7 @@ from numpy import array
 a = [1,5,6,7]
 b = array(a)     
 \end{Verbatim}
-The \texttt{array} function converts a python list to a numpy array.
+The \code{array} function converts a python list to a numpy array.
 There are many other ways to create numpy arrays.  Here are a few
 examples
 \begin{Verbatim}
@@ -145,7 +145,7 @@ b = zeros([5,5])
 b = eye(5)       
 \end{Verbatim}
 
-\texttt{zeros} will create an array of zeros, with the size of the
+\code{zeros} will create an array of zeros, with the size of the
 array specified as an argument.
 
 

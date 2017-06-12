@@ -10,29 +10,29 @@ calculation you could want.
 \marginpar{\footnotesize\captionsetup{type=table}
   \vspace{0.5in}
 \begin{tabular}{l}
-\texttt{sin(x)} \\
-\texttt{cos(x)} \\
-\texttt{tan(x)} \\
-\texttt{arcsin(x)} \\
-\texttt{arccos(x)} \\
-\texttt{arctan(x)} \\
-\texttt{sinh(x)} \\
-\texttt{cosh(x)} \\
-\texttt{tanh(x)} \\
-\texttt{sign(x)} \\
-\texttt{exp(x)} \\
-\texttt{sqrt(x)} \\
-\texttt{log(x)} \\
-\texttt{log10(x)} \\
-\texttt{log2(x)} \\
+\code{sin(x)} \\
+\code{cos(x)} \\
+\code{tan(x)} \\
+\code{arcsin(x)} \\
+\code{arccos(x)} \\
+\code{arctan(x)} \\
+\code{sinh(x)} \\
+\code{cosh(x)} \\
+\code{tanh(x)} \\
+\code{sign(x)} \\
+\code{exp(x)} \\
+\code{sqrt(x)} \\
+\code{log(x)} \\
+\code{log10(x)} \\
+\code{log2(x)} \\
 \end{tabular}
 \captionof{table}{A very small sampling of functions belonging to the
-  \texttt{numpy} library.\label{tab:Numpy}}
+  \code{numpy} library.\label{tab:Numpy}}
 }
- Common (and not-so common) mathematical functions like \texttt{exp}
-and \texttt{sqrt} are available via the libraries \texttt{numpy},
-\texttt{scipy}, and \texttt{math}.  There are some good reasons to not
-use the \texttt{math} library, which we will discuss shortly.  Some
+ Common (and not-so common) mathematical functions like \code{exp}
+and \code{sqrt} are available via the libraries \code{numpy},
+\code{scipy}, and \code{math}.  There are some good reasons to not
+use the \code{math} library, which we will discuss shortly.  Some
 commonly-used mathemtical functions from these libraries can be found
 in the tables.
 
@@ -65,25 +65,25 @@ and you wanted to calculate the summation
 where $x_i$ are the data given above and $D = 5$.  You could
 calculate, one-by-one, each contribution in the sum and then add them
 up.  But there has to be an easier way.  The easier way involves a
-library called \texttt{numpy} (pronounced num-pie, short for numerical
+library called \code{numpy} (pronounced num-pie, short for numerical
 python).  The main object used in this library is called an
-\texttt{array}, which is very similar to a list except that an array
+\code{array}, which is very similar to a list except that an array
 is intended for mathematical use.  Let's explore arrays a little more.
 
 \subsection*{Array Creation}
 There are several ways to create an array.  If you already have a list
 of numbers and you just want to convert it to an array, you can do it
-with \texttt{numpy}'s \texttt{array} function.:
+with \code{numpy}'s \code{array} function.:
 \begin{Verbatim}
 from numpy import array
 xList = [2 , 3 , 5.2 , 2 , 6.7]
 xArray = array(xList)
 \end{Verbatim}
 If you are looking for a function to create an array from scratch,
-there are plenty of options.  The function \texttt{arange} is very similar to
-the native \texttt{range} function that you have already seen.  The
-difference is that \texttt{arange} creates an array object instead of
-a list object and \texttt{arange} allows the stepsize to be less than
+there are plenty of options.  The function \code{arange} is very similar to
+the native \code{range} function that you have already seen.  The
+difference is that \code{arange} creates an array object instead of
+a list object and \code{arange} allows the stepsize to be less than
 one.  Here is an example:
 \begin{Verbatim}
 from numpy import arange
@@ -95,27 +95,27 @@ This will create an array that looks like this:
 \end{Verbatim}
 \marginpar{\footnotesize\captionsetup{type=table} \vspace{-2.5in}
 \begin{tabular}{lp{1.05in}}
-\texttt{logspace}        & Returns numbers evenly spaced on a
-log scale.  Same arguments as \texttt{linspace}\\ \\
-\texttt{empty}        & Returns an empty array with the
+\code{logspace}        & Returns numbers evenly spaced on a
+log scale.  Same arguments as \code{linspace}\\ \\
+\code{empty}        & Returns an empty array with the
 specified shape\\ \\
-\texttt{zeros}        & Returns an array of zeros with the
+\code{zeros}        & Returns an array of zeros with the
 specified shape\\ \\
-\texttt{ones}        & Returns an array of ones with the
+\code{ones}        & Returns an array of ones with the
 specified shape.\\ \\
-\texttt{zeros\_like}        & Returns an array of zeros with the
+\code{zeros\_like}        & Returns an array of zeros with the
 same shape as the provided array. \\ \\
-\texttt{fromfile}        & Read in a file and create an array from the
+\code{fromfile}        & Read in a file and create an array from the
 data.\\ \\
-\texttt{copy}        & Make a copy of another array.\\ \\
-\texttt{mgrid}        & Create coordinate matrices from coordinate vectors.\\ \\
-\texttt{meshgrid}        & Create coordinate matrices from coordinate vectors.\\ \\
+\code{copy}        & Make a copy of another array.\\ \\
+\code{mgrid}        & Create coordinate matrices from coordinate vectors.\\ \\
+\code{meshgrid}        & Create coordinate matrices from coordinate vectors.\\ \\
 \end{tabular}
 \captionof{table}{A sampling of array-building functions in
   numpy. The arguments to the functions has been omitted to maintain
   brevity.  See online documentation for further details.\label{tab:Arraybuilding}}
 }
- Another very useful function for array-creation is \texttt{linspace},
+ Another very useful function for array-creation is \code{linspace},
 which creates an array by specifying the starting value, ending value,
 and the number of elements that the array should contain.  For example:
 \begin{Verbatim}
@@ -156,13 +156,13 @@ g = xArray * yArray  # Multiply the elements of array one to the elements of
 In short, you can do all of the math that you were hoping you could do
 when you first learned about Python lists.
 \subsection*{Evaluating Functions on Arrays}
-What if you wanted to evaluate the \texttt{sin} function over an
+What if you wanted to evaluate the \code{sin} function over an
 entire data set.  You surely don't want to loop over every single
 value in the data set and evaluate the sine function on each number.
-It turns out that the \texttt{math} library and the \texttt{numpy}
-library both contain a function called \texttt{sin}.  The one from the
-\texttt{numpy} library is designed to work on arrays but the one from
-the \texttt{math} library is not. Here is an example
+It turns out that the \code{math} library and the \code{numpy}
+library both contain a function called \code{sin}.  The one from the
+\code{numpy} library is designed to work on arrays but the one from
+the \code{math} library is not. Here is an example
 \begin{Verbatim}
 import numpy as np
 import math 
@@ -173,16 +173,16 @@ xArray = array(xList)
 c = np.sin(xArray)   # Works just fine, returning array of numbers.
 d = math.sin(xArray) # Returns an error.
 \end{Verbatim}
-Notice that \texttt{math}'s version of \texttt{sin} does not
+Notice that \code{math}'s version of \code{sin} does not
 know what to do when you give it an array of numbers.  It only works
-for single numbers.  \texttt{Numpy}'s \texttt{sin} function, on the
+for single numbers.  \code{Numpy}'s \code{sin} function, on the
 other hand, does know what to do with an array of numbers: it
 calculates the sin of all the numbers.
 
 \subsection*{Summing the elements}
 Suppose you have a list(or array) of numbers and you'd like to add up
-all of the elements.  Python has a built-in \texttt{sum} function and
-there is also a \texttt{sum} function inside of \texttt{numpy} that
+all of the elements.  Python has a built-in \code{sum} function and
+there is also a \code{sum} function inside of \code{numpy} that
 will do this. They both do the same thing for one-dimensional lists.
 \begin{Verbatim}
 a = [1.5,2.2,9.8,4.6]
@@ -192,7 +192,7 @@ c = sum(a)   # Use numpy's sum function
 \end{Verbatim}
 If you are summing up the elements of a two-dimensional list, the
 built-in version of the function will not work and you will have to
-use \texttt{numpy}'s version.
+use \code{numpy}'s version.
 \begin{Verbatim}
 a = [[1.5,2.2],[9.8,4.6]]  # Define a 2-d list, a list of lists
 b = sum(a)   #Use built-in sum function, notice the error
@@ -200,11 +200,11 @@ from numpy import sum
 c = sum(a)   # Use numpy's sum function, no error.
 d = sum(a,axis = 1) 
 \end{Verbatim}
-Notice the extra argument to the \texttt{sum} function in the last
-line.  The \texttt{axis=1} indicates that you want to sum up the
+Notice the extra argument to the \code{sum} function in the last
+line.  The \code{axis=1} indicates that you want to sum up the
 elements in each individual list and return a list of sums.  If you
-had a higher-dimensional list, you could use \texttt{axis=2} or
-\texttt{axis = 3} as well.
+had a higher-dimensional list, you could use \code{axis=2} or
+\code{axis = 3} as well.
 \subsection*{Accessing Multiple Elements}
 There is additional functionality for accessing and slicing arrays
 than for lists when the arrays become higher dimensional.  As an
@@ -221,7 +221,7 @@ a = array([[1,2,3],[4,5,6],[7,8,9]])
 b = a[0][2]
 \end{Verbatim}
 This will extract the number 3, which is the third element in the
-first list.  In other words, it's element 0,2 in array \texttt{a}.
+first list.  In other words, it's element 0,2 in array \code{a}.
 What if you wanted to extract multiple elements in one shot.  Could
 you do that?  In fact you can and here is how:
 \begin{Verbatim}
@@ -230,11 +230,11 @@ a = array([[1,2,3],[4,5,6],[7,8,9]])
 b = a[[0,2],[1,1]]
 \end{Verbatim}
 Pay special attention to the last line.  It will extract the numbers
-2 and 8.  The first list (\texttt{[0,2]}) indicate the rows (first
+2 and 8.  The first list (\code{[0,2]}) indicate the rows (first
 dimension of the array) where the element is to be extracted and the
-second list (\texttt{[1,1]}) indicate the columns that correspond to
-the rows provided.  So elements \texttt{[0,1]} and \texttt{[2,1]} from
-list \texttt{a} will be extracted.  The lists of indices can be as
+second list (\code{[1,1]}) indicate the columns that correspond to
+the rows provided.  So elements \code{[0,1]} and \code{[2,1]} from
+list \code{a} will be extracted.  The lists of indices can be as
 long as you want them to be and all of the corresponding elements will
 be extracted.
 \subsection*{Boolean Slicing}
@@ -253,7 +253,7 @@ b = a[a>2]
 Here, only those elements that are greater than 2 will be extracted
 from the array.
 \subsection*{Multi-dimensional Slicing}
-We've already shown you how to slice a list using the \texttt{:}
+We've already shown you how to slice a list using the \code{:}
 operator.  The same can be done with arrays.  However, for 2D (and
 higher) arrays the slicing is more powerful (intuitive).  It can be
 helpful to visualize an array as a matrix, even if it is not being
@@ -285,14 +285,14 @@ you could do it like this:
 b[1:3,1:3]  # Slice out a sub-array (Exactly what you wanted!)
 \end{Verbatim}
 This can't be done with lists, but using an array it's very simple.
-Also note that you must use the \texttt{[x1:y1,x2:y2]} notation rather
-than the \texttt{[x1:y1][x2:y2]} notation.  Use of the latter will not
+Also note that you must use the \code{[x1:y1,x2:y2]} notation rather
+than the \code{[x1:y1][x2:y2]} notation.  Use of the latter will not
 fail, but it will not produce the sub-matrix desired.
 \section{Matrices}
 Matrix math is different from normal math.  That will become more
 clear after you take a linear algebra class.  If you want to do matrix
-math or linear algebra, \texttt{numpy}'s \texttt{matrix} object is what you
-want to use.  A \texttt{matrix} object can be created in a few ways.  Here are
+math or linear algebra, \code{numpy}'s \code{matrix} object is what you
+want to use.  A \code{matrix} object can be created in a few ways.  Here are
 a few examples
 \begin{Verbatim}
 from numpy import matrix
@@ -302,7 +302,7 @@ b = matrix([[1,2],[3,4]])  # Create 2 x 2 matrix from list
 c = matrix('1;2;3;4')  #Create column vector: a 4 x 1 matrix
 \end{Verbatim}
 The first definition is a nice way to create a matrix from a string.
-The \texttt{;} indicates the end of the rows.  You can also convert a
+The \code{;} indicates the end of the rows.  You can also convert a
 list or array into a matrix.  Note that if you print a matrix object
 to screen, it will probably look the same as an array or list (or
 similar).  The differences are the things you can do with a matrix
@@ -328,7 +328,7 @@ h = a**2   # Square the matrix. Not the same as squaring an array.
  
 
 \section{Statistics}
-\texttt{Numpy} has a statistical package that includes many useful
+\code{Numpy} has a statistical package that includes many useful
 functions.  Below is an example that calculates the mean and standard
 deviation of a data set
 \begin{Verbatim}
