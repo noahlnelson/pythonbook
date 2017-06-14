@@ -1,491 +1,455 @@
-\chapter{Basic Plotting}
-\label{chap:1DPlots}
+\chapter{Advanced Plotting}
+\label{chap:advancedplots}
 
-Creating plots is an important task in science and engineering.  The
-old addage ``A picture is worth a thousand words!'' is wrong.... it's
-worth way more than that if you do it right.
+
+Python will display functions of the type $F(x,y)$, either by
+making a contour plot (like a topographic map) or by displaying the
+function as height above the $xy$ plane like a perspective drawing.
+You can also display functions like $\vec{F}(x,y)$, where $\vec{F}$
+is a vector-valued function, using vector field plots.
+
 \medskip
 
-\section{Linear Plots}
+\section{Making 2-D Grids}
+\index{Meshgrid}
 
-\subsection*{Making a Grid}
-\index{Plotting, xy} Simple plots of $y$ vs. $x$ are done using a
-library called \texttt{matplotlib}.  First, arrays of $x$ and $y$
-values must be constructed.  To build an array $x$ of $x$-values
-starting at $x=0$, ending at $x=10$, and having a step size of
-$.01$, you'll need numpy's \texttt{arange} function:
-\begin{Verbatim}
-from numpy import arange
-x=arange(0,10,0.01)
-\end{Verbatim}
-To make a corresponding array of $y$ values according to the
-function $y(x)=\sin(5x)$ simply type this
-\begin{Verbatim}
-from numpy import sin
-y=sin(5*x)
-\end{Verbatim}
-\reminder{\lefthand}{Remember that you must use \ul{numpy's} \texttt{sin}
-  function if you want to be able to pass an array of values to it.
-  Using math's version will produce an error.}
-Both of these arrays are the same length, as you can check with the
-{\tt len} command
-\begin{Verbatim}
-len(x)
-len(y)
-\end{Verbatim}
-
-\subsection*{Plotting the Function}
-
-Once you have two arrays of the same size, you plot \texttt{y} vs.
-\texttt{x} like this
-\begin{Verbatim}
-from matplotlib import pyplot
-pyplot.figure()
-pyplot.plot(x,y)
-pyplot.show()
-\end{Verbatim}
-This will create a plot where the points are connected.  If you omit
-the \texttt{pyplot.show()} command, the plot will not appear on your
-screen.  You can save the plot to a file by replacing the
-\texttt{pyplot.show()}  command with
-\begin{Verbatim}
-pyplot.savefig('filename.png')
-\end{Verbatim}
-If you want to see the actual data points being plotted, do this
-instead.
-\begin{Verbatim}
-from matplotlib import pyplot
-pyplot.scatter(x,y)
-\end{Verbatim}
-\index{Array, first or second half} And what if you want to plot part
-of the \texttt{x} and \texttt{y} arrays? The {\tt colon} operator can
-help.  Try the following code to plot the first and second half
-separately:
-\begin{Verbatim}
-from matplotlib import pyplot
-nhalf = len(x)/2
-pyplot.plot(x(1:nhalf),y(1:nhalf))
-pyplot.plot(x(nhalf:),y(nhalf:))
-pyplot.show()
-\end{Verbatim}
-
-\subsection*{Controlling the Axes}
-\label{sec:Axes}
-
-\index{Axis Command} Python chooses the axes to fit the functions
-that you are plotting. You can override this choice by specifying
-your own axes, like this:
-\begin{Verbatim}
-pyplot.axis([0, 10, -1.3, 1.3])
-\end{Verbatim}
-\index{Xlim} \index{Ylim} Or, if you want to specify just the
-$x$-range or the $y$-range, you can use {\tt xlim}:
-\begin{Verbatim}
-pyplotplot(x,y)
-pyplot.xlim([0, 10])
-\end{Verbatim}
-or {\tt ylim}:
-\begin{Verbatim}
-pyplot.plot(x,y)
-pyplot.ylim([-1.3, 1.3])
-\end{Verbatim}
-And if you want equally scaled axes, so that plots of circles are
-perfectly round instead of elliptical, use
-\begin{Verbatim}
-pyplot.axis('equal')
-\end{Verbatim}
-\index{Axis equal} \index{Plot: equally scaled axes}
-
-
-\subsection*{Logarithmic Plots}
-\index{Log plots} \index{Plots, logarithmic} To make log and
-semi-log plots use the matplotlib's commands {\tt semilogx}, {\tt semilogy}, and
-{\tt loglog}. They work like this:
-\begin{Verbatim}
-from matplotlib import pyplot
-from numpy import arange,exp
-pyplot.clf()  # Clear the figure
-x=arange(0,8,0.1)
-y=exp(x)
-
-pyplot.semilogx(x,y)  # Replace with semilogx or loglog
-pyplot.title('semilogx')
-
-pyplot.show()
-\end{Verbatim}
-
-\subsection*{3-D Line Plots}
-\index{Space curves} \index{Plot3} \index{Curves, 3-D} Python will
-draw three-dimensional curves in space with the {\tt plot} command.
-However, there are a few additional lines of code that must be added
-to make the plot 3 dimensional.  Here is how you would do a spiral on
-the surface of a sphere using spherical coordinates.  I've
-hightlighted the additions needed for the 3D plot
-\marginpar{\captionsetup{type=table}
-\begin{tabular}{ll}
-'-'   &    solid line style     \\
-'--'  &    dashed line style    \\
-'-.'  &    dash-dot line style  \\
-':'   &    dotted line style    \\
-'.'   &    point marker         \\
-','   &    pixel marker         \\
-'o'   &    circle marker        \\
-'v'   &    triangle down marker \\
-'\^'   &    triangle up marker   \\
-'<'   &    triangle left marker \\
-'>'   &    triangle right marker\\
-'1'   &    tri down marker      \\
-'2'   &    tri up marker        \\
-'3'   &    tri left marker      \\
-'4'   &    tri right marker     \\
-'s'   &    square marker        \\
-'p'   &    pentagon marker      \\
-'*'   &    star marker          \\
-'h'   &    hexagon1 marker      \\
-'H'   &    hexagon2 marker      \\
-'+'   &    plus marker          \\
-'x'   &    x marker             \\
-'D'   &    diamond marker       \\
-'d'   &    thin diamond marker  \\
-'|'   &    vline marker         \\
-'\_'   &    hline marker         \\
-\end{tabular}
-\captionof{table}{Line styles and plot markers.\label{tab:linestyles}}
-}
+Before we can display 2-dimensional data, we need to define arrays
+{\tt X} and {\tt Y} that span the region that you want to plot, then create
+the function $F(x,y)$ over the plane.  First, you need to understand
+how Python goes from
+one-dimensional arrays \texttt{x} and \texttt{y} to two-dimensional
+matrices \texttt{X} and \texttt{Y} using the commands {\tt
+meshgrid} and {\tt mgrid}. Begin by executing the following
+example.
 \begin{codeexample}
 \begin{VerbatimOut}{\listingFile}
+from numpy import arange,meshgrid,cos,exp,pi,mgrid
 from matplotlib import pyplot
-from mpl_toolkits.mplot3d import Axes3D  # <- Important
-from numpy import pi, arange, sin, cos
+from mpl_toolkits.mplot3d import Axes3D  #<- You need this to make 3D plots
 
-dphi=pi/100 # set the spacing in azimuthal angle
+# Define the arrays x and y
+# Don't make the step size too small or you will kill the
+# system (you have a large, but finite amount of memory)
+x=arange(-1,1,0.1)
+y=arange(0,1.5,0.1)
 
-N=30 # set the number of azimuthal trips
-phi=arange(0,N * 2 * pi, dphi)
+# Use meshgrid to convert these 1-d arrays into 2-d matrices
+# of x and y values over the plane
+X,Y=meshgrid(x,y)
+#X,Y=mgrid[-1:1:0.1,0:1.5:0.1]  # You could also do this in place of meshgrid
+# Get F(x,y) by using F(X,Y). Note the use of .* with X and Y
+# rather than with x and y
+F=(2-cos(pi*X))*exp(Y)
 
-theta=phi/N/2 # go from north to south once
-
-r=1  # sphere of radius 1
-
-# convert spherical to Cartesian
-x=r*sin(theta)*cos(phi)
-y=r*sin(theta)*sin(phi)
-z=r*cos(theta)
-
-# plot the spiral
+# Plot the function
 fig = pyplot.figure()
-fig.gca(projection='3d')  # Create 3D axis
-pyplot.plot(x,y,z)
-pyplot.axis('equal')
+ax=fig.gca(projection='3d')
+ax.plot_surface(X,Y,F)
+pyplot.xlabel('x')
+pyplot.ylabel('y')
+pyplot.show()
+\end{VerbatimOut}
+\end{codeexample}
+The picture should convince you that Python did indeed make
+things two-dimensional, and that this way of plotting could be very
+useful. But exactly how Python did it is tricky, so pay close
+attention.  First notice that anytime you want a 3 dimensional plot,
+you will need the following lines:
+
+\begin{Verbatim}
+from mpl_toolkits.mplot3d import Axes3D  #<- You need this to make 3D plots
+fig = pyplot.figure()   # Create the figure object
+ax=fig.gca(projection='3d')  # Set the axes to be 3 dimensional
+\end{Verbatim}
+
+Next, we need to understand how \code{meshgrid} turns one-dimensional arrays
+\code{x} and \code{y} into two-dimensional arrays \code{X}
+and \code{Y}, consider the following simple example. Suppose that
+the arrays \code{x} and \code{y} are given by
+\begin{Verbatim}
+x=[1,2,3]
+y=[4,5]
+\end{Verbatim}
+The command {\tt X,Y=meshgrid(x,y)} produces the following
+results:\marginfig{Figures/figMeshGrid}{\label{figMeshGrid}}
+\begin{equation}\label{eq:MeshgridMatrices}
+X = \left[ \begin{array}{lll}
+1 & 2 & 3 \\
+1 & 2 & 3 \\
+\end{array}
+\right]~~~~~~~~ Y = \left[ \begin{array}{lll}
+4 & 4 & 4 \\
+5 & 5 & 5 \\
+\end{array}
+\right] .
+\end{equation}
+Compare these matrices to Fig.~\ref{figMeshGrid} to see how they
+correspond to the small area of $x$-$y$ space that we are
+representing.  Note that the $y$ dimension entries are flipped from
+what you might expect because of the difference in conventions for
+writing matrices (left-to-right and top-to-bottom) versus plotting
+functions (left-to-right and bottom-to-top).
+
+\index{Ndgrid} With \code{meshgrid}, the first index of both \code{X}
+and \code{Y} is a $y$-index, since matrix elements are indexed using the
+\code{X(row,column)} convention. For example, the elements \code{X(1,1)} and
+\code{X(2,1)} both have value 1 because as the $y$-index changes, $x$ stays the
+same. Similarly, \code{Y(1,1)=4} and \code{Y(2,1)=5} because as the
+$y$-index changes, $y$ does change. This means that if we think of $x$
+having an array index $i$ and $y$ having index $j$, then the two-dimensional
+matrices have indices
+\begin{equation}
+    X(j,i)~~~~Y(j,i)  .
+\end{equation}
+But in physics we often think of two-dimensional functions of $x$ and $y$ in
+the form $F(x,y)$, i.e., the first position is for $x$ and the second one is
+for $y$. Because we think this way it would be nice if the matrix indices
+worked this way too, meaning that if $x=x(i)$ and $y=y(j)$, then the
+two-dimensional matrices would be indexed as
+\begin{equation}
+X(i,j)~~~~Y(i,j)
+\end{equation}
+instead of in the backwards order made by {\tt meshgrid}.
+
+Numpy has a command called {\tt mgrid} which is similar to
+\code{meshgrid} but does the conversion to two dimensions the other
+way round. For instance, with the example arrays for $x$ and $y$ used
+above {\tt X,Y=mgrid[1:4,4:6]} would produce the results
+\begin{equation}
+X = \left[ \begin{array}{ll}
+1 & 1 \\
+2 & 2 \\
+3 & 3 \\
+\end{array}
+\right]~~~~~~~~ Y = \left[ \begin{array}{ll}
+4 & 5 \\
+4 & 5 \\
+4 & 5 \\
+\end{array}
+\right]
+\end{equation}
+These matrices have the indexes in the $X(i,j)$, $Y(i,j)$ order,
+but lose the spatial correlation that \code{meshgrid} gives
+between Eq.~\eqref{eq:MeshgridMatrices} and Fig.~\ref{figMeshGrid}.
+
+Plots made either with \code{plot_surface(X,Y,F)} or \code{contour(X,Y,F)} (discussed below) will look
+the same with either grid.  However, {\tt streamline} plots require your
+data to be in the format provided by {\tt meshgrid}.  You will need to be
+familiar with both methods of creating a grid. You will have need to do
+it both ways, depending on the circumstance.
+
+
+
+\section{Surface Plots}
+\index{Plotting, contour and surface} \index{Surface plots}
+\index{Contour plots}
+
+Now that we understand how to make two-dimensional grids, let's make
+some plots. Surface plots can be made with either the
+\code{pyplot.plot_surface} command or the \code{pyplot.plot_wireframe}
+command.  Run the following example to see what a wireframe plot looks
+like. Make sure you read through the comments and watch what it does.
+
+\begin{codeexample}
+\begin{VerbatimOut}{\listingFile}
+from numpy import arange,meshgrid,cos,exp,pi,mgrid
+from matplotlib import pyplot
+from mpl_toolkits.mplot3d import Axes3D  #<- You need this to make 3D plots
+
+# Define the arrays x and y
+# Don't make the step size too small or you will kill the
+# system (you have a large, but finite amount of memory)
+x=arange(-1,1,0.1)
+y=arange(0,1.5,0.1)
+
+# Use meshgrid to convert these 1-d arrays into 2-d matrices
+# of x and y values over the plane
+#X,Y=meshgrid(x,y)
+X,Y=mgrid[-1:1:0.1,0:1.5:0.1]  # You could also do this in place of meshgrid
+# Get F(x,y) by using F(X,Y). Note the use of .* with X and Y
+# rather than with x and y
+F=(2-cos(pi*X))*exp(Y)
+
+# Plot the function
+fig = pyplot.figure()
+ax=fig.gca(projection='3d')
+ax.plot_wireframe(X,Y,F)  
+pyplot.xlabel('x')
+pyplot.ylabel('y')
 pyplot.show()
 \end{VerbatimOut}
 \end{codeexample}
 
-\section{Plot Appearance}
 
-\subsection*{Line Color and Style}
+%To make this surface
+%oscillate up and down like a manta ray you could do this.
+%
+%\begin{codeexample}
+%\begin{VerbatimOut}{\listingFile}
+%clear; close all;
+%
+%x=-1:.1:1;
+%y=0:.1:1.5;
+%[X,Y]=ndgrid(x,y);
+%F=(2-cos(pi*X)).*exp(Y);
+%
+%dt=.1;
+%
+%for m=1:100
+%   t=m*dt;
+%   g=F*cos(t);
+%
+%   surf(X,Y,g);
+%   AZ=30;EL=45;
+%   view(AZ,EL);
+%   title('Surface Plot')
+%   xlabel('x')
+%   ylabel('y')
+%   axis([-1 1 -1 1 min(min(F)) max(max(F))])
+%   pause(.1)
+%end
+%\end{VerbatimOut}
+%\end{codeexample}
 
-To specify the color and line style of your plot, use the following syntax
-\begin{Verbatim}
-pyplot.plot(x,y,'r-')
-\end{Verbatim}
-The \verb|'r-'| option string tells the plot command to plot the
-curve in red connecting the dots with a continuous line. Many other
-colors and line styles are possible, and instead of connecting the
-dots you can plot symbols at the points with various line styles
-between the points. For instance, if you type
-\begin{Verbatim}
-pyplot.plot(x,y,'g.')
-\end{Verbatim}
-you get green dots at the data points with no connecting line.  Table
-\ref{tab:linestyles} has a list of the possiblilities
+%\subsection*{Fourier Series}
+%\index{Fourier series} \index{Physics 318}
+%
+%Python will make graphical displays of infinite series quickly and
+%easily. Consider this solution for the electrostatic potential in a
+%long tube of rectangular cross-section bounded by long metal strips
+%held at different potentials. The tube has width $2b$ in $x$ and
+%width $a$ in $y$. The two strips at $x=-b$ and $x=+b$ are held at
+%potential $V_0$ while the strips at $y=0$ and $y=a$ are
+%grounded.\footnote{See {\it Introduction to Electrodynamics, Third
+%Edition} by David Griffiths, pages 132-134.} The electrostatic
+%potential is given by
+%\begin{equation}
+%V(x,y) = \frac{4 V_0}{\pi} \sum_{n=0}^{\infty} \frac{1}{(2n+1)}
+%\frac{\cosh{[(2n+1) \pi x/a]} }{ \cosh{[(2n+1) \pi b/a]} } \sin{[
+%(2n+1) \pi y/a]} .
+%\end{equation}
+%Here is a piece of Python code that evaluates this function on an
+%$xy$ grid and displays it as a surface plot.
+%
+%\begin{codeexample}
+%\begin{VerbatimOut}{\listingFile}
+%clear;close all;
+%
+%a=2;b=1;Vo=1;  % set some constants
+%
+%% build the x and y grids
+%Nx=80;Ny=40;
+%dx=2*b/Nx;dy=a/Ny;
+%x=-b:dx:b;y=0:dy:a;
+%
+%[X,Y]=ndgrid(x,y); % build the 2-d grids for plotting
+%
+%Nterms=20; % set the number of terms to include
+%
+%V=zeros(Nx+1,Ny+1); % zero V out so we can add into it
+%
+%% add the terms of the sum into V
+%for m=0:Nterms
+%   V=V+cosh((2*m+1)*pi*X/a)/cosh((2*m+1)*pi*b/a).*sin((2*m+1)*pi*Y/a)/(2*m+1);
+%end
+%
+%V=4*Vo/pi*V; % put on the multiplicative constant
+%
+%surf(X,Y,V) % surface plot the result
+%xlabel('x');
+%ylabel('y');
+%zlabel('V(x,y)')
+%\end{VerbatimOut}
+%\end{codeexample}
 
-%For on-screen viewing these standard plot appearance commands will
-%usually be fine.  If you want to make publication quality figures
-%you will have to work harder. See Chapter~\ref{chap:Plots} for more
-%information.
+\section{Contour Plots}
 
-\subsection*{Labeling your plots}
-To label the $x$ and $y$ axes, do this after the {\tt plot} command:
-\begin{Verbatim}
-pyplot.xlabel('Distance (m)')
-pyplot.ylabel('Amplitude (mm)')
-\end{Verbatim}
-And to put a title on you can do this:
-\begin{Verbatim}
-pyplot.title('Oscillations on a String')
-\end{Verbatim}
-\index{Lettering plots} \index{Text, on plots} To write on your
-plot, you can use Python's {\tt text} command in the format:
-\begin{Verbatim}
-pyplot.text(10,.5,'Hi');
-\end{Verbatim}
-which will place the text ``Hi'' at position $x=10$ and $y=0.5$ on
-your plot.
-
-You can also build labels and titles that contain numbers you have
-generated; just construct a formatted string and then use this string
-variable as the argument of the commands {\tt xlabel}, {\tt ylabel},
-and {\tt title}, like this:
-\begin{Verbatim}
-s = 'Oscillations with k={:.d}'.format(5)
-pyplot.title(s)
-\end{Verbatim}
-In this example we hard-coded the number 5, but you can do the same
-thing with variables.
-
-
-\subsection*{Greek Letters, Subscripts, and Superscripts}
-
-\marginpar{\captionsetup{type=table}
-\begin{tabular}{ll}
-$\alpha$   & $\backslash$alpha   \\
-$\beta$    & $\backslash$beta    \\
-$\gamma$   & $\backslash$gamma   \\
-$\delta$   & $\backslash$delta   \\
-$\epsilon$ & $\backslash$epsilon \\
-$\phi$     & $\backslash$phi     \\
-$\theta$   & $\backslash$theta   \\
-$\kappa$   & $\backslash$kappa   \\
-$\lambda$  & $\backslash$lambda  \\
-$\mu$      & $\backslash$mu      \\
-$\nu$      & $\backslash$nu      \\
-$\pi$      & $\backslash$pi      \\
-$\rho$     & $\backslash$rho     \\
-$\sigma$   & $\backslash$sigma   \\
-$\tau$     & $\backslash$tau     \\
-$\xi$      & $\backslash$xi      \\
-$\zeta$    & $\backslash$zeta    \\
-\end{tabular}
-\captionof{table}{The lowercase Greek letters in LaTeX\label{tab:Greek}}
-}
-
-\index{Greek letters} \index{LaTeX and Greek letters} When you put
-labels and titles on your plots you can print Greek letters,
-subscripts, and superscripts by using the LaTeX syntax. To print
-Greek letters the string should be preceded with an 'r' and the math
-should be enclosed in \texttt{\$}, like
-this:
-\begin{Verbatim}
-pyplot.xlabel(r'$\theta$')
-pyplot.ylabel(r'F($\theta)$')
-\end{Verbatim}
-And to put a title on you can do this:
-\begin{Verbatim}
-pyplot.title(r'F($\theta$)=$\sin$(5 $\theta$)')
-\end{Verbatim}
-You can use formatted strings to insert variables into your titles
-\begin{Verbatim}
-s=r'F($\theta$)=$\sin$({:d} $\theta$)'.format(5)
-pyplot.title(s)
-\end{Verbatim}
-\index{LaTeX symbols in sprintf} \index{Sprintf, LaTeX symbols}
-You can also print capital Greek letters, like this
-$\backslash$Gamma, i.e., you just capitalize the first letter.
-
-\index{Subscripts, superscripts} To put a subscript on a character
-use the underscore character on the keyboard: $\theta_1$ is coded
-by typing $\backslash${\tt theta\_1}. And if the subscript is more
-than one character long do this: $\backslash${\tt theta\_\{12\}}
-(makes $\theta_{12}$). Superscripts work the same way only using
-the {\tt $\wedge$} character: use $\backslash${\tt
-theta$\wedge$\{10\}} to print $\theta^{10}$.
+Contour plots can be generated in a very similar way as for surface
+plots.  Instead of using \code{plot_surface} or \code{plot_wireframe},
+the command \code{contour} is used.  Look at the example below.
 
 
-\section{Multiple Plots}
-
-\index{Multiple plots} \index{Figure windows} You may want to put
-one graph in figure window 1, a second plot in figure window~2,
-etc. To do so, put the Python command {\tt pyplot.figure()} before each plot
-command, like this
-\begin{Verbatim}
-from numpy import arange, sin, cos
+\begin{codeexample}
+\begin{VerbatimOut}{\listingFile}
+from numpy import arange,meshgrid,cos,exp,pi,mgrid
 from matplotlib import pyplot
 
-x=arange(0,20,0.01)
-f1=sin(x)
-f2=cos(x)/(1+x**2)
-pyplot.figure()
-pyplot.plot(x,f1)
-pyplot.figure()
-pyplot.plot(x,f2)
+# Define the arrays x and y
+# Don't make the step size too small or you will kill the
+# system (you have a large, but finite amount of memory)
+x=arange(-1,1,0.05)
+y=arange(0,1.5,0.05)
+
+# Use meshgrid to convert these 1-d arrays into 2-d matrices
+# of x and y values over the plane
+X,Y=meshgrid(x,y)
+#X,Y=mgrid[-1:1:0.1,0:1.5:0.1]  # You could also do this in place of meshgrid
+# Get F(x,y) by using F(X,Y). Note the use of .* with X and Y
+# rather than with x and y
+F=(2-cos(pi*X))*exp(Y)
+
+# Plot the function
+pyplot.contour(X,Y,F)
+pyplot.xlabel('x')
+pyplot.ylabel('y')
 pyplot.show()
-\end{Verbatim}
+\end{VerbatimOut}
+\end{codeexample}
 
-\subsection*{Overlaying Plots}
-\index{Overlaid plots} \index{Hold on, off} Often you will want to
-overlay two plots on the same set of axes.
-Here's the first way---just ask for multiple plots on the
-same plot line
-\begin{Verbatim}
-pyplot.plot(x,f1,'r-',x,f2,'b-')
-pyplot.title('First way')
-\end{Verbatim}
-Here's the second way. After the first plot, tell Python
-to hold the plot so you can put a second one with it
-\begin{Verbatim}
+\section{Vector Field Plots}
+\index{Vector Field Plots} \index{Quiver plots}
+
+Python will plot vector fields for you with arrows. This is a good
+way to visualize flows, electric fields, magnetic fields, etc. The
+command that makes these plots is {\tt quiver} and the code below
+illustrates its use in displaying the electric field of a line
+charge and the magnetic field of a long wire.  Note that the vector
+field components must be computed in Cartesian geometry.
+\begin{codeexample}
+\begin{VerbatimOut}{\listingFile}
+from numpy import arange, meshgrid,sqrt,log
+from matplotlib import pyplot
+x = arange(-5.25,5.25,0.5) # define the x and y grids (avoid (0,0))
+y = arange(-5.25,5.25,0.5) # define the x and y grids (avoid (0,0))
+
+X,Y=meshgrid(x,y)
+
+# Electric field of a long charged wire
+Ex=X/(X**2+Y**2)
+Ey=Y/(X**2+Y**2)
+
+pyplot.quiver(X,Y,Ex,Ey) # make the field arrow plot
+pyplot.title('E of a long charged wire')
+pyplot.axis('equal')  # make the x and y axes be equally scaled
+
+# Magnetic field of a long current-carrying wire
+Bx=-Y/(X**2+Y**2)
+By=X/(X**2+Y**2)
+
+# make the field arrow plot
 pyplot.figure()
-pyplot.plot(x,f1,'r-')
-pyplot.plot(x,f2,'b-')
-pyplot.title('Second way')
+pyplot.quiver(X,Y,Bx,By)
+pyplot.axis('equal')  # make the x and y axes be equally scaled
+pyplot.title('B of a long current-carrying wire')
+
+# The big magnitude difference across the region makes most arrows too small
+# to see.  This can be fixed by plotting unit vectors instead
+# (losing all magnitude information, but keeping direction)
+B=sqrt(Bx**2+By**2)
+Ux=Bx/B
+Uy=By/B
+
+pyplot.figure()
+pyplot.quiver(X,Y,Ux,Uy);
+pyplot.axis('equal')  # make the x and y axes be equally scaled
+pyplot.title('B(wire): unit vectors')
+
+# Or, you can still see qualitative size information without such a big
+# variation in arrow size by having the arrow length be logarithmic.
+Bmin=B.min()
+Bmax=B.max()
+# s is the desired ratio between the longest arrow and the shortest one
+s=2  # choose an arrow length ratio
+k=(Bmax/Bmin)**(1/(s-1))
+logsize=log(k*B/Bmin)
+Lx=Ux*logsize
+Ly=Uy*logsize
+
+pyplot.figure()
+pyplot.quiver(X,Y,Lx,Ly)
+pyplot.axis('equal')  # make the x and y axes be equally scaled
+pyplot.title('B(wire): logarithmic arrows')
 pyplot.show()
-\end{Verbatim}
-The second way is convenient if you have lots of plots to put on
-the same figure.  
+\end{VerbatimOut}
+\end{codeexample}
+\index{Zoom in and out} There may be too much detail to really see
+what's going on in some field plots. You can work around this
+problem by clicking on the zoom icon on the tool bar and then using
+the mouse to define the region you want to look at. Clicking on the
+zoom-out icon, then clicking on the figure will take you back where
+you came from. Or double-click on the figure will also take you
+back.
 
-\subsection*{Subplots}
+\section{Streamlines}
 
-It is often helpful to put multiple plots in the same figure, but
-on separate axes. The command to produce plots like this is {\tt
-subplot}, and the syntax is \texttt{subplot(rows,columns,plot
-number)} This command splits a single figure window into an array
-of subwindows, the array having {\tt rows} rows and {\tt columns}
-columns. The last argument tells Python which one of the windows
-you are drawing in, numbered from plot number 1 in the upper left
-corner to plot number {\tt rows*columns} in the lower right corner,
-just as printed English is read. See online help for more
-information on subplots.  For instance, to make two-row figure, do
-this
-\begin{Verbatim}
-pyplot.subplot(2,1,1)
-pyplot.plot(x,f1)
-pyplot.subplot(2,1,2)
-pyplot.plot(x,f2)
-\end{Verbatim}
+In addition to plotting little arrows at each point in the vector field, you
+can plot ``streamlines.'' For fluid dynamics, streamlines show the path that
+a particle would follow if the arrows at each point represent the fluid
+velocity at that point.  In electricity and magnetism, flow lines for the
+electric and magnetic fields are the field lines that you learned about in
+your introductory electricity and magnetism course.
 
+As mentioned above, the streamline plotting routine assumes that the grid data
+was created in the {\tt meshgrid} format rather than the {\tt mgrid} format.
 
+\begin{codeexample}
+\begin{VerbatimOut}{\listingFile}
+from numpy import arange, mgrid,ones,array
+from matplotlib import pyplot
+x = arange(0,1,0.1) 
+y = arange(0,1,0.1) 
 
-%\chapter{Plotting}
-%\label{chap:Plotting}
-%
-%Creating plots is an important task in science and engineering.  The
-%old addage ``A picture is worth a thousand words!'' is wrong.... it's
-%worth way more than that if you do it right.  
-%\section{Plotting Data}
-%Python does not plot functions.  This is true of any computer
-%software used to make plots.  Rather, the computer samples the
-%function at a series of points in the domain and plots those points.
-%In python, we can create a plot like this using a library called
-%\texttt{matplotlib}.  A simple scatter plot can be generated like this
-%\begin{Verbatim} 
-%from matplotlib import pyplot  #Import necessary functions
-%
-%xData = [1.2,2.3,8.3,10.5]  # x-coordinates of the data points
-%xData = [2.2,8.5,1.2,3.5]   # y-coordinates of the data points
-%pyplot.scatter(xData,yData)  # make the plot
-%pyplot.show()                # Display the plot to your screen.
-%\end{Verbatim} 
-%Here we have plotted some data and displayed them to the screen.
-%\subsection*{Customizing Scatter Plots}
-%You can easily modify the style,color, and size of the plot markers.
-%The change the style of the plot marker, add the optional
-%\texttt{marker} argrument to the scatter function, like this
-%\begin{Verbatim} 
-%pyplot.scatter(xData,yData,marker='+') # Use plus sign as the marker  
-%\end{Verbatim} 
-%A list of plot marker styles is given in table \ref{tab:styles}
-%\marginpar{\footnotesize\captionsetup{type=table}
-%  \vspace{0.5in}
-%\begin{tabular}{ll}
-%\texttt{'+'} & Plus \\
-%\texttt{'.'} & Point \\
-%\texttt{','} & Pixel \\
-%\texttt{'v'} & Triangle down \\
-%\texttt{'8'} & Octagon \\
-%\texttt{'s'} & Square \\
-%\texttt{'p'} & Pentagon \\
-%\texttt{'x'} & X \\
-%\end{tabular}
-%\captionof{table}{Sampling of available plot markers.\label{tab:styles}}
-%}
-%
-%
-%\section{Plotting Functions}
-%Plotting a function requires that you sample the function at some
-%regular interval and then use those function samples to create a plot
-%similar to the one we did above. You can then connect the plotted
-%points using the \texttt{plot} function (also inside of
-%\texttt{matplotlib}).
-%\begin{Verbatim}
-%from numpy import arange
-%from math import sin
-%from matplotlib import pyplot
-%xData = arange(0,10,.01):
-%yData = [sin(x) for x in xData] # Map the function onto my domain
-%pyplot.plot(xData,yData)
-%pyplot.show()
-%\end{Verbatim}
-%The \texttt{plot} function connects the data points being plotted.
-%The \texttt{arange} function has been used to create a dense mesh of
-%points to sample my function over.  Using the \texttt{range} function
-%would probably not be a good choice here because it can't 
-%Notice that \texttt{arange} takes three arguments: starting position,
-%ending position, and step size.  You should take a look at the
-%variable \texttt{xData} to see what you just created.  Also note the
-%line that was used to generate the function values (\texttt{yData}).
-%This is a compact way to combine a loop with a list and is worthwhile
-%to learn.  Notice that I am evaluating \texttt{sin(x)} at each point
-%in my list called \texttt{xData} and saving each number in a list
-%(hence the brackets enclosing the whole things).  When
-%I'm all done, I have a list of function values evaluated at the exact
-%points in \texttt{xData}.\sidenote{Think about this until it makes
-%  sense.  It will save you time.}
-%
-%\section{Histograms}
-%Histograms are very useful plots when thinking about mean values and
-%spread in data sets.  As with the other plots, the library
-%\texttt{matplotlib} has the needed function to create this plot.
-%Below is an example
-%\begin{Verbatim}
-%from matplotlib import pyplot
-%measurements = [3.46,2.48,1.98,3.42,3.56,3.87,3.9,4.2,2.9]
-%pyplot.hist(measurements)
-%pyplot.show()
-%\end{Verbatim}
-%
-%
-%\section{Displaying multiple plots}
-%Frequently you will want to display multiple plots on the same figure.
-% To do this, simply execute multiple plot commands and wait until the
-% end to use the \texttt{show} command, like this:
-%\begin{Verbatim}
-%from matplotlib import pyplot
-%measurements = [3.46, 2.48, 1.98, 3.42, 3.56, 3.87, 3.9, 4.2, 2.9]
-%data =         [2.44, 1.95, 2.64, 2.84, 1.83, 2.79, 3.5, 3.8, 1.9]
-%x =            [1.24, 3.15, 4.62, 1.99, 2.01, 4.78, 2.1, 5.7, 3.2]
-%
-%pyplot.scatter(x,data)
-%pyplot.scatter(x,measurements)
-%pyplot.show()
-%
-%\end{Verbatim}
-%Notice that the \texttt{pyplot.show()}  is only performed once after
-%all of the plot objects have been created.
-%
-%If you want to display multiple plots on the same canvas, you have to
-%use the \texttt{subplots} command, like this:
-%\begin{Verbatim}
-%f, (ax1, ax2) = pyplot.subplots( 2, sharex=True) 
-%\end{Verbatim}
-%
-%This command creates a figure with 2 plots on it: one on top of the other.
-%If you wanted the plots to be in a grid pattern, you could replace the
-%\texttt{2} in the subplots command with \texttt{(2,2)} (for example).
-%This would create a 2 x 2 grid of plots, a total of 4 plots.  Notice
-%that the subplots command is returning 2 things: the figure, and the 2
-%plots.  The figure is the canvas that the plots are being placed on.
-%You can create the plot objects like this:
-%\begin{Verbatim}
-%from scipy.stats import norm  # Import norm to create some data to plot
-%f, (ax1, ax2) = pyplot.subplots( 2, sharex=True) 
-%data= norm.rvs(2.5,0.5,100)  # Create some data to plot
-%ax1.hist(data,bins = 100)  # Create the first plot
-%data= norm.rvs(2.5,0.5,1000)  # Create some more data to plot
-%ax2.hist(data,bins = 100)  # Create the second plot
-%
-%pyplot.show()  #Show the whole thing.
-%
-%
-%\end{Verbatim}
+#Define the position arrays x and y
+X,Y = meshgrid(x,y)
+#X,Y = mgrid[0:1:0.1,0:1:0.1]  #This won't work for streamplots.!!!
+
+#Define the flow velocity arrays u and v
+u = X
+v = -Y
+
+#Create a quiver plot of the flow velocity
+pyplot.figure()
+#pyplot.quiver(X,Y,u,v)
+
+#Plot streamlines that start at different points along the line y=1.
+startx = arange(0.05,0.95,0.05)
+starty = ones(len(startx)) -0.2
+sp = array([startx,starty])
+pyplot.streamplot(x,y,u,v,start_points=sp.T,color='crimson',linewidth = 2)
+pyplot.show()
+\end{VerbatimOut}
+\end{codeexample}
+
+\section{Animations}
+Often you will want to see how a plot evolves over time.  Maybe you
+are plotting the waveform on a string and you want to see how it
+changes in time.  Animations can be built by repeatedly constructing a
+new plot and then waiting before you clear the canvas and plot again.
+Look at the example below to see how to do this:
 
 
+\begin{codeexample}
+\begin{VerbatimOut}{\listingFile}
+from numpy import arange,sin,cos
+from matplotlib import pyplot
+
+t = 0
+x = arange(0,5,0.01)   #Domain over which I want to plot the function.
+ while t < 10:
+    y = sin(5 * x - 3 * t) * cos(2 * x)  #Construct array of function
+                                         # values at current time.
+    pyplot.clf()  # Clear the canvas, otherwise all plots end up on
+                  # top of each other
+    pyplot.plot(x,y,'r-',linewidth=3)
+    pyplot.xlabel('x')
+    pyplot.ylabel('f(x)')
+    pyplot.title('t = {:.4f}'.format(t))
+    pyplot.draw()           # draw the plot, but don't wait for
+                            # someone to close the window.
+    pyplot.pause(0.01)      # Wait before plotting the next one.
+    t = t + .1              # Advance time.
+\end{VerbatimOut}
+\end{codeexample}
+
+Here I am plotting snapshots of the function $\sin(5 x - 3 t) \cos(2
+x)$ from $x = 0$ to $x=5$.  The animation runs from $t=0$ to $t=10$ s.
+You'll want to make sure that you use \code{pyplot.draw()} instead of
+\code{pyplot.show()} like you've done before.  If you use
+\code{pyplot.show()} the animation will stop at each snapshot and
+you'll have to close the figure window to allow the animation to
+proceed.  Also notice the use of the \code{pyplot.clf()} command which
+clears out any previous plots.  If you forget to do this, all of the
+animation's plots will get put on top of each other.  And finally, the
+\code{pyplot.pause(0.01)} command does exactly what it says: waits
+before proceeding to the next plot. Changing the pause time will affect the speed of
+the animation.

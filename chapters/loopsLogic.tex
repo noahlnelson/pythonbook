@@ -18,7 +18,8 @@ Here you are {\it iterating} over the list \code{[3,2,1,9.9]}.  This
 means that the loop variable (\code{i} in this case) gets assigned
 the values of the list elements, one by one, until it reaches the end
 of the list.  You can iterate over lists, arrays, and
-matrices.\sidenote{Technically, an interable is an object that has a
+matrices.  Just as with functions, indentation is used to indicate
+where the loop ends.  \sidenote{Technically, an interable is an object that has a
   member function called \code{next}, but unless you
   understand classes, this is probably confusing to you.}  The list
 that you iterate over can contain anything.\sidenote{Once again,
@@ -76,14 +77,14 @@ check our answer:
 \marginpar{\footnotesize\captionsetup{type=table}
   %\vspace{-2.5in}
 \begin{tabular}{lp{1.05in}}
-\code{==}  &  Equal\\ \\
-\code{!=}  &  Not equal\\ \\
-\code{>=}  &  Greater than or equal\\ \\
-\code{>}  &  Greater than\\ \\
-\code{<=}  &  Less than or equal\\ \\
-\code{and}  &  and\\ \\
-\code{or}  &  or\\ \\
-\code{!}  &  not\\ \\
+\texttt{==}  &  Equal\\ \\
+\texttt{!=}  &  Not equal\\ \\
+\texttt{>=}  &  Greater than or equal\\ \\
+\texttt{>}  &  Greater than\\ \\
+\texttt{<=}  &  Less than or equal\\ \\
+\texttt{and}  &  and\\ \\
+\texttt{or}  &  or\\ \\
+\texttt{!}  &  not\\ \\
 \end{tabular}
 \captionof{table}{Python's logic elements.\label{tab:Logicelements}}
 }
@@ -116,6 +117,43 @@ Study the examples above until it makes sense.  Any logical statement
 can be constructed out of the elements in table
 \ref{tab:Logicelements}
 
+A word of caution about comparing Python floats is in order here.  
+Python floats are stored as a 53-digit, base-2 binary number(that's a
+mouthful).  If you're interested in what that means, we can talk more.
+If you're not that interested, just know that when you define a float
+in python, the number that is stored in the computer is not
+\textbf{exactly} the number that you think it is.  This can cause
+problems when you are comparing two numbers that you think should be
+equal but actually aren't equal in the computer. \sidenote{There is a
+  library called \code{Decimal} that will fix a lot of these
+  problems.}  Try the following to get a feel for this
+\begin{Verbatim}
+a = 0.1
+b = 3 * a
+c = 0.3
+print(b==c)  # Are they the same number?  You would think they would
+             # be right?
+print(b)     # It sure looks like they are the same.
+print(c)     # It sure looks like they are the same.
+print(" {:.45f} ".format(b))  #b--- out to 45 decimal places
+print(" {:.45f} ".format(c))  #c--- out to 45 decimal places
+\end{Verbatim}
+The first two print statement displays the value of \code{b} to one
+decimal place. In the second two print statement I am forcing Python
+to display the value of \code{b} and \code{c} out to 45 decimal
+places.  Notice that the true value of \code{b} is not \ul{exactly}
+equal to 0.3.  This is why the statement \code{print(b==c)} returns
+\code{False}. The take home message here is that comparing two floats
+to see if they are equal \ul{is always a bad idea.}  A better way to
+check to see if two floats are equal (or close enough that we can say
+they are equal) is to check if the absolute value of their difference
+is very small, like this:
+\begin{Verbatim}
+a = 0.1
+b = 3 * a
+c = 0.3
+print(abs(b - c) < 1e-10)
+\end{Verbatim}
 \section{While Loops}
 Logic can be combined with loops using something called a
 \code{while} loop.  A \code{while} loop is a good choice when you
@@ -170,7 +208,7 @@ of function values, like this:
 \begin{Verbatim}
 from numpy import arange,sin
 x = arange(0,10,.01)
-y = sin(myDomain)
+y = sin(x)
 \end{Verbatim}
 Notice that numpy's \texttt{sin} function was used here.  It was
 designed to accept an array of numbers for its argument and it knows

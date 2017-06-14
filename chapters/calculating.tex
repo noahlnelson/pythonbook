@@ -10,24 +10,24 @@ calculation you could want.
 \marginpar{\footnotesize\captionsetup{type=table}
   \vspace{0.5in}
 \begin{tabular}{l}
-\code{sin(x)} \\
-\code{cos(x)} \\
-\code{tan(x)} \\
-\code{arcsin(x)} \\
-\code{arccos(x)} \\
-\code{arctan(x)} \\
-\code{sinh(x)} \\
-\code{cosh(x)} \\
-\code{tanh(x)} \\
-\code{sign(x)} \\
-\code{exp(x)} \\
-\code{sqrt(x)} \\
-\code{log(x)} \\
-\code{log10(x)} \\
-\code{log2(x)} \\
+\texttt{sin(x)} \\
+\texttt{cos(x)} \\
+\texttt{tan(x)} \\
+\texttt{arcsin(x)} \\
+\texttt{arccos(x)} \\
+\texttt{arctan(x)} \\
+\texttt{sinh(x)} \\
+\texttt{cosh(x)} \\
+\texttt{tanh(x)} \\
+\texttt{sign(x)} \\
+\texttt{exp(x)} \\
+\texttt{sqrt(x)} \\
+\texttt{log(x)} \\
+\texttt{log10(x)} \\
+\texttt{log2(x)} \\
 \end{tabular}
 \captionof{table}{A very small sampling of functions belonging to the
-  \code{numpy} library.\label{tab:Numpy}}
+  \texttt{numpy} library.\label{tab:Numpy}}
 }
  Common (and not-so common) mathematical functions like \code{exp}
 and \code{sqrt} are available via the libraries \code{numpy},
@@ -59,7 +59,7 @@ x = [2.42762254  2.53691271  3.15932278  1.7128872   2.54105921  2.54094893
   2.80002452  2.48975877  3.01856681  2.34280246]
 \end{Verbatim}
 and you wanted to calculate the summation
-\begin{equation}
+\begin{equation}\label{eq:sum}
 \sum_{i=1}^N (x_i - D)^3
 \end{equation}
 where $x_i$ are the data given above and $D = 5$.  You could
@@ -91,12 +91,12 @@ myArray = arange(0,10,.1)
 \end{Verbatim}
 This will create an array that looks like this:
 \begin{Verbatim}
-[0,.1,.2,.3,.4,.5,.6.... 9.5,9.6,9.7,9.8,9.9,10]
+[0,.1,.2,.3,.4,.5,.6.... 9.5,9.6,9.7,9.8,9.9]
 \end{Verbatim}
 \marginpar{\footnotesize\captionsetup{type=table} \vspace{-2.5in}
 \begin{tabular}{lp{1.05in}}
 \code{logspace}        & Returns numbers evenly spaced on a
-log scale.  Same arguments as \code{linspace}\\ \\
+log scale.  Same arguments as \texttt{linspace}\\ \\
 \code{empty}        & Returns an empty array with the
 specified shape\\ \\
 \code{zeros}        & Returns an array of zeros with the
@@ -155,6 +155,19 @@ g = xArray * yArray  # Multiply the elements of array one to the elements of
 \end{Verbatim}
 In short, you can do all of the math that you were hoping you could do
 when you first learned about Python lists.
+
+Returning, for a brief moment, to the problem posed at the beginning
+of this section involving the sum in equation \ref{eq:sum}.  Using
+arrays this sum can be evaluated very compactly (assuming that the
+name of the array of numbers is \code{x}):
+\begin{Verbatim}
+D = 5
+sum( (x - D)**3) 
+\end{Verbatim}
+Please note that this could not have been accomplished if x was a list
+of numbers rather than an array of numbers.
+
+
 \subsection*{Evaluating Functions on Arrays}
 What if you wanted to evaluate the \code{sin} function over an
 entire data set.  You surely don't want to loop over every single

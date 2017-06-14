@@ -286,7 +286,7 @@
     \refstepcounter{listingCtr}
     \ifthenelse{\equal{#1}{}}
     {
-        \renewcommand{\listingFile}{ch\thechapter ex\arabic{listingCtr}.m}
+        \renewcommand{\listingFile}{ch\thechapter ex\arabic{listingCtr}.py}
     }
     {
         \renewcommand{\listingFile}{#1}

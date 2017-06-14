@@ -4,52 +4,25 @@
 \marginfig{Figures/pythonCW.jpg}{Canopy's environment for running
   Python code.}
 
-As you read this book, type the commands that
-appear in \code{this font} in the Canopy editor window and run the code by
-pushing the green arrow.
-
 
 When writing a computer program, there are several big ideas, or main
 pillars, that you should grasp to be successful.  Two of those pillars
-are variables and functions. This chapter will focus on helping you
-get comfortable with these ideas.  Later chapters will focus on other
-main ideas and some more specific tasks that can be accomplished using
-these foundational ideas.
-\section{It's a Calculator}
-Simple math can be performed pretty much just as you would
-expect. Here are a few examples
-\begin{Verbatim}
-print(1+2)
-print(5.0/6.0)
-print(5**6)  # 5 raised to the power 6
-print(678 * (3.5 + 2.8)**3.)
-\end{Verbatim}
-Note that typing the calculation alone, without the \code{print}
-statement, will not produce any output to the screen.  Even though the
-calculation has been performed, you will not see the result unless you
-\code{print} it. Throughout this book, the \code{print}
-statement will usually be omitted in code examples to maintain
-brevity.  You should always print your result so you can see what you
-have done.
+are variables and functions. This chapter will focus on assigning,
+manipulating, and using different variable types.  Later chapters will
+focus on other main ideas and some more specific tasks that can be
+accomplished using these foundational ideas.
 
-%You may be wondering about more complex mathematical calculations like
-%$sin(\frac{\pi}{2})$ or $e^{2.5}$.  Can Python evaluate them
-%too?\sidenote{One would sincerely hope so, otherwise it would be of
-%  little use as a scientific tool} We'll save that discussion until
-%we explain functions and libraries.
-
-\section{Variables}
 The simplest, and most fundamental object when programming a computer
 is the variable, which is nothing more than a name which is given to a
 piece of information. It allows the information to be saved (stored)
 so that it can be recalled and used later.  \index{Data types} There
 are different types of variables and each has it's use and
 limitations.  Python has many types of variables, but you will mostly
-use the following types: integer, float, and list.  What follows is a
-brief description of each variable type with some examples to
-illustrate.
+use the following types: integers, floats, lists, and arrays.  What
+follows is a brief description of each variable type (we'll save our
+discussion of arrays until later) with some examples to illustrate.
 
-\subsection*{Integer variables}
+\section{Integer variables}
 Some of you may be used to programming in C++\sidenote{C++ is a
   compiled language, whereas Python is an interpreted language}, where
 the variables are declared before a value is assigned.  In python,
@@ -74,17 +47,21 @@ adds one to whatever value was previously stored in
   quantity back in the variable \code{a}.  However, the mathematical
   equation $a=a+1$ is clearly false.}  Note that {\it variable names
   in Python are case sensitive,} so watch your capitalization.
-\index{Case sensitive} If you want to see the value of a variable, you
-must use the \code{print} command, like this
+\index{Case sensitive} 
+You can define multiple variables by putting the assignements on
+seperate lines:
 \begin{Verbatim}
-print(a)
+a = 2
+b = 4
+c = a * b
 \end{Verbatim}
-
+Here we have stored the value $2$ in \code{a}, the value $4$ in
+\code{b} and then used those assignments to calculate a new value: $ 2
+\times 4$ and assign that value to the variable \code{c}.
 %\reminder{\lefthand}{If you are using version 3 or higher of python,
 %  printing a variable is done like this: \code{print(a)}.}
 Other common mathematical operations can be performed on integer
-variables.\sidenote{For more complex mathematical calculation, wait
-  until we discuss functions.}  For example:
+variables.  For example:
 \begin{Verbatim}
 a = 20
 b = 15
@@ -97,11 +74,11 @@ f = c**4   # raise number to a power (use **, not ^)
 \end{Verbatim}
 Notice that performing an operation on two integers \ul{usually}
 yields another integer.  The one exception is division if you are
-using Python version 2 or earlier.  For
-example, what would be the value of \code{d} above if the result has
-to be an integer?
+using Python version 2 or earlier.  This can pose a serious problem if
+you think about it for a second.  For example, what would be the value
+of \code{d} above if the result has to be an integer?
 
-\subsection*{Float variables}
+\section{Float variables}
 Most meaningful calculations should be performed using floating point
 numbers, or floats in Python.  Float variables are created and assigned in
 one of two ways.  The first way is to simply include a decimal place
@@ -115,12 +92,8 @@ You can also cast an integer variable to a float variable using the
 a = 20
 b = float(a)
 \end{Verbatim}
-\begin{enumerate}
-\prob Check that the calculations that you performed above using integers
-yield different answers when floats are used instead
-\end{enumerate}
-You may wonder what would happen when a float is multiplied by an
-integer, like this
+You may wonder what would happen when a float and an integer are used
+in a calculation, like this
 \begin{Verbatim}
 a = 0.1
 b = 3 * a  #Integer multiplied by a float results in a float.
@@ -128,50 +101,27 @@ b = 3 * a  #Integer multiplied by a float results in a float.
 \marginpar{\footnotesize\captionsetup{type=table}
   \vspace{-2.5in}
 \begin{tabular}{lp{1.05in}}
-\code{abs(x)} & Find the absolute value of x\\ \\
-\code{divmod(x,y)}        & Returns the quotient and remainder when
+\texttt{abs(x)} & Find the absolute value of x\\ \\
+\texttt{divmod(x,y)}        & Returns the quotient and remainder when
 using long division.\\ \\
-\code{x \% y}      & Return the remainder of $\frac{x}{y}$ \\ \\
-\code{float(x)}      & convert \code{x} to a float. \\ \\
-\code{int(x)}      & convert \code{x} to an integer. \\ \\
-\code{round(x)}  & Round the number \code{x} using standard
+\texttt{x \% y}      & Return the remainder of $\frac{x}{y}$ \\ \\
+\texttt{float(x)}      & convert \texttt{x} to a float. \\ \\
+\texttt{int(x)}      & convert \texttt{x} to an integer. \\ \\
+\texttt{round(x)}  & Round the number \texttt{x} using standard
 rounding rules \\ \\
 \end{tabular}
 \captionof{table}{A sampling of built-in functions commonly used with integers
   and floats.\label{tab:HousekeepingFloats}}
-} .  The result of such a calculation is always a float.  Only when
+}.  
+The result of such a calculation is always a float.  Only when
 all of the numbers used in a calculation are integers is the result an
 integer.
-Numbers can be entered using scientific notation like this
+Floats can be entered using scientific notation like this
 \begin{Verbatim}
 1.23e15
 \end{Verbatim}
-Python floats are stored as a 53-digit, base-2 binary number(that's a
-mouthful).  If you're interested in what that means, we can talk more.
-If you're not that interested, just know that when you define a float
-in python, the number that is stored in the computer is not
-\textbf{exactly} the number that you think it is.  This can cause
-problems when you are comparing two numbers that you think should be
-equal but actually aren't equal in the computer. \sidenote{There is a
-  library called \code{Decimal} that will fix a lot of these
-  problems.}  Try the following to get a feel for this
-\begin{Verbatim}
-a = 0.1
-b = 3 * a
-print(b)
-print(" {:.45f} ".format(b))  #Formatted print: you haven't learned
-                              #about this yet
-\end{Verbatim}
-The first print statement displays the value of \code{b} to one
-decimal place.  The second print statement is called a formatted print
-and you'll learn about it a little later.  In this case I am forcing
-Python to display the value of \code{b} out to 45 decimal places.
-Notice that the true value of \code{b} is not \ul{exactly} equal to
-0.3.  You'll want to keep this fact in mind when you are comparing two
-numbers that you think are equal.  When we study logical statements
-this should become more clear.
 
-\subsection*{Boolean variables}
+\section{Boolean variables}
 A boolean variable is one that stores one of two possible values: True
 or False.  A boolean variable is created and assigned similar to the
 other variables you've studied so far
@@ -181,26 +131,29 @@ myVar = True
 The purpose for using a boolean variable will become more clear as you
 study loops and logical statements, so stay tuned.
 
-\subsection*{Lists}
-Lists are heavily-used data types in mathematical and
-scientific programming.  You can think of a list as a
-container that holds multiple pieces of information. The list could
-hold integers, floats, strings, or really just about anything. A list
-is created and assigned in a manner similar to the way floats and
-integers are, like this:
+\section{Lists}
+It is very important that you fully grasp the concept of a list
+variable.  They are heavily-used in mathematical and scientific
+programming.  You can think of a list as a container that holds
+multiple pieces of information. The list could hold integers, floats,
+strings, or really just about anything.  Let's see how we might create
+a list.
+
+\subsection*{Creating Lists}
+The easiest way to create  a list is by putting the list element
+inside of square brackets, like this:
 \begin{Verbatim}
 a = [5.6 , 2.1 , 3.4 , 2.9]
 \end{Verbatim}
-Note the use of brackets (\code{[]}) when creating the list. If you
-accidentally use parenthesis (\code{()})\sidenote{Use parenthesis to
-  create a tuple, which is just like a list but cannot be modified.}
-or curly brackets (\code{\{\}})\sidenote{Use curly brackets to
-  create a dictionary, which is like a list but can be indexed on any
-  data type, not just integers} you'll end up creating something other
-than a list.
-
-\noindent Python has a built-in function called \code{range} that can be used
-to construct a list of integers, like this
+Note that square brackets (\code{[]}) must be used when creating the
+list. If you accidentally use parenthesis (\code{()})\sidenote{Use
+  parenthesis to create a tuple, which is just like a list but cannot
+  be modified.}  or curly brackets (\code{\{\}})\sidenote{Use curly
+  brackets to create a dictionary, which is like a list but can be
+  indexed on any data type, not just integers} you'll end up creating
+something other than a list.  
+Another way to create a list is with
+Python's \code{range} function:
 \begin{Verbatim}
 a = range(10,52,3)
 \end{Verbatim}
@@ -229,9 +182,6 @@ You can even define a list of lists:
 \begin{Verbatim}
 a = [[4,3,2],[1,2.5,90],[4.2,2.9,10.5],[239.4,1.4],[2.27,98,234,16.2]]
 \end{Verbatim}
-though you should not think of this as a matrix and try to perform
-matrix math on it. To do that sort of thing, we'll need to learn about
-arrays.
 \subsection*{Accessing and Slicing lists}
 Accessing an element of a list (this will be done frequently so pay
 attention!) can be accomplished using square brackets, like this
@@ -268,30 +218,7 @@ list that is extracted starts at element \code{x}, ends at element
 \code{y} (but does not include element \code{y}), while stepping in
 increments of \code{z}.  Note that the last number is optional, and
 omitting it will result in a default value of 1 for the step size.
- \marginpar{\footnotesize\captionsetup{type=table}
-  \vspace{-4.5in}
-\begin{tabular}{lp{1.05in}}
-\code{a[x]}        & Access element \code{x} in list \code{a}\\
-\code{a[x:y:z]}        & Extract a slice of list \code{a}\\
-\code{a.append(x)}        & Append \code{x} to list \code{a} \\
-\code{a.pop()}      & Remove the last element of list \code{a}. \\
-\code{len(a)}  & Find the number of elements in \code{a} \\
-\code{range(x,y,z)}  & Create a list of integers, starting at x,
-ending at y, and stepping in increments of z.\\
-\code{a.insert(x,y)}    & Insert \code{y} at location
-\code{x} in list \code{a} \\
-\code{a.sort()}  & Sort list \code{a} from least to greatest. \\
-\code{filter(f,x)}        & Filter list \code{x} using the
-criteria function \code{f}(see lambda functions).\\
-\code{a.reverse()}  & Reverse the order of list \code{a}. \\
-\code{a.index(x)}  & Find the index where element x resides. \\
-\code{a + b}  & Join list \code{a} to list \code{b} to form one list. \\ \\
-\code{max(a)}  & Find the largest element of \code{a} \\ \\
-\code{min(a)}  & Find the smallest element of \code{a} \\ \\
-\code{sum(a)}  & Returns the sum of the elements of \code{a} \\ \\
-\end{tabular}
-\captionof{table}{A sampling of ``housekeeping'' functions for lists.\label{tab:HousekeepingList}}
-}
+
 
 When working with a list of list (also called a 2-dimensional list)
 accessing an individual element requires two indices, like this
@@ -300,25 +227,31 @@ a = [[4,3,2],[1,2.5,90],[4.2,2.9,10.5],[239.4,1.4],[2.27,98,234,16.2]]
 c = a[3][1]
 \end{Verbatim}
 Here \code{[3][1]} means we are accessing the 2nd element of the 4th
-list. (remember: Python lists are zero-indexed) You may also think of
-this as the 4th row and 2nd column of the matrix.  Warning: Don't
-conceptualize 2-d lists as matrices and try to slice out a
-sub-matrix.  For example, try this
-\begin{Verbatim}
-a = [[4,3,2],[1,2.5,90],[4.2,2.9,10.5],[239.4,1.4],[2.27,98,234,16.2]]
-c = a[0:3][0:2]
-\end{Verbatim}
-Slicing a 2-d list like this is rather redundant.  First you slice out
-the first three elements of the main list, resulting in a list of 3
-lists.  The second slice is performed on the result of the first
-slice giving a list of 2 lists.  The same result could have been
-extracted with the following slice:
-\begin{Verbatim}
-a = [[4,3,2],[1,2.5,90],[4.2,2.9,10.5],[239.4,1.4],[2.27,98,234,16.2]]
-c = a[0:2]
-\end{Verbatim}
-The take home message here is to just not ever think of lists as
-mathematical matrices.  Just think of them as data containers.
+list. (remember: Python lists are zero-indexed) 
+ \marginpar{\footnotesize\captionsetup{type=table}
+  \vspace{-4.5in}
+\begin{tabular}{lp{1.05in}}
+\texttt{a[x]}        & Access element \texttt{x} in list \texttt{a}\\
+\texttt{a[x:y:z]}        & Extract a slice of list \texttt{a}\\
+\texttt{a.append(x)}        & Append \texttt{x} to list \texttt{a} \\
+\texttt{a.pop()}      & Remove the last element of list \texttt{a}. \\
+\texttt{len(a)}  & Find the number of elements in \texttt{a} \\
+\texttt{range(x,y,z)}  & Create a list of integers, starting at x,
+ending at y, and stepping in increments of z.\\
+\texttt{a.insert(x,y)}    & Insert \texttt{y} at location
+\texttt{x} in list \texttt{a} \\
+\texttt{a.sort()}  & Sort list \texttt{a} from least to greatest. \\
+\texttt{filter(f,x)}        & Filter list \texttt{x} using the
+criteria function \texttt{f}(see lambda functions).\\
+\texttt{a.reverse()}  & Reverse the order of list \texttt{a}. \\
+\texttt{a.index(x)}  & Find the index where element x resides. \\
+\texttt{a + b}  & Join list \texttt{a} to list \texttt{b} to form one list. \\ \\
+\texttt{max(a)}  & Find the largest element of \texttt{a} \\ \\
+\texttt{min(a)}  & Find the smallest element of \texttt{a} \\ \\
+\texttt{sum(a)}  & Returns the sum of the elements of \texttt{a} \\ \\
+\end{tabular}
+\captionof{table}{A sampling of ``housekeeping'' functions for lists.\label{tab:HousekeepingList}}
+} 
 \subsection*{Built-in Functions for Lists}
 Python has many built-in functions that work on lists.  You've already
 seem some of them.  Here are a few examples
@@ -338,11 +271,42 @@ comprehensive list.  A complete list of available function can be
 found in the appendix.
 
 
-\subsection*{Vector and Matrix Math: A warning}
- You may feel tempted to associate a
-list with a mathematical vector and try to perform vector math on
-them. We've mentioned this warning before but just want to further emphasis
-what list cannot be used to do. For instance, it may seem natural to try
+\subsection*{A warning: What not to do with lists}
+There are several things that seem natural to do with lists but that
+should not (cannot) be done.  First, it may be tempting to associate a
+2-D list with a matrix and try to use the \code{:} to slice out a
+submatrix.  For example, what if you defined the following 2D list
+\begin{Verbatim}
+from numpy import array
+a = array([[1,2,3],[4,5,6],[7,8,9]])
+\end{Verbatim}
+and interpreted it as this matrix:
+\begin{equation}
+\left( \begin{tabular}{ccc}
+1 & 2 & 3\\
+4 & 5 & 6\\
+7 & 8 & 9\\
+\end{tabular}
+\right)
+\end{equation}
+If you wanted to slice out the following 2 x 2 sub-matrix:
+\begin{equation}
+\left(\begin{tabular}{cc}
+5 & 6 \\
+8 & 8 \\
+\end{tabular}
+\right)
+\end{equation}
+and you tried to do it like this:
+\begin{Verbatim}
+b[1:3][1:3] 
+\end{Verbatim}
+you would be disappointed to find out that it did not work.  Lesson
+\#1: Don't treat 2D lists as matrices.
+
+Second, you may feel tempted to associate a list with a mathematical
+vector and try to perform vector math on them. For instance, it may
+seem natural to try
 \begin{Verbatim}
 a = [5.1 , 3.2 , 6.8 , 9.2]
 b = 5 * a
@@ -353,15 +317,18 @@ a = [5.1 , 3.2 , 6.8 , 9.2]
 b = [2.7 , 1.9 , 3.2 , 9.9]
 c = a + b
 \end{Verbatim}
-\begin{enumerate}
-\prob  Try the above operations and explain the results.
-\end{enumerate}
-Doing vector or matrix math (any math that involves an operation on
-lists of numbers, not just single numbers) \underline{cannot be done
-  with a list}.  If you were allowed to do that, what would happen
-when your lists were filled with non-numerical data.  This doesn't
-mean that the numbers \ul{stored in lists} can't be extracted and used in
-mathematical calculations, like this
+Can you explain the results?  So lesson \# 2 is: Doing vector or
+matrix math \underline{cannot be done with a list}.  If you were
+allowed to do that, what should Python do when your lists were filled
+with non-numerical data, like this:
+\begin{Verbatim}
+a = ['Physics', 'is']
+b = ['the', 'coolest', 'topic']
+c = a + b
+\end{Verbatim}
+  This doesn't mean that the numbers \ul{stored in
+  lists} can't be extracted and used in mathematical calculations,
+like this
 \begin{Verbatim}
 a = [4.5,8,2.1,10.8,12]
 c = a[0]**a[1]  # Take the first element of a and raise it to a power
@@ -372,7 +339,7 @@ of numbers (like vector and matrix math) cannot be done using the list
 data type.  However, don't think for one second that Python is unable
 to handle this kind of math.  Just keep reading and you'll learn how
 this is done.
-\subsection*{String Variables}
+\section{String Variables}
 \index{Strings} String variables contain a sequence of characters, and
 can be created and assigned using quotes, like this
 \begin{Verbatim}
@@ -412,17 +379,17 @@ a[2:15]
 \marginpar{\footnotesize\captionsetup{type=table}
   \vspace{-2.5in}
 \begin{tabular}{lp{1.05in}}
-\code{a.join(b)}  & Join all elements in list \code{b} while
-placing string \code{a} between each pair of elements.\\ \\
-%\code{str.capitalize()}  & Capitalize all characters in string
-%\code{str} \\ \\
-\code{a.count(b)}  & Count the number of occurrences of
-string \code{b} in string \code{a}\\ \\
-\code{a.lower()}  & Convert upper case letters to lower case \\ \\
-\code{a[x]}  &  Access element \code{x} in string \code{a} \\ \\
-\code{a[x:y:z]}  &  Slice a string, starting at element
-\code{x}, ending at element \code{y}, with a step size of \code{z} \\ \\
-\code{a + b}  &  Concatenate strings \code{a} and \code{b}.  \\ \\
+\texttt{a.join(b)}  & Join all elements in list \texttt{b} while
+placing string \texttt{a} between each pair of elements.\\ \\
+%\texttt{str.capitalize()}  & Capitalize all characters in string
+%\texttt{str} \\ \\
+\texttt{a.count(b)}  & Count the number of occurrences of
+string \texttt{b} in string \texttt{a}\\ \\
+\texttt{a.lower()}  & Convert upper case letters to lower case \\ \\
+\texttt{a[x]}  &  Access element \texttt{x} in string \texttt{a} \\ \\
+\texttt{a[x:y:z]}  &  Slice a string, starting at element
+\texttt{x}, ending at element \texttt{y}, with a step size of \texttt{z} \\ \\
+\texttt{a + b}  &  Concatenate strings \texttt{a} and \texttt{b}.  \\ \\
 \end{tabular}
 \captionof{table}{A sampling of ``housekeeping'' functions for strings.\label{tab:HousekeepingStrings}}
 }
@@ -430,7 +397,7 @@ string \code{b} in string \code{a}\\ \\
 string unless you first convert the string to a list, like this
 \begin{Verbatim}
 a = 'Hello, my name is B. Nelson'
-b = list(a)  # convert string \code{a} to a list
+b = list(a)  # convert string a to a list
 b[18] = 'S'  # Modify the 18th element in the list.
 c = "".join(b)  # Join all the elements back together into one string.
 \end{Verbatim}
@@ -468,197 +435,26 @@ Notice the structure of this print statement: A string followed by the
 \code{.} operator and the \code{format()} function. The variables to
 be printed are provided as arguments to the \code{format} statement
 and are inserted into the string sequentially wherever curly braces
-(\code{\{\}}) are found.
- The odd characters inside of the curly braces indicate how you would
- like the variable formatted when it is printed. The \code{:d} is
- used to indicate an integer variable and \code{:f} is used for
- floats.  Further specifications regarding spacing can also be made.
- The \code{5.2} in the float formatting indicates that I'd like the
- number to be displayed with at least 5 digits and 2 numbers after the
- decimal.  A
- summary of what is available is given in table \ref{tab:HousekeepingFormat}
+(\code{\{\}}) are found.  The odd characters inside of the curly
+braces are a format code: they indicate how you would like the
+variable formatted when it is printed. The \code{:d} is used to
+indicate an integer variable and \code{:f} is used for floats.
+Further specifications regarding spacing can also be made.  The
+\code{5.2} in the float formatting indicates that I'd like the number
+to be displayed with at least 5 digits and 2 numbers after the
+decimal.  A summary of what is available is given in table
+\ref{tab:HousekeepingFormat}
 
 \marginpar{\footnotesize\captionsetup{type=table}
   \vspace{-2.5in}
 \begin{tabular}{lp{1.05in}}
-\code{\{:4d\}}  & Display integer with 4 spaces\\ \\
-\code{\{:.4f\}}  & Display float with 4 numbers after the decimal\\ \\
-\code{\{:8.4f\}}  & Display float with at leasat 8 total spaces and 4 numbers after the decimal\\ \\
+\texttt{\{:4d\}}  & Display integer with 4 spaces\\ \\
+\texttt{\{:.4f\}}  & Display float with 4 numbers after the decimal\\ \\
+\texttt{\{:8.4f\}}  & Display float with at leasat 8 total spaces and 4 numbers after the decimal\\ \\
 \end{tabular}
 \captionof{table}{Formatting strings available when printing.\label{tab:HousekeepingFormat}}
 }
 
-\section{Functions}
-A function is simply a set of instructions that will be performed when
-called upon.  The function can be as long and complex or short and
-succinct as you wish.  You can think of a function as a black box. You
-create the contents of the box, specify what information needs to
-enter the box for it to be able to accomplish it's task, and what
-information will exit the box.  Why a black box?  Well, one benefit of
-functions is that the user of it doesn't need to know what's inside.
-She only needs to know what information the box needs and what
-information the box will give back to her.
-
-\subsection*{User-defined functions}
-At times it will be beneficial for you to write a function that you
-have designed.  You (the programmer) can create your own function like
-this
-\begin{Verbatim}
-def myFunction(a,b):
-    c = a + b
-    d = 3.0 * c
-    f = 5.0 * d**4
-    return f
-\end{Verbatim}
-This function performs several simple calculations and then uses the
-\code{return} statement to pass the final result back out of the
-function.(what exits the black box) Every user-defined function must
-begin with the keyword \code{def} followed by the function name (you
-can choose it). The variables \code{a} and \code{b} are the
-arguments to the function. (the things that must enter the black box)
-Python does not use an \code{end} statement or anything like it to
-signal the end of a function.  Instead, it looks for indentation to
-determine where the function ends.
-
-The function can be called like this
-\begin{Verbatim}
-r = 10
-t = 15
-result = myFunction(r,t)
-\end{Verbatim}
-In this case, when the function is called, \code{a} gets assigned
-the value of $10$ and \code{b} gets assigned the value of $15$.  The
-result of this calculation is stored in the variable \code{result},
-which is outside the function.
-\subsection*{Lambda (unnamed) functions}
-The user-defined function above had 4 lines in it.  Other functions
-could be even longer.  Sometimes, however, the function you need to
-define is quite simple (maybe even one line) and it'd be nice if you
-could define it in one line.  Luckily, you can.  It's
-called a lambda function and here is an example:
-\begin{Verbatim}
-f = lambda x: x**3  #Define the function
-print f(5)   # Evaluate the function
-g = lambda x,y: x + y # Function of two variables
-pritn g(5,6)
-\end{Verbatim}
-Here we defined the function $f(x) = x^3$, a function of one variable,
-and quickly evaluated it.  Your lambda functions can have as many
-arguments as you'd like: just seperate the arguments with commas.  At
-this point, you may be asking yourself why this is such a big deal:
-Why would you ever really need to do this.  Well, there are some
-python \underline{functions that take functions as their
-  arguments}.\sidenote{Stop and process that for a minute.}(as opposed
-to taking simple numbers or strings) An example of this is the
-\code{filter} function which serves to extract elements of a list
-according to some criteria.  The exact details of the criteria are
-specified using a lambda function.  Here's an example:
-\begin{Verbatim}
-a = [1,3,4,6,9,2,3,8]
-b = list( filter( lambda x: (x % 2 == 0) , a ) )
-print b
-\end{Verbatim}
-Notice how the \code{filter} function is used.  The first argument
-is the criteria function: the function the dictates which of the list
-elements you want extracted. It's not an integer or a float or a
-sting.  It's actually a function: something that takes an argument and
-returns a result.  In this case, the filter function was being used to
-extract the elements of \code{a} that were multiples of $2$ and the
-lambda function serves to check each number in the list and return
-either \code{True} or \code{False}.
-
-\subsection*{Imported Functions and Libraries}
-Thus far you have performed very simple mathematical
-calculations. ($5/6, 8^4$, etc..)
-However, you were probably left wondering about more complex
-mathematical calculations, like $\sin(\frac{\pi}{2})$ or $e^{2.5}$.
-
-Many times, the function that you need is available already. Somebody
-else has already created the function and made it available to anyone
-who wants it.  Groups of functions that perform similar tasks are usually
-bundled together into libraries. These libaries can then be imported
-and the functions that they contain can be used.  Just as with
-user-defined functions, it is critical that you know what
-information(variables) the function expects you to give it and what
-useful information the function will hand back to you.  This
-information can be found in the library's documentation.  Google will
-be your friend in this regard.
-
-
-If you are using Enthought's Canopy package, all of the
-  libraries that you need are already installed.  If they aren't
-  installed you'll have to download the libary and install it. Once
-  the library is installed, it can be imported like this:
-\begin{Verbatim}
-import math
-\end{Verbatim}
-This imports a library called \code{math}.  Functions inside the
-math library can be used like this
-\begin{Verbatim}
-math.sqrt(5.2)  # Take the square root of 5.2
-math.pi         # Get the value of pi
-math.sin(34)    # Find the sine of 34 radians
-\end{Verbatim}
-Using the functions inside a libary requires that you know what
-functions are available.  This information is usually available in the
-library's documentation.  Google will be a great resource here.
-
-A library can be imported and then called by a different name like
-this:
-\begin{Verbatim}
-import math as mt
-\end{Verbatim}
-Here, the short name \code{mt} was chosen for this library.
-The desired functions can then be called like this
-\begin{Verbatim}
-mt.sqrt(5.2)  # Take the square root of 5.2
-mt.pi         # Get the value of pi
-mt.sin(34)    # Find the sine of 34 radians
-\end{Verbatim}
-
-Sometimes you may not want to import the entire library, just a few
-functions. This can be done like this
-\begin{Verbatim}
-from math import sqrt,sin
-\end{Verbatim}
-and the \code{sqrt} and \code{sin} functions can then be used
-without the library name before it, like this
-\begin{Verbatim}
-sqrt(5.5)
-\end{Verbatim}
-If you want to import every function inside of a libary, do this
-\begin{Verbatim}
-from math import *
-\end{Verbatim}
-Now, every function contained in \code{math} is available without
-needing the \code{math.} prefix in front of it. \sidenote{For larger libraries, importing all of the
-  functions can take a few seconds.  A better choice is to import only
-  the functions that you need}
-
-\subsection*{Native functions}
-Python has many native functions: functions that are included with the
-programming language.  You don't have to import native functions
-because they came with the langauge.  You have already been using some
-of them, like these
-\begin{Verbatim}
-len(mylist)  # Returns the length of a list.
-float(5)     # Converts an integer to a float.
-str(67.3)    # Converts a float to a string.
-\end{Verbatim}
-The functions: \code{len}, \code{float}, and \code{str} are all
-built-in functions, and they each take a single argument.  Other
-built-in function are found in the margin tables in the previous section.
-
-
-
-
-
-Throughout this book, we will use a variety of libaries to accomplish
-important tasks.  Instead of giving a complete description of each
-library used and every function that it contains, we will simply
-discuss the functions needed for each specific task.  The interested
-reader is referred to the documentation of the various libaries for
-further details.
 
 
 
