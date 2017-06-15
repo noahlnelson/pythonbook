@@ -1,0 +1,157 @@
+\chapter{Debugging Basics}
+\label{chap:debug}
+In programming, we refer to any mistakes in your code as a "bug". The term "bug" also refers to anytime your code does something that you don't expect it to.  As a programmer, you will be spending a good amount of your time trying to find and fix these bugs.  We call that "debugging".
+
+All programmers make mistakes, even the experts.  Making bugs is such a common occurrence that it's often said, "the only bug free code is no code at all."
+
+This chapter gives you some tips and tricks on finding your bugs.  Bugs generally come in two types: ones that break your code and ones that don't do what you think.
+
+
+\section{Bugs That Break Your Code}
+As Python reads through your program, if it reaches a line of code that it can't read, or doesn't know what to do with, it will stop and print out an error message.  The message that it prints out is intended to help you, so you should learn to read it.
+
+Here's an example of an error message:
+\begin{Verbatim}
+Traceback (most recent call last):
+  File "errorExample.py", line 136, in <module>
+    calculated_var=my_func(x,y)
+  File "errorExample.py", line 63, in my_func
+    divisor=int(xx/y)
+NameError: name 'xx' is not defined
+\end{Verbatim}
+Let's break it down, piece by piece, starting with:
+\begin{Verbatim}
+Traceback (most recent call last):
+\end{Verbatim}
+This lines tells you that Python is going show you the steps that led up to the error, or trace back to it.  The next several lines show you those steps.  Here's the first place Python noticed the problem:
+\begin{Verbatim}
+  File "errorExample.py", line 136, in <module>
+    calculated_var=my_func(x,y)
+\end{Verbatim}
+This tells me that in my file \code{errorExample.py}, something went wrong when Python tried to execute the command \code{calculated_var=my_func(x,y)}.  The next set of lines tells me that the problem is in the function \code{my_func}:
+\begin{Verbatim}
+  File "errorExample.py", line 63, in my_func
+    divisor=int(xx/y)
+\end{Verbatim}
+Specifically, something went wrong on line 63, in the file \code{errorExample.py}. Line 63 contains the code \code{divisor=int(xx/y)}.
+
+The last line of the error statement tells me what I did wrong:
+\begin{Verbatim}
+NameError: name 'xx' is not defined
+\end{Verbatim}
+I used a variable \code{xx} without defining it first. The \code{NameError:} at the beginning tells me what kind of mistake I made, then the \code{name 'xx' is not defined} gives more details about the problem.  Here are the different types of errors that you can get, along with ideas on things you should try to fix them.
+
+\subsection*{AttributeError}
+Attribute errors occur when you try to use a method (one of the \code{.} functions) that doesn't exist.  For example,  if you set \code{x=5}, then \code{x.append(7)} will create an attribute error, since you can't \code{append} to an integer.
+
+You will also get this error if you misspell the method.  Even if \code{y} is a list, \code{y.appned(5)} will create an error because \code{appned} isn't a method.  \code{y.append(5)} will work just fine.
+
+\subsection*{SyntaxError}
+Syntax errors occur when you've made a mistake formatting your code.  Check these sorts of things:
+\begin{itemize}
+\item You've forgotten a \code{:} at the end of a \code{def}/\code{if}\code{for}\code{while} line.
+\item You've forgotten to put quotes around a string, or you've mismatched the type of quotes.
+\item You have mismatched brackets or parentheses.
+\end{itemize}
+The parenthesis can be a little harder to track down, because Python will tell you the line number where it noticed there was a problem with parentheses.  Since Python also uses parentheses to break one long line of code into multiple lines, the mismatch might be earlier in your program.
+
+\subsection*{NameError}
+Name errors occur whenever Python doesn't recognize the name of a variable or a function.  Here are some common reasons:
+\begin{itemize}
+\item You misspelled the variable/function/method namem
+\item You use a function from a package that you forgot to import
+\item You forgot to define a variable
+\item You use a function before you define it
+\item You forgot to put quotes around a string so Python is trying to read it as a variable.
+\end{itemize}
+
+\subsection*{TypeError}
+Type errors occur whenever you try to do an opperation on the wrong data type.  You can't do float operations on a list, for example.  Nor can you divide by a string.
+
+Here's an example of the most common type error I see from beginning programmers:
+\begin{Verbatim}
+v=[5.0, 6.0, 7.5]
+t=5.0
+x=v*t
+\end{Verbatim}
+Python does not know how to multiply a list (\code{v}) by a float (\code{t}), so (\code{v*t}) gives a type error.
+
+However, this code will run fine:
+\begin{Verbatim}
+v=[5.0, 6.0, 7.5]
+t=5.0
+x=v[1]*t
+\end{Verbatim}
+since \code{v[1]} is \code{6.0} (a float), Python has no problem multiplying \code{5.0*6.0}.
+
+\subsection*{IndentationError}
+Python uses indentation to figure out when functions and loops begin and end.  If you have too many spaces, (or too few) you will get an indentation error.
+
+You also aren't allowed to mix tabs and spaces.  Even if two rows look like they are lined up, if one was indented with a tab and the other with a few spaces, you will get an indentation error.  If you are using Canopy, you probably won't run into this problem. Every time you use tab to indent, Canopy automatically replaces tab with four spaces.
+
+There are a few other types of errors that you may run into, but these are the most common.  If you are ever completely stumped by an error message, you can usually find answers by just copying the error type and details (the stuff after the \code{:}) and searching for it on Google.
+
+\subsection*{Errors When Using Imported Packages}
+If you've imported a package like Numpy, and give the wrong thing to one of the Numpy functions, you will get a very long error message that lists every function that the Numpy function you used depends on.  Here's an example:
+
+\begin{Verbatim}
+Traceback (most recent call last):
+  File "errorExample.py", line 4, in <module>
+    plt.plot(data,y)
+  File "/Users/test_usr/canopy/lib/python3.4/site-packages/matplotlib/pyplot.py", line 3099, in plot
+    ret = ax.plot(*args, **kwargs)
+  File "/Users/test_usr/canopy/lib/python3.4/site-packages/matplotlib/axes/_axes.py", line 1373, in plot
+    for line in self._get_lines(*args, **kwargs):
+  File "/Users/test_usr/canopy/lib/python3.4/site-packages/matplotlib/axes/_base.py", line 304, in _grab_next_args
+    for seg in self._plot_args(remaining, kwargs):
+  File "/Users/test_usr/canopy/lib/python3.4/site-packages/matplotlib/axes/_base.py", line 282, in _plot_args
+    x, y = self._xy_from_xy(x, y)
+  File "/Users/test_usr/canopy/lib/python3.4/site-packages/matplotlib/axes/_base.py", line 223, in _xy_from_xy
+    raise ValueError("x and y must have same first dimension")
+ValueError: x and y must have same first dimension
+\end{Verbatim}
+
+When that happens, the most useful thing to do is start at the top of the traceback and find the last time that it says the error is in your program.  Then, read the error at the bottom.  Here are the relevant bits of that long error message:
+
+\begin{Verbatim}
+Traceback (most recent call last):
+  File "errorExample.py", line 4, in <module>
+    plt.plot(data,y)
+ValueError: x and y must have same first dimension
+\end{Verbatim}
+This lets me know that there is something wrong with my plot command on line 4. The \code{must have the same first dimension} part of the error lets me know that there is something wrong with the sizes of \code{data} and \code{y}.
+
+\section{Bugs that don't make errors}
+As you practice programming in Python, you will start to make fewer and fewer mistakes that Python will catch.  Your program will run without any errors, but it doesn't do what you expect it to.
+
+When that happens, it tells you that you've written your Python perfectly, but you've told your computer to do the wrong thing.  For example, a plot might not have the right axes or
+you might calculate a distance that is three times further than what you expected.
+
+To catch these sorts of bugs, hunt for them with a bottom-up approach\sidenote{If you have a very large program with lots of pieces, sometimes it can be faster to do a top-down approach to find out which piece is broken, then do a bottom-up approach on just that piece.}.  Start at place furthest down in your code where you know something has gone wrong.  If you are having a problem with a plot, first check the plot commands themselves to see if everything is in order.
+
+If everything looks ok in your plot command, check the variables that you are plotting.  If you have a problem with the command
+\begin{Verbatim}
+plt.plot(x,y)
+\end{Verbatim}
+
+Tell your program to print \code{x} and \code{y} just before you try to plot them:
+\begin{Verbatim}
+print(x)
+print(y)
+plt.plot(x,y)
+
+\end{Verbatim}
+then run your program again. When they print\sidenote{You can also see what is stored in the variable \code{x} by typing \code{x} into the console and hitting enter.}, check and see if \code{x} and \code{y} have the sort of information in them that you expect.  If they don't, look back at the part of the program where you made \code{x} and \code{y}, then continue looking backwards until you find your mistake.
+
+\section{Toy Problems}
+Often times when we write programs that do calculations for us, we test them out with toy problems.  For example, if you write a program that fits a line to some data, you can test it out by giving it data where you already know the slope and intercept.  If you set
+\begin{Verbatim}
+x=[0,1,2,3,4,5]
+y=[0,1,2,3,4,5]
+\end{Verbatim}
+Your line fitting function should return a slope of \code{1.0} and an intercept of \code{0.0}. If it doesn't, you definitely know that you've done something wrong.
+
+As another example, if you are writing a program that will calculate the path a projectile will take when fired through the air while including air resistance, first leave out air resistance and see if your program will match what you expect from kinematics.
+
+Toy problems won't help you catch all of your bugs, but they are a quick and easy way to catch many of them.
+
