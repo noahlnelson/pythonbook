@@ -1,13 +1,21 @@
-\chapter{Debugging Basics}
+\chapter[Debugging]{Debugging - Fixing Broken Code}
 \label{chap:debug}
+
+This chapter is a little different from the others.  The rest of this book is designed for you to read through and write Python as you go.  This chapter gives you some tips and tricks on finding mistakes in your code, but it isn't very useful until you have some.
+We put this chapter at the beginning of the book so that you, the reader, would know it is here, and know to come back to it when you get stuck.
+
+Skip this chapter.  Go on to the next one.  Come back when one of your programs starts spitting out error messages that you don't understand, or when it isn't doing what you think it should. That's when this chapter will be helpful.
+
+\section{What is a Bug?}
+
 In programming, we refer to any mistakes in your code as a "bug". The term "bug" also refers to anytime your code does something that you don't expect it to.  As a programmer, you will be spending a good amount of your time trying to find and fix these bugs.  We call that "debugging".
 
 All programmers make mistakes, even the experts.  Making bugs is such a common occurrence that it's often said, "the only bug free code is no code at all."
 
-This chapter gives you some tips and tricks on finding your bugs.  Bugs generally come in two types: ones that break your code and ones that don't do what you think.
+ Bugs generally come in two types: ones that break your code and ones that don't do what you think.
 
 
-\section{Bugs That Break Your Code}
+\section{Bugs That Break Your Code - Error Messages}
 As Python reads through your program, if it reaches a line of code that it can't read, or doesn't know what to do with, it will stop and print out an error message.  The message that it prints out is intended to help you, so you should learn to read it.
 
 Here's an example of an error message:
