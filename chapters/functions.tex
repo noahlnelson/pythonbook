@@ -2,20 +2,136 @@
 \label{chap:Functions}
 
 One of the most fundamental constructs for any programming language is
-the function, which is nothing more than a set of instructions
+the function. A function is nothing more than a set of instructions
 packaged up and given a name.  The function can be as long and complex
-or short and succinct as you wish.  You can think of a function as a
-black box. You create the contents of the box, specify what
+or short and succinct as you wish.
+
+The main purpose of a function is to take in information, do some calculations or other things, then produce a result.  Here's a function you should already be comfortable with:
+\begin{Verbatim}
+print('Print is a function.')
+\end{Verbatim}
+The \code{print} function takes a string, and tells the computer to write that string to the console.  You do not need to know all of the details of how a function works in order to use it.  You just need to know what to give it, and what the result is.
+
+All Python functions have the same general format: first you type the name of the function (\code{print}), then you put round parentheses \code{()} around whatever information you are giving to the function.  If a function needs more than one piece of information, you separate them with a comma:
+\begin{Verbatim}
+x=[1,2,3]
+y=[4,5,6]
+zipped=zip(x,y) #Join two lists into one, item by item
+print(zipped)
+\end{Verbatim}
+
+You can think of a function as a
+black box. Someone created the contents of the box, specified what
 information needs to enter the box for it to be able to accomplish
-it's task, and what information will exit the box.  Why a black box?
+its task, and what information will exit the box.  Why a black box?
 Well, one benefit of functions is that the user doesn't need to
-know what's inside.  She only needs to know what information the box
-needs and what information the box will give back to her.
+know what's inside.  They only need to know what information the box
+need and what information the box will give back to her.
+
+Python functions generally fall into three groups: functions that come standard with Python (called native functions), functions that you can import into Python, and functions that you write yourself.
+
+\section{Native functions}
+There are a few functions that are always ready to go whenever you run Python. They are included with the
+programming language.  We call these functions native
+functions.  You have already been using some
+of them, like these
+\begin{Verbatim}
+len(mylist)  # Returns the length of a list.
+float(5)     # Converts an integer to a float.
+str(67.3)    # Converts a float to a string.
+\end{Verbatim}
+The functions: \code{len}, \code{float}, and \code{str} are all
+built-in functions, and they each take a single argument.  Other
+built-in function are found in the margin tables in the previous section.
+
+
+
+
+
+
+\section{Imported Functions and Libraries}
+Many times, you will need to go beyond what Python can do by itself\sidenote{For example, Python doesn't include \code{sin()} and \code{cos()} as Native functions.}. However, that doesn't mean you have to create everything you need to do from scratch.  Most likely, the function that you need has already been coded. Somebody
+else created the function and made it available to anyone
+who wants it.  Groups of functions that perform similar tasks are
+typically bundled together into libraries. These libaries can be
+imported and the functions that they contain can be used.
+
+It is critical that you know what information(variables) the function expects you to give it and what
+useful information the function will give back to you.  This
+information can be found in the library's documentation. Most libraries have great documentation with lists of the included functions, what the functions do, what the functions expect, and examples on how to use the most common ones.  You can usually find the library documentation by searching the internet for the library's name, plus "Python documentation".
+
+Providing a complete list of all available libraries and function is well beyond
+the scope of this book. Instead, we'll illustrate how to import
+functions and use them.  As you use Python more and more you
+should get in the habit of searching out the appropriate library to
+accomplish the task at hand. When faced with a task to accomplish,
+your first thought should be, `` I'll bet somebody has already done that.
+I'm going to try to find that library.''
+
+
+
+Let's see how to import libraries and use their functions\sidenote{Using the functions inside a libary requires that you know what
+functions are available.  This information is usually available in the
+library's documentation.  Google will be a great resource here.}. You've
+already seen how to perform very simple mathematical calculations. ($5/6, 8^4$,
+etc..)  For more complex
+mathematical calculations, like $\sin(\frac{\pi}{2})$ or $e^{2.5}$,
+you'll need to import these functions from a library.
+\begin{Verbatim}
+import math
+\end{Verbatim}
+This imports a library called \code{math}.  This command is like telling to go get the \code{math} book off of the shelf.  Functions inside the
+math library can be used like this
+\begin{Verbatim}
+math.sqrt(5.2)  # Take the square root of 5.2
+math.pi         # Get the value of pi
+math.sin(34)    # Find the sine of 34 radians
+\end{Verbatim}
+The \code{math.} before each function is equivalent to telling Python "Use the \code{sqrt()} function that you find in the \code{math} book I told you to grab." If you just type
+\begin{Verbatim}
+sqrt(5.2)
+\end{Verbatim}
+Python won't know where to find the \code{sqrt} function and will give you an error.
+
+
+
+A library can be imported and then called by a different name like
+this:
+\begin{Verbatim}
+import math as mt
+\end{Verbatim}
+Here, the short name \code{mt} was chosen for this library.  This tells Python "I'm going to call the \code{math} book \code{mt}."
+The desired functions can then be called like this
+\begin{Verbatim}
+mt.sqrt(5.2)  # Take the square root of 5.2
+mt.pi         # Get the value of pi
+mt.sin(34)    # Find the sine of 34 radians
+\end{Verbatim}
+
+Sometimes you may not want to import the entire library, just a few
+functions. This can be done like this
+\begin{Verbatim}
+from math import sqrt,sin,pi
+\end{Verbatim}
+This code tells Python "Go grab \code{sqrt}, \code{sin}, and \code{pi} from the \code{math} book.  Then, you can use the \code{sqrt} and \code{sin} functions
+without the library name before it, like this
+\begin{Verbatim}
+sqrt(5.5)
+sin(pi)
+\end{Verbatim}
+but, you will only have access to the functions you imported, not all of the functions in the \code{math} library.
+
+If you want to import every function inside of a library and not have to use a prefix, do this\sidenote{For larger libraries, importing all of the
+  functions this way can take a long time.  A better choice is to import only
+  the functions that you need.  You will also get some unexpected results if you use this method to import two different libraries that have functions with the same name.}
+\begin{Verbatim}
+from math import *
+\end{Verbatim}
+Now, every function contained in \code{math} is available without
+needing the \code{math.} prefix in front of it.
 
 \section{User-defined functions}
-At times it will be beneficial for you to write a function that you
-have designed.  You (the programmer) can create your own function like
-this
+Sometimes, you will need to do something over and over again that you can't find in a library.  You (the programmer) will need to write your own function. You do it like this:
 \begin{Verbatim}
 def myFunction(a,b):
     c = a + b
@@ -35,6 +151,14 @@ determine where the function ends.
 
 The function can be called like this
 \begin{Verbatim}
+def myFunction(a,b):
+    #Everything that is part of the function
+    #needs to be indented.
+    c = a + b
+    d = 3.0 * c
+    f = 5.0 * d**4
+    return f
+#The rest of this code is not part of this function.
 r = 10
 t = 15
 result = myFunction(r,t)
@@ -42,114 +166,29 @@ result = myFunction(r,t)
 In this case, when the function is called, \code{a} gets assigned
 the value of $10$ and \code{b} gets assigned the value of $15$.  The
 result of this calculation is stored in the variable \code{result},
-which is outside the function.
-
-\section{Imported Functions and Libraries}
-Many times, the function that you need has already been coded. Somebody
-else created the function and made it available to anyone
-who wants it.  Groups of functions that perform similar tasks are
-typically bundled together into libraries. These libaries can be
-imported and the functions that they contain can be used.  Just as
-with user-defined functions, it is critical that you know what
-information(variables) the function expects you to give it and what
-useful information the function will hand back to you.  This
-information can be found in the library's documentation.  Google will
-be your friend in this regard.
-
-Providing a complete list of all available libraries and function is well beyond
-the scope of this book. Instead, we'll illustrate how to import
-functions and use them.  As you use Python more and more you
-should get in the habit of searching out the appropriate library to
-accomplish the task at hand. When faced with a task to accomplish,
-your first thought should be, `` I'll bet somebody has already done that.
-I'm going to try to find that library.''
-
-discuss some important function
-that you will use heavily and occasionally briefly mention 
-Here are a few examples of importing and using functions to help you
-get the idea.  
-
-Let's see how to import libraries and use their functions. You've
-already seen how to perform very simple mathematical calculations. ($5/6, 8^4$,
-etc..)  For more complex
-mathematical calculations, like $\sin(\frac{\pi}{2})$ or $e^{2.5}$,
-you'll need to import these functions from a library.
+which is outside the function.  The rest of your program only sees \code{r}, \code{t}, and \code{result}.  If you try this:
 \begin{Verbatim}
-import math
+result = myFunction(r,t)
+print(c)
 \end{Verbatim}
-This imports a library called \code{math}.  Functions inside the
-math library can be used like this
-\begin{Verbatim}
-math.sqrt(5.2)  # Take the square root of 5.2
-math.pi         # Get the value of pi
-math.sin(34)    # Find the sine of 34 radians
-\end{Verbatim}
-Using the functions inside a libary requires that you know what
-functions are available.  This information is usually available in the
-library's documentation.  Google will be a great resource here.
+you will get an error, since Python does not remember that inside the function \code{c=a+b}.
 
-A library can be imported and then called by a different name like
-this:
+Let's look at one more example.  Here's (roughly) what Python does every time you use \code{math.sin(x)}:
 \begin{Verbatim}
-import math as mt
+def sin(x):
+    from math import factorial
+    result=0
+    for k in range(20): #This Starts a "for loop"
+        sign=(-1)**k
+        denom=factorial(2*k+1)
+        result+=sign*x**(2*k+1)/denom
+    return result
 \end{Verbatim}
-Here, the short name \code{mt} was chosen for this library.
-The desired functions can then be called like this
-\begin{Verbatim}
-mt.sqrt(5.2)  # Take the square root of 5.2
-mt.pi         # Get the value of pi
-mt.sin(34)    # Find the sine of 34 radians
-\end{Verbatim}
-
-Sometimes you may not want to import the entire library, just a few
-functions. This can be done like this
-\begin{Verbatim}
-from math import sqrt,sin,pi
-\end{Verbatim}
-and the \code{sqrt} and \code{sin} functions can then be used
-without the library name before it, like this
-\begin{Verbatim}
-sqrt(5.5)
-sin(pi)
-\end{Verbatim}
-If you want to import every function inside of a libary, do this
-\begin{Verbatim}
-from math import *
-\end{Verbatim}
-Now, every function contained in \code{math} is available without
-needing the \code{math.} prefix in front of it. \sidenote{For larger libraries, importing all of the
-  functions can take a few seconds.  A better choice is to import only
-  the functions that you need}
-
-
-Throughout this book you will frequently be instructed to use various
-libraries.  W
-\section{Native functions}
-Some functions don't need to be imported to be used: they are included with the
-programming language.  We call these functions native
-functions.  You have already been using some
-of them, like these
-\begin{Verbatim}
-len(mylist)  # Returns the length of a list.
-float(5)     # Converts an integer to a float.
-str(67.3)    # Converts a float to a string.
-\end{Verbatim}
-The functions: \code{len}, \code{float}, and \code{str} are all
-built-in functions, and they each take a single argument.  Other
-built-in function are found in the margin tables in the previous section.
-
-
-Throughout this book, we will use a variety of libaries to accomplish
-important tasks.  Instead of giving a complete description of each
-library used and every function that it contains, we will simply
-discuss the functions needed for each specific task.  The interested
-reader is referred to the documentation of the various libaries for
-further details.
-
+This function takes in a number (\code{x}) and returns the sine of \code{x}.  When you use \code{sin()}, the rest of your program has no idea that the variables \code{result}, \code{k}, \code{sign}, and \code{denom} were assigned along the way.  The main program only knows that \code{sin()} took \code{x} and returned a number that has the value of $\sin(x)$.
 
 
 \section{(Advanced topic) Lambda (unnamed) functions}
-The user-defined function above had 4 lines in it.  Other functions
+The user-defined function \code{myFunction} above had 4 lines in it.  Other functions
 could be even longer.  Sometimes, however, the function you need to
 define is quite simple (maybe even one line) and it'd be nice if you
 could define it in one line.  Luckily, you can.  It's
@@ -158,7 +197,7 @@ called a lambda function and here is an example:
 f = lambda x: x**3  #Define the function
 print f(5)   # Evaluate the function
 g = lambda x,y: x + y # Function of two variables
-pritn g(5,6)
+print g(5,6)
 \end{Verbatim}
 Here we defined the function $f(x) = x^3$, a function of one variable,
 and quickly evaluated it.  Your lambda functions can have as many
@@ -316,7 +355,7 @@ either \code{True} or \code{False}.
 %from numpy import array
 %
 %a = [1,5,6,7]
-%b = array(a)     
+%b = array(a)
 %\end{Verbatim}
 %The \code{array} function converts a python list to a numpy array.
 %There are many other ways to create numpy arrays.  Here are a few
@@ -326,7 +365,7 @@ either \code{True} or \code{False}.
 %
 %a = zeros(5)
 %b = zeros([5,5])
-%b = eye(5)       
+%b = eye(5)
 %\end{Verbatim}
 %
 %\code{zeros} will create an array of zeros, with the size of the

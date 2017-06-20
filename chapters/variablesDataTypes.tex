@@ -76,7 +76,8 @@ of \code{d} above if the result has to be an integer?
 
 \section{Float variables}
 Most meaningful calculations should be performed using floating point
-numbers, or floats in Python.  Float variables are created and assigned in
+numbers, or floats in Python.  Float variables are created and assigned
+in
 one of two ways.  The first way is to simply include a decimal place
 in the number, like this
 \begin{Verbatim}
@@ -97,16 +98,17 @@ b = 3 * a  #Integer multiplied by a float results in a float.
 \marginpar{\footnotesize\captionsetup{type=table}
   \vspace{-2.5in}
 \begin{tabular}{lp{1.05in}}
-\texttt{abs(x)} & Find the absolute value of x\\ \\
-\texttt{divmod(x,y)}        & Returns the quotient and remainder when
+\code{abs(x)} & Find the absolute value of x\\ \\
+\code{divmod(x,y)}        & Returns the quotient and remainder when
 using long division.\\ \\
-\texttt{x \% y}      & Return the remainder of $\frac{x}{y}$ \\ \\
-\texttt{float(x)}      & convert \texttt{x} to a float. \\ \\
-\texttt{int(x)}      & convert \texttt{x} to an integer. \\ \\
-\texttt{round(x)}  & Round the number \texttt{x} using standard
+\code{x \% y}      & Return the remainder of $\frac{x}{y}$ \\ \\
+\code{float(x)}      & convert \code{x} to a float. \\ \\
+\code{int(x)}      & convert \code{x} to an integer. \\ \\
+\code{round(x)}  & Round the number \code{x} using standard
 rounding rules \\ \\
 \end{tabular}
-\captionof{table}{A sampling of built-in functions commonly used with integers
+\captionof{table}{A sampling of built-in functions commonly used with
+integers
   and floats.\label{tab:HousekeepingFloats}}
 }.
 The result of such a calculation is always a float.  Only when
@@ -160,7 +162,8 @@ to the missing ones.
 \begin{Verbatim}
 a = range(3,9)  # Creates a list starting at 3, ending a 9 stepping
                 # in increments of 1 (default value)
-b = range(10)   # Creates a list starting at 0(default), ending at 10 stepping
+b = range(10)   # Creates a list starting at 0(default), ending at 10
+stepping
                 # in increments of 1(default value)
 \end{Verbatim}
 \noindent You can make a list of anything.  For example, here is a
@@ -227,26 +230,28 @@ list. (remember: Python lists are zero-indexed)
  \marginpar{\footnotesize\captionsetup{type=table}
   \vspace{-4.5in}
 \begin{tabular}{lp{1.05in}}
-\texttt{a[x]}        & Access element \texttt{x} in list \texttt{a}\\
-\texttt{a[x:y:z]}        & Extract a slice of list \texttt{a}\\
-\texttt{a.append(x)}        & Append \texttt{x} to list \texttt{a} \\
-\texttt{a.pop()}      & Remove the last element of list \texttt{a}. \\
-\texttt{len(a)}  & Find the number of elements in \texttt{a} \\
-\texttt{range(x,y,z)}  & Create a list of integers, starting at x,
+\code{a[x]}        & Access element \code{x} in list \code{a}\\
+\code{a[x:y:z]}        & Extract a slice of list \code{a}\\
+\code{a.append(x)}        & Append \code{x} to list \code{a} \\
+\code{a.pop()}      & Remove the last element of list \code{a}. \\
+\code{len(a)}  & Find the number of elements in \code{a} \\
+\code{range(x,y,z)}  & Create a list of integers, starting at x,
 ending at y, and stepping in increments of z.\\
-\texttt{a.insert(x,y)}    & Insert \texttt{y} at location
-\texttt{x} in list \texttt{a} \\
-\texttt{a.sort()}  & Sort list \texttt{a} from least to greatest. \\
-\texttt{filter(f,x)}        & Filter list \texttt{x} using the
-criteria function \texttt{f}(see lambda functions).\\
-\texttt{a.reverse()}  & Reverse the order of list \texttt{a}. \\
-\texttt{a.index(x)}  & Find the index where element x resides. \\
-\texttt{a + b}  & Join list \texttt{a} to list \texttt{b} to form one list. \\ \\
-\texttt{max(a)}  & Find the largest element of \texttt{a} \\ \\
-\texttt{min(a)}  & Find the smallest element of \texttt{a} \\ \\
-\texttt{sum(a)}  & Returns the sum of the elements of \texttt{a} \\ \\
+\code{a.insert(x,y)}    & Insert \code{y} at location
+\code{x} in list \code{a} \\
+\code{a.sort()}  & Sort list \code{a} from least to greatest. \\
+\code{filter(f,x)}        & Filter list \code{x} using the
+criteria function \code{f}(see lambda functions).\\
+\code{a.reverse()}  & Reverse the order of list \code{a}. \\
+\code{a.index(x)}  & Find the index where element x resides. \\
+\code{a + b}  & Join list \code{a} to list \code{b} to form one
+list. \\ \\
+\code{max(a)}  & Find the largest element of \code{a} \\ \\
+\code{min(a)}  & Find the smallest element of \code{a} \\ \\
+\code{sum(a)}  & Returns the sum of the elements of \code{a} \\ \\
 \end{tabular}
-\captionof{table}{A sampling of ``housekeeping'' functions for lists.\label{tab:HousekeepingList}}
+\captionof{table}{A sampling of ``housekeeping'' functions for
+lists.\label{tab:HousekeepingList}}
 }
 \subsection*{Built-in Functions for Lists}
 Python has many built-in functions that work on lists.  You've already
@@ -375,19 +380,22 @@ a[2:15]
 \marginpar{\footnotesize\captionsetup{type=table}
   \vspace{-2.5in}
 \begin{tabular}{lp{1.05in}}
-\texttt{a.join(b)}  & Join all elements in list \texttt{b} while
-placing string \texttt{a} between each pair of elements.\\ \\
-%\texttt{str.capitalize()}  & Capitalize all characters in string
-%\texttt{str} \\ \\
-\texttt{a.count(b)}  & Count the number of occurrences of
-string \texttt{b} in string \texttt{a}\\ \\
-\texttt{a.lower()}  & Convert upper case letters to lower case \\ \\
-\texttt{a[x]}  &  Access element \texttt{x} in string \texttt{a} \\ \\
-\texttt{a[x:y:z]}  &  Slice a string, starting at element
-\texttt{x}, ending at element \texttt{y}, with a step size of \texttt{z} \\ \\
-\texttt{a + b}  &  Concatenate strings \texttt{a} and \texttt{b}.  \\ \\
+\code{a.join(b)}  & Join all elements in list \code{b} while
+placing string \code{a} between each pair of elements.\\ \\
+%\code{str.capitalize()}  & Capitalize all characters in string
+%\code{str} \\ \\
+\code{a.count(b)}  & Count the number of occurrences of
+string \code{b} in string \code{a}\\ \\
+\code{a.lower()}  & Convert upper case letters to lower case \\ \\
+\code{a[x]}  &  Access element \code{x} in string \code{a} \\ \\
+\code{a[x:y:z]}  &  Slice a string, starting at element
+\code{x}, ending at element \code{y}, with a step size of \code{z}
+\\ \\
+\code{a + b}  &  Concatenate strings \code{a} and \code{b}.  \\ \\
+%\code{a.replace('t','c')} & Replace every letter t in string \code{a} with the letter c.\\ \\
 \end{tabular}
-\captionof{table}{A sampling of ``housekeeping'' functions for strings.\label{tab:HousekeepingStrings}}
+\captionof{table}{A sampling of ``housekeeping'' functions for
+strings.\label{tab:HousekeepingStrings}}
 }
  However, you'll have little luck modifying a single character in a
 string unless you first convert the string to a list, like this
@@ -402,7 +410,32 @@ It is a built-in function for use with strings.  It joins together all
 of the elements in list \code{b} into one string, putting whatever
 is in "" in between
 each element.  There are many built-in functions that can be used with
-strings.  Some of the more commonly used ones are shown in Table \ref{tab:HousekeepingStrings}
+strings.  Some of the more commonly used ones are shown in Table
+\ref{tab:HousekeepingStrings}
+
+\section{Naming Variables}
+So far in this book, we've named most of our variables using the first
+few letters in the alphabet. (\code{a},\code{b},\code{c},...) In Python, you can assign a
+variable any name you'd like, as long as you follow these two rules:
+\begin{enumerate}
+\item Variables must start with a letter or an underscore (\_).
+\item The rest of your variable name can only consist of letters,
+numbers, and underscores
+\end{enumerate}
+Here are a few examples of allowed names:
+\begin{Verbatim}
+susan = 72
+susan2 = 21
+This_is_allowed_but_you_would_never_want_a_name_this_long = 'Hello'
+thisStyleIsCalledCamelCase = susan
+\end{Verbatim}
+Here are a few names that aren't allowed:
+\begin{Verbatim}
+2susan = 56
+no spaces allowed = 'But you can put spaces in strings'
+\end{Verbatim}
+
+
 \section{Displaying Results}
 It's great to calculate something useful, but not that helpful unless
 you can see it.  Beginners often ask the question, ``I calculted XX
@@ -425,7 +458,8 @@ example:
 \begin{Verbatim}
 a = 22
 b = 3.5
-print("Hi, I am Joe. I am {:d} years old and my GPA is: {:5.2f}".format(a, b))
+print("Hi, I am Joe. I am {:d} years old and my GPA is:
+{:5.2f}".format(a, b))
 \end{Verbatim}
 Notice the structure of this print statement: A string followed by the
 \code{.} operator and the \code{format()} function. The variables to
@@ -444,20 +478,13 @@ decimal.  A summary of what is available is given in table
 \marginpar{\footnotesize\captionsetup{type=table}
   \vspace{-2.5in}
 \begin{tabular}{lp{1.05in}}
-\texttt{\{:4d\}}  & Display integer with 4 spaces\\ \\
-\texttt{\{:.4f\}}  & Display float with 4 numbers after the decimal\\ \\
-\texttt{\{:8.4f\}}  & Display float with at leasat 8 total spaces and 4 numbers after the decimal\\ \\
+\code{\{\}} & Use the default format for the data type \\ \\
+\code{\{:4d\}}  & Display integer with 4 spaces\\ \\
+\code{\{:.4f\}}  & Display float with 4 numbers after the decimal\\ \\
+\code{\{:8.4f\}}  & Display float with at leasat 8 total spaces and 4
+numbers after the decimal\\ \\
 \end{tabular}
-\captionof{table}{Formatting strings available when printing.\label{tab:HousekeepingFormat}}
+\captionof{table}{Formatting strings available when
+printing.\label{tab:HousekeepingFormat}}
 }
-
-
-
-
-
-
-
-
-
-
 
