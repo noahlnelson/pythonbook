@@ -106,15 +106,20 @@ If you've imported a package like Numpy, and give the wrong thing to one of the 
 Traceback (most recent call last):
   File "errorExample.py", line 4, in <module>
     plt.plot(data,y)
-  File "/Users/test_usr/canopy/lib/python3.4/site-packages/matplotlib/pyplot.py", line 3099, in plot
+  File "/Users/test_usr/canopy/lib/python3.4/site-packages/matplotlib/...
+       pyplot.py",  line 3099, in plot
     ret = ax.plot(*args, **kwargs)
-  File "/Users/test_usr/canopy/lib/python3.4/site-packages/matplotlib/axes/_axes.py", line 1373, in plot
+  File "/Users/test_usr/canopy/lib/python3.4/site-packages/matplotlib/...
+       axes/_axes.py",  line 1373, in plot
     for line in self._get_lines(*args, **kwargs):
-  File "/Users/test_usr/canopy/lib/python3.4/site-packages/matplotlib/axes/_base.py", line 304, in _grab_next_args
+  File "/Users/test_usr/canopy/lib/python3.4/site-packages/matplotlib/...
+       axes/_base.py",  line 304, in _grab_next_args
     for seg in self._plot_args(remaining, kwargs):
-  File "/Users/test_usr/canopy/lib/python3.4/site-packages/matplotlib/axes/_base.py", line 282, in _plot_args
+  File "/Users/test_usr/canopy/lib/python3.4/site-packages/matplotlib/...
+       axes/_base.py",  line 282, in _plot_args
     x, y = self._xy_from_xy(x, y)
-  File "/Users/test_usr/canopy/lib/python3.4/site-packages/matplotlib/axes/_base.py", line 223, in _xy_from_xy
+  File "/Users/test_usr/canopy/lib/python3.4/site-packages/matplotlib/...
+       axes/_base.py",  line 223, in _xy_from_xy
     raise ValueError("x and y must have same first dimension")
 ValueError: x and y must have same first dimension
 \end{Verbatim}
