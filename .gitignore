@@ -1,3 +1,5 @@
 python.[acilos]*
 python.toc
 python.tex~
+texput.log
+.gitignore~

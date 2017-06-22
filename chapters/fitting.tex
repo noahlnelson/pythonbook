@@ -38,31 +38,32 @@ that:
 from numpy import array,sin,exp  # Import needed math functions
 from scipy.stats import norm     # Import normal distribution to add noise.
 
-# Define the function
-def func(x,a,b,c):
-    value = a * sin(b * x) * exp(c * x)
-    return value
-
 #Define sample points
 x = array([0.2,0.7,1,1.5,1.8,2,4,5,6,7,10,15])
 
 a = 3
 b = 2
 c = -1
-#         Sample the function............and add some random noise.
-y = array([func(n,a,b,c)  for n in x]) + norm.rvs(0,.0069,len(x))
+#    Evaluate the function........and add some random noise.
+y = a * sin(b * x) * exp(c * x) + norm.rvs(0,.0069,len(x))
 \end{Verbatim}
 All of these things should be familiar to you if you have read through
 previous chapters.  Notice the use of \code{norm.rvs} to sample a
 normal distrubution.
 
 Now we're ready to send our data into the function \code{curve\_fit}
-perform the fitting. First, we need to import the library
+perform the fitting. First, we need to import the library and define
+the function being fitted to:
 \begin{Verbatim}
 import scipy.optimize as opt
 
+def func(x,a,b,c)
+    retun a * sin(b*x) * exp(c * x)
+
 fit = opt.curve_fit(func,x,y)
 \end{Verbatim}
+Notice that I have defined that function that I am trying to fit the
+data to.  The \code{curve_fit} function needs to know this information.
 The \code{curve\_fit} function requires three arguments: The function
 that is being fitted, the independent variable values, and the
 dependent variables values.  There are several optional arguments that
@@ -100,12 +101,12 @@ fitA = fit[0][0]  # Pull out value of a
 fitB = fit[0][1]  # Pull out value of b
 fitC = fit[0][2]  # Pull out value of c
 
-xRange = arange(0,15,0.1)  # Define a grid of points on my domain
+xVals = arange(0,15,0.1)  # Define a grid of points on my domain
 
 #Evaluate my fit function over the entire domain
 #using my newly-found fit parameters
-yVals = [func(n,fitA,fitB,fitC) for n in xRange] 
+yVals = fitA * sin(fitB * xVals) * exp(fitC * xVals)
 pyplot.scatter(x,y)  #Plot the data
-pyplot.plot(xRange,yVals)  #Plot the fit function
+pyplot.plot(xVals,yVals)  #Plot the fit function
 pyplot.show()  #Show results.
 \end{Verbatim}

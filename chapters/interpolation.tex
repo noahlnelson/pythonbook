@@ -1,0 +1,321 @@
+\chapter{Interpolation and Extrapolation}
+
+\label{chap:interp}\index{Extrapolation} \index{Interpolation}
+
+In computational physics we usually represent functions as arrays of values at
+discrete points in time and space. But we often want to be able to find
+function values at points not in the arrays. Finding function values between
+data points in the array is called {\it interpolation}; finding function
+values beyond the endpoints of the array is called {\it extrapolation}. A
+common way to do both is to use nearby function values to define a polynomial
+approximation to the function that is pretty good over a small region.  Both
+linear and quadratic function approximations will be discussed here.
+
+%% because Matlab's ode solvers don't use equally spaced
+%% time steps, and because you might want equal spacing,
+%% here's how you convert from Matlab's unequally-spaced (t,x,v)
+%% to equally spaced data (te,xe,ve)
+%
+%N=length(t);
+%taue=(tfinal-tstart)/(N-1);
+%te=tstart + (0:taue:(N-1)*taue) ;
+%te=te';  % convert te to a column vector, to match t
+%xe=interp1(t,x,te,'spline');
+%ve=interp1(t,v,te,'spline');
+%
+%% Note that you could have obtained equally-spaced points by
+%% telling ode45 to give you the solutions at times you specify.
+%% For instance, suppose you wanted 1024 points between t=0 and
+%% t=200. You could build them like this (the code is commented)
+%
+%% N=1024;
+%% taue=(tfinal-tstart)/(N-1);
+%% te=tstart + (0:taue:(N-1)*taue) ;
+%% [t,u]=ode45(@rhs,te,u,options);
+%% xe=u(:,1);ve=u(:,2);
+
+
+\medskip
+
+\marginfig{Figures/figLineInterp}{Linear interpolation only works well over
+intervals where the function is straight.}
+
+\section{Manual Interpolation and Extrapolation}
+
+\subsection*{Linear approximation}
+A linear approximation can be obtained with just two data points,
+say $(x_1,y_1)$ and $(x_2,y_2)$. You learned a long time ago that
+two points define a line, and the two-point formula for a line
+is
+\begin{equation}
+y = y_1+ \frac{(y_2-y_1) }{ (x_2-x_1)} (x-x_1)
+\end{equation}
+This formula can be used between any two data points to linearly
+interpolate. For example, if $x$ in this formula is half-way between
+$x_1$ and $x_2$ at $x=(x_1+x_2)/2$ then it is easy to show that
+linear interpolation gives the obvious result $y=(y_1+y_2)/2$.
+
+But you must be careful when using this method that your points are
+close enough together to give good values. In
+Fig.~\ref{figLineInterp}, for instance, the linear approximation to
+the curved function represented by the dashed line ``a'' is pretty
+poor because the points $x=0$ and $x=1$ on which this line is based
+are just too far apart. Adding a point in between at $x=0.5$ gets
+us the two-segment approximation ``c'' which is quite a bit better.
+Notice also that line ``b'' is a pretty good approximation because
+the function doesn't curve much.
+
+This linear formula can also be used to extrapolate. A common way
+extrapolation is often used is to find just one more function value
+beyond the end of a set of function pairs equally spaced in $x$. If
+the last two function values in the array are $f_{N-1}$ and $f_N$,
+it is easy to show that the formula above gives the simple rule
+\begin{equation}\label{eq:linExtrap}
+f_{N+1} = 2 f_N-f_{N-1}
+\end{equation}
+
+You must be careful here as well: segment ``d'' in Fig.~\ref{figLineInterp}
+is the linear extrapolation of segment ``b'', but because the
+function starts to curve again ``d'' is a lousy approximation unless
+$x$ is quite close to $x=2$.
+
+
+
+\subsection*{Quadratic approximation}
+Quadratic interpolation and extrapolation are more accurate than
+linear because the quadratic polynomial $a x^2 + bx + c$ can more
+easily fit curved functions than the linear polynomial $ax + b$.
+Consider Fig.~\ref{figQuadInterp}. It shows two quadratic fits to the curved
+function. The one marked ``a'' just uses the points $x=0,1,2$ and is
+not very accurate because these points are too far apart. But the
+approximation using $x=0,0.5,1$, marked ``b'', is really quite good,
+much better than a two-segment linear fit using the same three
+points would be.
+
+\marginfig{Figures/figQuadInterp}{Quadratic interpolation follows the curves
+    better if the curvature doesn't change sign. }
+
+To derive the quadratic interpolation and extrapolation function,
+we assume that we have three known points, $(x_1,y_1)$,
+$(x_2,y_2)$, and $(x_3,y_3)$.  If our parabola $y=a x^2 + bx + c$ is
+to pass through these three points, then the following set of
+equations must hold
+\begin{equation}
+    \begin{aligned}
+    y_1 &= a x_1^2 + bx_1 + c \\
+    y_2 &= a x_2^2 + bx_2 + c \\
+    y_3 &= a x_3^2 + bx_3 + c \\
+    \end{aligned}
+\end{equation}
+Unfortunately, when you solve this set of equations for $a$, $b$,
+and $c$, the formulas are ugly. If we simplify to the case where
+the three points are part of an equally spaced grid, things are
+prettier.  Let's assume equally spaced points spaced by $h$, so
+that $x_1=x_2-h$ and $x_3=x_2+h$. In this case, the solutions
+are\footnote{It is common in numerical analysis to derive this
+result using \index{Taylor's theorem} Taylor's theorem, which
+approximates the function $y(x)$ near the point $x=a$ as
+\[
+y(x) \approx y(a) + y'(a)(x-a) + \frac{1}{2} y''(a) (x-a)^2 + \cdots
+\]
+If we ignore all terms beyond the quadratic term in $(x-a)$) near a
+point $(x_n,y_n)$, use an array of equally spaced $x$ values, and
+employ numerical derivatives as discussed in
+Chapter~\ref{chap:Calculus}, the Taylor's series becomes
+\[
+y(x) \approx y_n + \frac{y_{n+1}-y_{n-1} }{ 2 h} (x-x_n)
++ \frac{y_{n-1}-2 y_n + y_{n+1} }{ 2 h^2} (x-x_n)^2 ~.
+\]
+This can be solved to find $a$, $b$, and $c$.
+}
+\begin{equation}
+    \begin{aligned}
+    a &= \frac{y_1-2y_2+y_3}{2h^2} \\
+    b &= \frac{y_3-y_1}{2h} -2x_2 a \\
+    c &= y_2 + x_2 \frac{y_1-y_3}{2h} + x_2^2 a
+    \end{aligned}
+\end{equation}
+
+With these coefficients, we can quickly find approximate $y$ values
+near our three points using $y=a x^2 + bx + c$. This formula is
+very useful for getting function values that aren't in the array.
+For instance, we can use this formula to obtain the interpolation
+approximation for a point half way between two known points, i.e.
+$y_{n+1/2} \equiv y(x_n+h/2)$
+\begin{equation}
+y_{n+1/2} = -\frac{1}{8} y_{n-1} + \frac{3}{4} y_n + \frac{3}{8}
+y_{n+1}
+\end{equation}
+and also to find the quadratic extrapolation rule for a data point
+one grid spacing beyond the last point, i.e. $y_{N+1} \equiv y(x_N
++ h)$
+\begin{equation}
+y_{N+1} = 3 y_N - 3 y_{N-1} + y_{N-2} ~.
+\end{equation}
+
+
+
+\section{Matlab interpolaters}
+
+\subsection*{Interp1}
+\index{Interp1} Matlab has its own interpolation routine {\tt
+interp1} which does the things discussed in the previous two sections
+automatically. Suppose you have a set of data points $\{x,y\}$ and
+you have a different set of x-values $\{x_i\}$ for which you want to
+find the corresponding $\{y_i\}$ values by interpolating in the
+$\{x,y\}$ data set. You simply use any one of these three forms of
+the {\tt interp1} command:
+\begin{Verbatim}
+yi=interp1(x,y,xi,'linear')
+yi=interp1(x,y,xi,'pchip')
+yi=interp1(x,y,xi,'spline')
+\end{Verbatim}
+We haven't talked about spline interpolation yet.  It is a
+piece-wise polynomial fit that typically does an excellent job of
+matching smooth functions.
+
+Here is an example of how each of these three types of interpolation
+works on a crude data set representing the sine function.
+
+\begin{codeexample}
+\begin{VerbatimOut}{\listingFile}
+clear; close all;
+
+% make the crude data set with dx too big for
+% good accuracy
+dx=pi/5;
+x=0:dx:2*pi;
+y=sin(x);
+
+% make a fine x-grid
+xi=0:dx/20:2*pi;
+
+% interpolate on the coarse grid to
+% obtain the fine yi values
+
+% linear interpolation
+yi=interp1(x,y,xi,'linear');
+
+% plot the data and the interpolation
+plot(x,y,'b*',xi,yi,'r-')
+title('Linear Interpolation')
+
+% cubic interpolation
+yi=interp1(x,y,xi,'pchip');
+
+% plot the data and the interpolation
+figure
+plot(x,y,'b*',xi,yi,'r-')
+title('Cubic Interpolation')
+
+% spline interpolation
+yi=interp1(x,y,xi,'spline');
+
+% plot the data and the interpolation
+figure
+plot(x,y,'b*',xi,yi,'r-')
+title('Spline Interpolation')
+\end{VerbatimOut}
+\end{codeexample}
+
+
+
+\section{Two-dimensional interpolation}
+
+\index{Interp2} \index{Interpolation, 2-dimensions} Matlab also knows how to
+do 2-dimensional interpolation on a data set of $\{x,y,z\}$ to find
+approximate values of $z(x,y)$ at points $\{x_i,y_i\}$ which don't lie on
+the data points $\{x,y\}$.  In the completely general situation where your
+data points $\{x,y,z\}$ don't fall on a regular grid, you can use the
+command {\tt TriScatteredInterp} to interpolate your function onto an arbitrary
+new set of points $\{x_i,y_i\}$, such as an evenly
+spaced 2-dimensional grid for plotting. Examine the code below to see how
+{\tt TriScatteredInterp} works, and play with the value of {\tt N} and see
+how the interpolation quality depends on the number of points.
+\begin{codeexample}
+\begin{VerbatimOut}{\listingFile}
+clear; close all;
+
+% Make some "data" at random points x,y points
+N=200;
+x = (rand(N,1)-0.5)*6;
+y = (rand(N,1)-0.5)*6;
+z = cos((x.^2+y.^2)/2);
+
+% Create an interpolating function named F
+F = TriScatteredInterp(x,y,z,'natural');
+
+% Create an evenly spaced grid to interpolate onto
+xe = -3:.1:3;
+ye = xe;
+[XE,YE] = ndgrid(xe,ye);
+
+% Evaluate the interpolation function on the even grid
+ZE = F(XE,YE);
+
+% plot the interpolated surface
+surf(XE,YE,ZE);
+
+% overlay the "data" as dots
+hold on;
+plot3(x,y,z,'.');
+axis equal
+\end{VerbatimOut}
+\end{codeexample}
+
+The {\tt TriScatteredInterp} command is very powerful in the sense
+that you can ask it to estimate $z(x,y)$ for arbitrary $x$ and $y$ (within
+your data range).  However, for large data sets it can be slow.  In the
+case that your data set is already on a regular grid, its much faster to
+use the {\tt interpn} command, like this:
+\begin{codeexample}
+\begin{VerbatimOut}{\listingFile}
+clear; close all;
+
+x=-3:.4:3; y=x;
+
+% build the full 2-d grid for the crude x and y data
+% and make a surface plot
+[X,Y]=ndgrid(x,y);
+Z=cos((X.^2+Y.^2)/2);
+surf(X,Y,Z);
+title('Crude Data')
+
+% now make a finer 2-d grid, interpolate linearly to
+% build a finer z(x,y) and surface plot it.
+
+% Because the interpolation is linear the mesh is finer
+% but the crude corners are still there
+xf=-3:.1:3;
+yf=xf;
+[XF,YF]=ndgrid(xf,yf);
+ZF=interpn(X,Y,Z,XF,YF,'linear');
+figure
+surf(XF,YF,ZF);
+title('Linear Interpolation')
+
+% Now use cubic interpolation to round the corners.  Note that
+% there is still trouble near the edge because these points
+% only have data on one side to work with, so interpolation
+% doesn't work very well
+
+ZF=interpn(X,Y,Z,XF,YF,'cubic');
+figure
+surf(XF,YF,ZF);
+title('Cubic Interpolation')
+
+% Now use spline interpolation to also round the corners and
+% see how it is different from cubic.  You should notice that
+% it looks better, especially near the edges.  Spline
+% interpolation is often the best.
+
+ZF=interpn(X,Y,Z,XF,YF,'spline');
+figure
+surf(XF,YF,ZF);
+title('Spline Interpolation')
+\end{VerbatimOut}
+\end{codeexample}
+
+In this example our grids were created using {\tt ndgrid}.  If you choose
+to use the {\tt meshgrid} command to create your grids, you'll need
+to use the command {\tt interp2} instead of {\tt interpn}.
