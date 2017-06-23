@@ -217,10 +217,9 @@ the function you're interested is not found in numpy, you'll have to
 be a little more clever.For example, what if I defined
 the following function:
 \begin{Verbatim}
-def myFunction(a,b):
-    c = a + b
-    d = a * b
-    return c /d
+def myFunction(x):
+    result = 5 * x**2 - 3 * x**3
+    return result
 \end{Verbatim}
 and wanted to sample it over a chosen domain, saving all of the
 values in a list along the way.  You could create a
@@ -232,8 +231,7 @@ myDomain = arange(0,10,.01)
 for i in myDomain:
     myFuncVals.append(myFunction(i))
 \end{Verbatim}
-It turns
-out that there is a simpler way to accomplish this:
+It turns out that there is a simpler way to accomplish this:
 \begin{Verbatim}
 from numpy import arange
 myDomain = arange(0,10,.01)

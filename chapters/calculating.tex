@@ -126,9 +126,22 @@ This will create an array that looks like this:
 \begin{Verbatim}
 [0,1.11111,2.222222,3.333333,4.4444444,5.55555555,6.666666,7.7777777,8.8888888,10]
 \end{Verbatim}
+When you use the \code{linspace} function, you aren't specifying a
+step size: the distance between values in the array.  You can ask the
+\code{linspace} command to tell you what step size results from the
+array that it created by adding the \code{retstep =True} as an
+argument to the function,like this:
+\begin{Verbatim}
+from numpy import linspace
+myArray,mydx = linspace(0,10,10,retstep = True)
+\end{Verbatim}
+Notice that since \code{linspace} is now returning two things(the
+array and the step size), we must have two variables to assign them to
+on the left hand side of the equals sign.  
+
 Many other useful function for creating arrays are available.  Online
-documentation is freely available.  Table \ref{tab:Arraybuilding} gives some of the more
-heavily-used ones:
+documentation is freely available.  Table \ref{tab:Arraybuilding}
+gives some of the more heavily-used ones:
 
 \subsection*{Simple Math with Arrays}
 Once the array object is created, a whole host of mathematical
@@ -156,16 +169,6 @@ g = xArray * yArray  # Multiply the elements of array one to the elements of
 In short, you can do all of the math that you were hoping you could do
 when you first learned about Python lists.
 
-Returning, for a brief moment, to the problem posed at the beginning
-of this section involving the sum in equation \ref{eq:sum}.  Using
-arrays this sum can be evaluated very compactly (assuming that the
-name of the array of numbers is \code{x}):
-\begin{Verbatim}
-D = 5
-sum( (x - D)**3) 
-\end{Verbatim}
-Please note that this could not have been accomplished if x was a list
-of numbers rather than an array of numbers.
 
 
 \subsection*{Evaluating Functions on Arrays}
@@ -190,7 +193,7 @@ Notice that \code{math}'s version of \code{sin} does not
 know what to do when you give it an array of numbers.  It only works
 for single numbers.  \code{Numpy}'s \code{sin} function, on the
 other hand, does know what to do with an array of numbers: it
-calculates the sin of all the numbers.
+calculates the sin of all the numbers.  
 
 \subsection*{Summing the elements}
 Suppose you have a list(or array) of numbers and you'd like to add up
@@ -218,10 +221,37 @@ line.  The \code{axis=1} indicates that you want to sum up the
 elements in each individual list and return a list of sums.  If you
 had a higher-dimensional list, you could use \code{axis=2} or
 \code{axis = 3} as well.
+
+Let's return, for a moment, to the problem posed at the beginning
+of this section involving the sum in equation \ref{eq:sum}.
+Hopefully you are starting to see that, if you work with arrays, this
+sum is very simple to compute.  Here's the code (assuming that the
+name of the array of numbers is \code{x}):
+\begin{Verbatim}
+D = 5
+sum( (x - D)**3) 
+\end{Verbatim}
+Please note that this could not have been accomplished if x was a list
+of numbers rather than an array of numbers.
+
 \subsection*{Accessing Multiple Elements}
-There is additional functionality for accessing and slicing arrays
-than for lists when the arrays become higher dimensional.  As an
-example, here is a two-dimensional array
+Accessing and slicing arrays can be done in exactly the same way as is
+done with lists.  However, there is some additional functionality for
+accessing and slicing arrays that do not apply to lists.  Let's
+consider the following 1-d array:
+\begin{Verbatim}
+from numpy import array
+a = array([1,2,3,4,5,6,7,8,9,10])
+\end{Verbatim}
+Let's say you wanted to extract elements 2,3,5,and 9.  You can extract
+all of these elements in one shot by using a list of these numbers for
+the index, like this:
+\begin{Verbatim}
+b = a[[2,3,5,9]]
+\end{Verbatim}
+You can't do that with lists.
+
+How about for two-dimensional arrays, like this one:
 \begin{Verbatim}
 from numpy import array
 a = array([[1,2,3],[4,5,6],[7,8,9]])
@@ -261,7 +291,7 @@ a = array([1,2,3,4,5,6])
 b = a[a>2]
 \end{Verbatim}
 Here, only those elements that are greater than 2 will be extracted
-from the array.  It will work on multi-dimensional arrays as well:
+from the array.  It will work on multi-dimensional arrays as well
 
 \subsection*{Multi-dimensional Slicing}
 We've already shown you how to slice a list using the \code{:}

@@ -69,10 +69,11 @@ e = a * b  # multiply two numbers together
 f = c**4   # raise number to a power (use **, not ^)
 \end{Verbatim}
 Notice that performing an operation on two integers \ul{usually}
-yields another integer.  The one exception is division if you are
-using Python version 2 or earlier.  This can pose a serious problem if
-you think about it for a second.  For example, what would be the value
-of \code{d} above if the result has to be an integer?
+yields another integer.  This can pose a serious problem for division
+if you think about it for a second. For example, what would be the
+value of variable \code{d} above if the result has to be an integer?
+Beginning in version 3 of Python, this problem was resolved so that
+dividing two integers yields a float.  
 
 \section{Float variables}
 Most meaningful calculations should be performed using floating point
@@ -181,6 +182,8 @@ You can even define a list of lists:
 \begin{Verbatim}
 a = [[4,3,2],[1,2.5,90],[4.2,2.9,10.5],[239.4,1.4],[2.27,98,234,16.2]]
 \end{Verbatim}
+though you should be careful about associating such a variable with a
+mathematical matrix.  It's just a data container!
 \subsection*{Accessing and Slicing lists}
 Accessing an element of a list (this will be done frequently so pay
 attention!) can be accomplished using square brackets, like this
@@ -279,7 +282,7 @@ should not (cannot) be done.  First, it may be tempting to associate a
 submatrix.  For example, what if you defined the following 2D list
 \begin{Verbatim}
 from numpy import array
-a = array([[1,2,3],[4,5,6],[7,8,9]])
+a = [[1,2,3],[4,5,6],[7,8,9]]
 \end{Verbatim}
 and interpreted it as this matrix:
 \begin{equation}
@@ -294,16 +297,17 @@ If you wanted to slice out the following 2 x 2 sub-matrix:
 \begin{equation}
 \left(\begin{tabular}{cc}
 5 & 6 \\
-8 & 8 \\
+8 & 9 \\
 \end{tabular}
 \right)
 \end{equation}
 and you tried to do it like this:
 \begin{Verbatim}
-b[1:3][1:3]
+a[1:3][1:3] 
 \end{Verbatim}
-you would be disappointed to find out that it did not work.  Lesson
-\#1: Don't treat 2D lists as matrices.
+you would be disappointed to find out that it did not work that way.
+You should take a few minutes to understand what it did do.  In the
+end you should always remember to \ul{not treat 2D lists as matrices}.
 
 Second, you may feel tempted to associate a list with a mathematical
 vector and try to perform vector math on them. For instance, it may
