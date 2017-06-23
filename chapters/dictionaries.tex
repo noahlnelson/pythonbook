@@ -1,0 +1,240 @@
+\chapter[Dictionaries and Classes]{Data Structure: Dictionaries and Classes}
+
+The "Data Structure" of a variable tells you how information is stored in that variable.  So far in this book, we've worked mostly with three different types: single variables, lists, and Numpy arrays. This chapter introduces another very useful structure: the dictionary.
+
+\section{Dictionaries}
+Imagine that your program needed the name, age, and birthday of several of your classmates.  You could store that data as a list of lists, like this:
+\begin{Verbatim}
+classmates=[['Christine','Whitney',25, 'March 10'],
+            ['Marvin','Flick', 21, 'April 17']]
+\end{Verbatim}
+Then you would have to remember that the first thing in the list is the first name, the second thing is the last name, then the age, then the birthday. You could get the last name of the second student with \code{classmates[1][1]}, and their birthday with \code{classmates[1][3]}.
+
+Dictionaries make it much easier to store this sort of information.  Rather than using indices like a list, dictionaries store information in what are called key value pairs.  Here's our \code{classmates} list rewritten as a list of dictionaries:
+
+\begin{Verbatim}
+classmates=[{'First':'Christine','Last':'Whitney','Age':25,'Birthday':'March 10'},
+            {'First':'Marvin','Last':'Flick','Age':21,'Birthday':'April 17'}]
+\end{Verbatim}
+
+In the first element of our list, the key \code{'First'} correspondes to the value \code{'Christine'}. This makes it much easier to keep strack of what kind of data is stored where.  Now, to get the first student's last name, you can use \code{classmates[0]['Last']}.
+
+Dictionaries do not preserve order.  From Python's perspective, both of these dictionaries would be the same:
+\begin{Verbatim}
+dict_1={'First':'Christine','Last':'Whitney','Age':25,'Birthday':'March 10'}
+dict_2 = {'Age':25,'Last':'Whitney','First':'Christine','Birthday':'March 10'}
+
+\end{Verbatim}
+Both \code{dict_1{'Age'}} and \code{dict_2{'Age'}} would have the same value, 25.
+
+Here's a few operations you can do with dictionaries:
+\begin{Verbatim}
+student = {'First':'Marvin','Last':'Flick','Age':21,'Birthday':'April 17'}
+student['Age']=22 #Change a value
+student['Height']=1.77 #Add a key/value pair
+student.pop('Last') #Remove a key/value pair
+
+#Iterate over a dictionary's keys
+for key in student:
+    print(key)
+
+#Iterate over key/value pairs
+for key,value in student.items():
+    print(key,value)
+
+\end{Verbatim}
+
+
+\section{Classes}
+In Python, a class is a dictionary, with a few extra features. They are most commonly used when you have lots of different objects that will have the same data structure.  With the name, age, birthday example, you will have several different students\sidenote{The overall data structure is called a class, each individual student that you load with the class is referred to as an "object" or "instance".}, each with a name, age, and birthday.  By setting up a class, you can tell Python what to expect. Here's an example:
+\begin{Verbatim}
+class Student: #Declare the class name
+    #This function runs whenever you make a new object with this class
+    def __init__(self,First,Last,Age,Birthday):
+        self.First=First  #self refers to the current object that you are making
+        self.Last=Last
+        self.Age=Age
+        self.Birthday = Birthday
+
+#Now Load the students:
+firstStudent=Student('Christine','Whitney',25, 'March 10')
+secondStudent = Student('Marvin','Flick', 21, 'April 17')
+
+#Print the first student's last name
+print(firstStudent.Last)
+#You can also reference it like a dictionary
+print(firstStudent['Last'])
+
+
+#Make a list of students
+student_list = [firstStudent, secondStudent]
+
+\end{Verbatim}
+
+In addition to saving information like a dictionary, you can also add functions to a class:
+
+\begin{Verbatim}
+class Student: #Declare the class name
+    #This function runs whenever you make a new object with this class
+    def __init__(self,First,Last,Age,Birthday):
+        self.First=First  #self refers to the current object that you are making
+        self.Last=Last
+        self.Age=Age
+        self.Birthday = Birthday
+
+    def getOlder(self):  #By passing self to this function,
+                         #The function has access to whatever is in the object
+        self.Age+=1
+
+#Now Load the students:
+firstStudent=Student('Christine','Whitney',25, 'March 10')
+
+#And use our function
+firstStudent.getOlder()
+print(firstStudent.Age)
+\end{Verbatim}
+
+\subsection*{A Physics Example}
+Try to read through this next example and see if you can figure out how it works.  As a general outline, the program fills a two dimensional box with moving particles, lets the particles move around, and keeps the particles in the box by making them bounce off of the walls.  The program defines two classes: a box and a particle.
+
+The particle class keeps track of where the particle is, and what its velocity is.  The particle class will also assign a random position and velocity (within a given range) whenever it creates a new particle.  Each particle has the ability to move itself, given an amount of time.
+
+The box class sets up the box.  It keeps track of how big the box is, and what particles are in it.  It can move all of the particles in the box. It will also check if any particles have left the box, and makes them bounce off the walls instead.
+
+Here's are the classes:
+
+\begin{Verbatim}
+#Define a particle class
+class Particle:
+    #Set up the initialization function
+    def __init__(self,x_min,x_max,y_min,y_max,v_max):
+        #Import a random number generator
+        from random import random
+
+
+        #Set the initial x position by randomly
+        #choosing a value between x_min and x_max
+        self.x=(x_max-x_min)*random()+x_min
+
+        #Repeat for y
+        self.y=(y_max-y_min)*random()+y_min
+
+        #Choose a random speed between 0 and v_max
+        v0=v_max*random()
+
+
+        #This next part shows a fancy way to randomly generate an angle
+
+        #First, choose a random sin(theta)
+        sin_theta = random()
+
+        #use sin^2+cos^2 = 1 to find cos(theta)
+        cos_theta=(1-sin_theta**2)**0.5
+
+        '''sin_theta and cos_theta are limited to positive values
+        Randomly choose whether they should be positive or negative
+        By multiplying by either 1 or negative 1.'''
+        sin_theta*= 1.0 if random()>0.5 else -1.0
+        cos_theta*= 1.0 if random()>0.5 else -1.0
+
+        #Done generating the angle =================
+
+
+
+        #Now give the particle its initial velocity
+        self.vx=v0*cos_theta
+        self.vy=v0*sin_theta
+
+
+    #Set up a function that will move particles on a straight line path
+    def move(self,dt): #dt is the time for which to move the particles
+        self.x+=self.vx*dt
+        self.y+=self.vy*dt
+
+
+
+#Now build a class for the box
+class Box:
+    #Set up the initialization function
+    '''
+    The initialization function takes 4 inputs:
+        x_size -> a list giving the size of the box in x -> [x_min, x_max]
+        y_size -> a list giving the size of the box in y -> [y_min, y_max]
+        num_parts -> the number of particles in the box
+        v_max -> the maximum speed of a particle in the box '''
+
+    def __init__(self,x_size,y_size,num_parts,v_max):
+        #Load the box size
+        self.x_size = x_size
+        self.x_min = x_size[0]
+        self.x_max = x_size[1]
+
+        self.y_size = y_size
+        self.y_min = y_size[0]
+        self.y_max = y_size[1]
+
+        #Fill the box with a list of particles
+        self.particles=[
+             Particle(self.x_min,self.x_max, #Use the particle class
+                      self.y_min,self.y_max, v_max)
+                      for _ in range(num_parts) ] #repeat num_parts times
+
+    #Set up a function that keeps particles in the box by
+    #bouncing them off the walls of the box.
+    def check_walls(self):
+        #Check each of the particles
+        for particle in self.particles:
+            #If a particle is outside of the box in the x direction,
+            #Reflect it off of the walls until it it no longer outside
+            #the box
+            while particle.x > self.x_max or particle.x < self.x_min:
+                #Find out whether the particle is above x_max or below x_min
+                x_ref = self.x_max if particle.x > self.x_max else self.x_min
+                #This part brings the particle back into the box
+                #If it is one meter above x_max, this sets the particle
+                #One meter below x_max, and will do the same for x_min
+                particle.x=2*x_ref-particle.x
+
+                #Flip the direction of its x-velocity
+                particle.vx*=-1
+
+            #Repeat for the y direction
+            while particle.y > self.y_max or particle.y < self.y_min:
+                y_ref = self.y_max if particle.y > self.y_max else self.y_min
+                particle.y=2*y_ref-particle.y
+                particle.vy*=-1
+
+    #Set up a function that moves the particles
+    def move_parts(self,dt):
+        #First, move all of the particles
+        [particle.move(dt) for particle in self.particles]
+
+        #Bounce the particles off of the walls
+        self.check_walls()
+
+\end{Verbatim}
+
+This program uses those classes to build a box with 2 particles, then plot the position of the particles as they are moved 50 times:
+
+\begin{Verbatim}
+#Box size
+box_x = [-1,1]
+box_y = [-2,2]
+
+#build a box
+my_box = Box(box_x,box_y,2,10)
+
+import matplotlib.pyplot as plt
+
+for i in range(50):
+    #Plot the particles' positions
+    plt.scatter(my_box.particles[0].x,my_box.particles[0].y,color='blue')
+    plt.scatter(my_box.particles[1].x,my_box.particles[1].y,color='red')
+    #Move the particles
+    my_box.move_parts(.01)
+
+plt.xlim(box_x)
+plt.ylim(box_y)
+
+plt.show()
+\end{Verbatim}
