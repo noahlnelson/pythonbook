@@ -47,16 +47,30 @@ for i in arange(5,50,.1):
 \end{Verbatim}
 These examples are so simple that you might wonder when a loop might
 actually be useful to you.  Let's see if we can build a loop to
-calculate the following sum:
+calculate the following sum\sidenote{\code{theSum += 1/n**2} is equivalent to \code{theSum = theSum + 1/n**2}, but runs a little faster and is a little bit easier to read.  See Table \ref{tab:Operations} for more shorthand notations.}:
 \begin{equation}
 \Sigma_{n=1}^{1000} \frac{1}{n^2}
 \end{equation}
 \begin{Verbatim}
 theSum = 0
 for n in range(1,1000):
-    theSum = theSum + 1/n**2
+    theSum += 1/n**2
 print theSum
 \end{Verbatim}
+ \marginpar{\footnotesize\captionsetup{type=table}
+  %\vspace{-4.5in}
+\begin{tabular}{lp{1.05in}}
+Operation & Shorthand Equivalent\\ \\
+\code{a = a + 1} & \code{ a += 1} \\ \\
+\code{a = a - 2} & \code{ a -= 2} \\ \\
+\code{a = 5*a} & \code{ a *= 5} \\ \\
+\code{a = a/c} & \code{ a /= c} \\ \\
+\code{a = a \% 10} & \code{ a \%= 10} \\ \\
+\code{a = a**3} & \code{ a **= 3} \\ \\
+\code{a = a // 12} & \code{ a //= 12} \\ \\
+\end{tabular}
+\captionof{table}{A list of shorthand variable reassignment notation.\label{tab:Operations}}
+}
 Here, \code{n} is being assigned the values
 \code{1,2,3,4....1000}, one by one, until it gets all the way to
 \code{1000}.  Each time through the loop, \code{n} is different
@@ -67,7 +81,7 @@ example of a loop used to calculate the value of $20!$:
 \begin{Verbatim}
 theProduct = 1
 for n in range(1,21):
-    theProduct = theProduct * n
+    theProduct *= n #Multiply theProduct by n
 print theSum
 \end{Verbatim}
 Remember that the range function creates a list starting at $1$, going
@@ -75,16 +89,16 @@ up to $21$ but not including it. The math library has a function
 called \code{factorial} that does the same thing.  Let's use it to
 check our answer:
 \marginpar{\footnotesize\captionsetup{type=table}
-  %\vspace{-2.5in}
+  \vspace{2.5in}
 \begin{tabular}{lp{1.05in}}
-\texttt{==}  &  Equal\\ \\
-\texttt{!=}  &  Not equal\\ \\
-\texttt{>=}  &  Greater than or equal\\ \\
-\texttt{>}  &  Greater than\\ \\
-\texttt{<=}  &  Less than or equal\\ \\
-\texttt{and}  &  and\\ \\
-\texttt{or}  &  or\\ \\
-\texttt{!}  &  not\\ \\
+\code{==}  &  Equal\\ \\
+\code{!=}  &  Not equal\\ \\
+\code{>=}  &  Greater than or equal\\ \\
+\code{>}  &  Greater than\\ \\
+\code{<=}  &  Less than or equal\\ \\
+\code{and}  &  and\\ \\
+\code{or}  &  or\\ \\
+\code{!}  &  not\\ \\
 \end{tabular}
 \captionof{table}{Python's logic elements.\label{tab:Logicelements}}
 }
@@ -117,7 +131,7 @@ Study the examples above until it makes sense.  Any logical statement
 can be constructed out of the elements in table
 \ref{tab:Logicelements}
 
-A word of caution about comparing Python floats is in order here.  
+A word of caution about comparing Python floats is in order here.
 Python floats are stored as a 53-digit, base-2 binary number(that's a
 mouthful).  If you're interested in what that means, we can talk more.
 If you're not that interested, just know that when you define a float
@@ -169,14 +183,14 @@ term = 1  # Load the first term in the sum
 s = term  # Initialize the sum
 n = 1     # Set a counter
 while term > 1e-10:  # Loop while term is bigger than 1e-10
-    n = n + 1        #Add 1 to n so that it will count: 2,3,4,5
+    n += 1        #Add 1 to n so that it will count: 2,3,4,5
     term = 1./n**2    # Calculate the next term to add
-    s = s + term     # Add 1/n^2 to the running total
+    s += term     # Add 1/n^2 to the running total
 \end{Verbatim}
 This loop will continue to execute until \code{term}<1e-10. Note
 that unlike the for loop, here you have to do your own counting, being
 careful about what value n starts at and when it is incremented
-(\code{n=n+1}). Also notice that \code{term} must be assigned
+(\code{n+=1}). Also notice that \code{term} must be assigned
 prior to the start of the loop.  If it wasn't the loop's first logical
 test would fail and the loop wouln't execute at all.
 
@@ -191,13 +205,13 @@ term = 1  # Load the first term in the sum
 s = term  # Initialize the sum
 n = 1     # Set a counter
 while term > 1e-10:  # Loop while term is bigger than 1e-10
-    n = n + 1        #Add 1 to n so that it will count: 2,3,4,5
+    n +=  1        #Add 1 to n so that it will count: 2,3,4,5
     term = 1./n**2    # Calculate the next term to add
-    s = s + term     # Add 1/n^2 to the running total
+    s += term     # Add 1/n^2 to the running total
     if n > 1000:
         print 'This is taking too long. I''m outta here...'
         break
-\end{Verbatim} 
+\end{Verbatim}
 
 \section{Combining loops and functions}
 One task that will be repeated many times is that of evaluating a
@@ -210,7 +224,7 @@ from numpy import arange,sin
 x = arange(0,10,.01)
 y = sin(x)
 \end{Verbatim}
-Notice that numpy's \texttt{sin} function was used here.  It was
+Notice that numpy's \code{sin} function was used here.  It was
 designed to accept an array of numbers for its argument and it knows
 that you want it to evaluate the function at all of the points.  If
 the function you're interested is not found in numpy, you'll have to
@@ -240,5 +254,4 @@ myFuncVals = [myFunction(n) for n in myDomain]
 Study the last line until it makes sense to you.  I have combined a
 loop with a list to create the list of function values.  Some would
 call this a {\bf mapping} between my function and the list of domain
-values.  This will save you a lot of time so spend the necessary time
-now to understand what is happening.  
+values.  See section \ref{comprehensions} for more details.

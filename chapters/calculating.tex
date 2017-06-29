@@ -36,6 +36,80 @@ use the \code{math} library, which we will discuss shortly.  Some
 commonly-used mathemtical functions from these libraries can be found
 in the tables.
 
+\section{There Are Limits to Lists}
+There are several things that seem natural to do with lists but that
+should not (cannot) be done.  First, you may feel tempted to associate a list with a mathematical
+vector and try to perform vector math on them. For instance, it may
+seem natural to try
+\begin{Verbatim}
+a = [5.1 , 3.2 , 6.8 , 9.2]
+b = 5 * a
+\end{Verbatim}
+or
+\begin{Verbatim}
+a = [5.1 , 3.2 , 6.8 , 9.2]
+b = [2.7 , 1.9 , 3.2 , 9.9]
+c = a + b
+\end{Verbatim}
+Can you explain the results?  So lesson \# 1 is: Doing vector or
+matrix math \underline{cannot be done with a list}.  If you were
+allowed to do that, what should Python do when your lists were filled
+with non-numerical data, like this:
+\begin{Verbatim}
+a = ['Physics', 'is']
+b = ['the', 'coolest', 'topic']
+c = a + b
+\end{Verbatim}
+  This doesn't mean that the numbers \ul{stored in
+  lists} can't be extracted and used in mathematical calculations,
+like this
+\begin{Verbatim}
+a = [4.5,8,2.1,10.8,12]
+c = a[0]**a[1]  # Take the first element of a and raise it to a power
+                # equal to the second element of a
+\end{Verbatim}
+It just means that mathematical calculations involving entire arrays
+of numbers (like vector and matrix math) cannot be done using the list
+data type.
+
+Second, it may be tempting to associate a
+2-D list with a matrix and try to use the \code{:} to slice out a
+submatrix.  For example, what if you defined the following 2D list
+\begin{Verbatim}
+from numpy import array
+a = [[1,2,3],[4,5,6],[7,8,9]]
+\end{Verbatim}
+and interpreted it as this matrix:
+\begin{equation}
+\left( \begin{tabular}{ccc}
+1 & 2 & 3\\
+4 & 5 & 6\\
+7 & 8 & 9\\
+\end{tabular}
+\right)
+\end{equation}
+If you wanted to slice out the following 2 x 2 sub-matrix:
+\begin{equation}
+\left(\begin{tabular}{cc}
+5 & 6 \\
+8 & 9 \\
+\end{tabular}
+\right)
+\end{equation}
+and you tried to do it like this:
+\begin{Verbatim}
+a[1:3][1:3]
+\end{Verbatim}
+you would be disappointed to find out that it did not work that way.
+You should take a few minutes to understand what it did do.  In the
+end you should always remember to \ul{not treat 2D lists as matrices}.
+
+However, don't think for one second that Python is unable
+to handle this kind of math.  Just keep reading and you'll learn how
+this is done using the Numpy library. (pronounced num-pie, short for numerical
+python)
+
+
 \section{Numpy Arrays}
 Often you'll find that you want to perform math on an entire set of
 data.  For example, let's say you had a large data set
@@ -64,16 +138,22 @@ and you wanted to calculate the summation
 \end{equation}
 where $x_i$ are the data given above and $D = 5$.  You could
 calculate, one-by-one, each contribution in the sum and then add them
-up.  But there has to be an easier way.  The easier way involves a
-library called \code{numpy} (pronounced num-pie, short for numerical
-python).  The main object used in this library is called an
+up.
+However, there is to be an easier way.  The easier way involves a
+library called \code{numpy} .  The main object used in this library is called an
 \code{array}, which is very similar to a list except that an array
-is intended for mathematical use.  Let's explore arrays a little more.
+is intended for mathematical use.  If \code{x} were a Numpy array, the code would be as simple as:
+\begin{Verbatim}
+D=5 #define D so the next line looks exactly like the equation
+my_sum=sum((x-D)**3)
+\end{Verbatim}
+
+Let's explore arrays a little more.
 
 \subsection*{Array Creation}
 There are several ways to create an array.  If you already have a list
 of numbers and you just want to convert it to an array, you can do it
-with \code{numpy}'s \code{array} function.:
+with \code{numpy}'s \code{array} function:
 \begin{Verbatim}
 from numpy import array
 xList = [2 , 3 , 5.2 , 2 , 6.7]
@@ -137,7 +217,7 @@ myArray,mydx = linspace(0,10,10,retstep = True)
 \end{Verbatim}
 Notice that since \code{linspace} is now returning two things(the
 array and the step size), we must have two variables to assign them to
-on the left hand side of the equals sign.  
+on the left hand side of the equals sign.
 
 Many other useful function for creating arrays are available.  Online
 documentation is freely available.  Table \ref{tab:Arraybuilding}
@@ -181,7 +261,7 @@ library both contain a function called \code{sin}.  The one from the
 the \code{math} library is not. Here is an example
 \begin{Verbatim}
 import numpy as np
-import math 
+import math
 
 xList = [2 , 3 , 5.2 , 2 , 6.7]
 xArray = array(xList)
@@ -193,7 +273,7 @@ Notice that \code{math}'s version of \code{sin} does not
 know what to do when you give it an array of numbers.  It only works
 for single numbers.  \code{Numpy}'s \code{sin} function, on the
 other hand, does know what to do with an array of numbers: it
-calculates the sin of all the numbers.  
+calculates the sin of all the numbers.
 
 \subsection*{Summing the elements}
 Suppose you have a list(or array) of numbers and you'd like to add up
@@ -214,10 +294,10 @@ a = [[1.5,2.2],[9.8,4.6]]  # Define a 2-d list, a list of lists
 b = sum(a)   #Use built-in sum function, notice the error
 from numpy import sum
 c = sum(a)   # Use numpy's sum function, no error.
-d = sum(a,axis = 1) 
+d = sum(a,axis = 1)
 \end{Verbatim}
 Notice the extra argument to the \code{sum} function in the last
-line.  The \code{axis=1} indicates that you want to sum up the
+line.  The \code{axis=1}\sidenote{By default, \code{axis=0}.  Therefore \code{sum(a)} and \code{sum(a,axis=0)} perform the same operation.} indicates that you want to sum up the
 elements in each individual list and return a list of sums.  If you
 had a higher-dimensional list, you could use \code{axis=2} or
 \code{axis = 3} as well.
@@ -229,7 +309,7 @@ sum is very simple to compute.  Here's the code (assuming that the
 name of the array of numbers is \code{x}):
 \begin{Verbatim}
 D = 5
-sum( (x - D)**3) 
+sum( (x - D)**3)
 \end{Verbatim}
 Please note that this could not have been accomplished if x was a list
 of numbers rather than an array of numbers.
@@ -372,7 +452,7 @@ f = a * b # Matrix multiplication
 g = b * col # Multiply matrix b to column vector
 h = a**2   # Square the matrix. Not the same as squaring an array.
 \end{Verbatim}
- 
+
 
 \section{Statistics}
 \code{Numpy} has a statistical package that includes many useful

@@ -1,8 +1,67 @@
-\chapter[Dictionaries and Classes]{Data Structure: Dictionaries and Classes}
+\chapter[Advanced Python]{Advanced Python Techniques}
+There are several very useful Python techniques where full walkthroughs and descriptions don't into the scope of this book.  However, many of them you may not come across through the course of a normal science/engineering education.
 
-The "Data Structure" of a variable tells you how information is stored in that variable.  So far in this book, we've worked mostly with three different types: single variables, lists, and Numpy arrays. This chapter introduces another very useful structure: the dictionary.
+This chapter contains many of those, with brief descriptions and a few examples so that you as a reader can see first of all that they exist, second, when they might be useful, and third, what they are called so you can further research them on your own.
 
-\section{Dictionaries}
+\section{Lambda (unnamed) functions}
+Sometimes, a function that you need to
+define is quite simple (maybe even one line) and it'd be nice if you
+could define it in one line.  Luckily, you can.  It's
+called a lambda function and here is an example:
+\begin{Verbatim}
+f = lambda x: x**3  #Define the function
+print f(5)   # Evaluate the function
+g = lambda x,y: x + y # Function of two variables
+print g(5,6)
+\end{Verbatim}
+Here we defined the function $f(x) = x^3$, a function of one variable,
+and quickly evaluated it.  Your lambda functions can have as many
+arguments as you'd like: just seperate the arguments with commas.  At
+this point, you may be asking yourself why this is such a big deal:
+Why would you ever really need to do this.  Well, there are some
+python \underline{functions that take functions as their
+  arguments}.\sidenote{Stop and process that for a minute.}(as opposed
+to taking simple numbers or strings) An example of this is the
+\code{filter} function which serves to extract elements of a list
+according to some criteria.  The exact details of the criteria are
+specified using a lambda function.  Here's an example:
+\begin{Verbatim}
+a = [1,3,4,6,9,2,3,8]
+b = list( filter( lambda x: (x % 2 == 0) , a ) )
+print(b)
+\end{Verbatim}
+Notice how the \code{filter} function is used.  The first argument
+is the criteria function: the function that dictates which of the list
+elements you want extracted. It's not an integer or a float or a
+sting.  It's actually a function: something that takes an argument and
+returns a result.  In this case, the filter function was being used to
+extract the elements of \code{a} that were multiples of $2$ and the
+lambda function serves to check each number in the list and return
+either \code{True} or \code{False}.
+
+\section{Inline If Statements}
+
+\section{List Comprehensions}\label{Comprehensions}
+
+\section{Data Structures}
+The "Data Structure" of a variable tells you how information is stored in that variable.  So far in this book, we've worked mostly with three different types: single variables, lists, and Numpy arrays. This section introduces three other very useful structures: the tuple, the dictionary, and the class.
+
+\subsection{Tuples}
+This book has mentioned tuples a few different times.  They are very similar to lists, but with two key differences:
+\begin{itemize}
+\item Tuples cannot change size or shape\sidenote{This property is referred to as being {\bf immutable}}.  So \code{append}, \code{insert}, \code{pop}, and other similar methods do not work on Tuples.
+\item Tuples are faster than lists, since they cannot change size or shape.
+\end{itemize}
+Creating a tuple is ver similar to creating a list. Just replace the \code{[]} with \code{()}.
+\begin{Verbatim}
+my_list = [5,'Hello',[72, 63], -1.431]
+my_tuple = (5,'Hello',[72, 63], -1.431)
+
+print(my_list[1])
+print(my_tuple[1]) #Notice that tuples still use [] for indexing
+\end{Verbatim}
+
+\subsection{Dictionaries}
 Imagine that your program needed the name, age, and birthday of several of your classmates.  You could store that data as a list of lists, like this:
 \begin{Verbatim}
 classmates=[['Christine','Whitney',25, 'March 10'],
@@ -45,7 +104,7 @@ for key,value in student.items():
 \end{Verbatim}
 
 
-\section{Classes}
+\subsection{Classes}
 In Python, a class is a dictionary, with a few extra features. They are most commonly used when you have lots of different objects that will have the same data structure.  With the name, age, birthday example, you will have several different students\sidenote{The overall data structure is called a class, each individual student that you load with the class is referred to as an "object" or "instance".}, each with a name, age, and birthday.  By setting up a class, you can tell Python what to expect. Here's an example:
 \begin{Verbatim}
 class Student: #Declare the class name
@@ -101,9 +160,10 @@ The particle class keeps track of where the particle is, and what its velocity i
 
 The box class sets up the box.  It keeps track of how big the box is, and what particles are in it.  It can move all of the particles in the box. It will also check if any particles have left the box, and makes them bounce off the walls instead.
 
-Here's are the classes:
+Once the classes are built, this program uses those classes to build a box with 2 particles, then plot the position of the particles as they are moved 50 times. Here is the example code:
 
-\begin{Verbatim}
+\begin{codeexample}
+\begin{VerbatimOut}{\listingFile}
 #Define a particle class
 class Particle:
     #Set up the initialization function
@@ -212,11 +272,9 @@ class Box:
         #Bounce the particles off of the walls
         self.check_walls()
 
-\end{Verbatim}
+#End of class definitions, the rest of this program uses them ==========================
 
-This program uses those classes to build a box with 2 particles, then plot the position of the particles as they are moved 50 times:
 
-\begin{Verbatim}
 #Box size
 box_x = [-1,1]
 box_y = [-2,2]
@@ -237,4 +295,6 @@ plt.xlim(box_x)
 plt.ylim(box_y)
 
 plt.show()
-\end{Verbatim}
+\end{VerbatimOut}
+\end{codeexample}
+

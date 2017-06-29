@@ -44,7 +44,7 @@ adds one to whatever value was previously stored in
   equation $a=a+1$ is clearly false.}  Note that {\it variable names
   in Python are case sensitive,} so watch your capitalization.
 \index{Case sensitive}
-You can define multiple variables by putting the assignements on
+You can define multiple variables by putting the assignments on
 seperate lines:
 \begin{Verbatim}
 a = 2
@@ -73,7 +73,7 @@ yields another integer.  This can pose a serious problem for division
 if you think about it for a second. For example, what would be the
 value of variable \code{d} above if the result has to be an integer?
 Beginning in version 3 of Python, this problem was resolved so that
-dividing two integers yields a float.  
+dividing two integers yields a float.
 
 \section{Float variables}
 Most meaningful calculations should be performed using floating point
@@ -121,8 +121,8 @@ Floats can be entered using scientific notation like this
 \end{Verbatim}
 
 \section{Boolean variables}
-A boolean variable is one that stores one of two possible values: True
-or False.  A boolean variable is created and assigned similar to the
+A boolean variable is one that stores one of two possible values: \code{True}
+or \code{False}.  A boolean variable is created and assigned similar to the
 other variables you've studied so far
 \begin{Verbatim}
 myVar = True
@@ -178,12 +178,11 @@ data.  For instance, the following list is perfectly valid
 # Here is a list of strings and integers
 a = ['Ben',90,'Chad',75,'Andrew',22]
 \end{Verbatim}
-You can even define a list of lists:
+You can even define a list of lists\sidenote{You should be careful about associating such a variable with a
+mathematical matrix.  It's just a data container!}:
 \begin{Verbatim}
 a = [[4,3,2],[1,2.5,90],[4.2,2.9,10.5],[239.4,1.4],[2.27,98,234,16.2]]
 \end{Verbatim}
-though you should be careful about associating such a variable with a
-mathematical matrix.  It's just a data container!
 \subsection*{Accessing and Slicing lists}
 Accessing an element of a list (this will be done frequently so pay
 attention!) can be accomplished using square brackets, like this
@@ -209,10 +208,12 @@ the entire list.  You can do this with the \code{:} operator, like
 this
 \begin{Verbatim}
 aList = [4,5,10,1560,23,19]
+#Try printing each of these to what is in each slice
 aList[1:]
 aList[1:3]
 aList[:3]
 aList[1:4:2]
+aList[5:2:-1]
 \end{Verbatim}
 There can be three numbers inside the brackets, each seperated by the
 \code{:} symbol, like this \code{[x:y:z]}.  The section of the
@@ -274,76 +275,6 @@ functions/operations for lists.  Please note that this is not a
 comprehensive list.  A complete list of available function can be
 found in the appendix.
 
-
-\subsection*{A warning: What not to do with lists}
-There are several things that seem natural to do with lists but that
-should not (cannot) be done.  First, it may be tempting to associate a
-2-D list with a matrix and try to use the \code{:} to slice out a
-submatrix.  For example, what if you defined the following 2D list
-\begin{Verbatim}
-from numpy import array
-a = [[1,2,3],[4,5,6],[7,8,9]]
-\end{Verbatim}
-and interpreted it as this matrix:
-\begin{equation}
-\left( \begin{tabular}{ccc}
-1 & 2 & 3\\
-4 & 5 & 6\\
-7 & 8 & 9\\
-\end{tabular}
-\right)
-\end{equation}
-If you wanted to slice out the following 2 x 2 sub-matrix:
-\begin{equation}
-\left(\begin{tabular}{cc}
-5 & 6 \\
-8 & 9 \\
-\end{tabular}
-\right)
-\end{equation}
-and you tried to do it like this:
-\begin{Verbatim}
-a[1:3][1:3] 
-\end{Verbatim}
-you would be disappointed to find out that it did not work that way.
-You should take a few minutes to understand what it did do.  In the
-end you should always remember to \ul{not treat 2D lists as matrices}.
-
-Second, you may feel tempted to associate a list with a mathematical
-vector and try to perform vector math on them. For instance, it may
-seem natural to try
-\begin{Verbatim}
-a = [5.1 , 3.2 , 6.8 , 9.2]
-b = 5 * a
-\end{Verbatim}
-or
-\begin{Verbatim}
-a = [5.1 , 3.2 , 6.8 , 9.2]
-b = [2.7 , 1.9 , 3.2 , 9.9]
-c = a + b
-\end{Verbatim}
-Can you explain the results?  So lesson \# 2 is: Doing vector or
-matrix math \underline{cannot be done with a list}.  If you were
-allowed to do that, what should Python do when your lists were filled
-with non-numerical data, like this:
-\begin{Verbatim}
-a = ['Physics', 'is']
-b = ['the', 'coolest', 'topic']
-c = a + b
-\end{Verbatim}
-  This doesn't mean that the numbers \ul{stored in
-  lists} can't be extracted and used in mathematical calculations,
-like this
-\begin{Verbatim}
-a = [4.5,8,2.1,10.8,12]
-c = a[0]**a[1]  # Take the first element of a and raise it to a power
-                # equal to the second element of a
-\end{Verbatim}
-It just means that mathematical calculations involving entire arrays
-of numbers (like vector and matrix math) cannot be done using the list
-data type.  However, don't think for one second that Python is unable
-to handle this kind of math.  Just keep reading and you'll learn how
-this is done.
 \section{String Variables}
 \index{Strings} String variables contain a sequence of characters, and
 can be created and assigned using quotes, like this
@@ -464,6 +395,11 @@ a = 22
 b = 3.5
 print("Hi, I am Joe. I am {:d} years old and my GPA is:
 {:5.2f}".format(a, b))
+
+#This style also works
+joe_string="Hi, I am Joe. My GPA is {:5.2f} and I am {:d} years old."
+print(joe_string.format(b,a)
+
 \end{Verbatim}
 Notice the structure of this print statement: A string followed by the
 \code{.} operator and the \code{format()} function. The variables to

@@ -1,27 +1,36 @@
-from numpy import arange, sin, cos, zeros_like
-from matplotlib import pyplot
+clear; close all;
 
-dx=1./1000
-x=arange(0,4,dx)
-N=len(x)
-f=sin(x)
+% make the crude data set with dx too big for
+% good accuracy
+dx=pi/5;
+x=0:dx:2*pi;
+y=sin(x);
 
-# Do the derivative at the interior points all at once using
-# the colon command
+% make a fine x-grid
+xi=0:dx/20:2*pi;
 
-dfdx = zeros_like(f)  # Create array of zeros.
-dfdx[1:N-1]=(f[2:N]-f[0:N-2])/(2*dx)  # Populate array with derivative values
+% interpolate on the coarse grid to
+% obtain the fine yi values
 
-# linearly extrapolate to the end points
-dfdx[0]=2*dfdx[1]-dfdx[2]
-dfdx[N-1]=2*dfdx[N-2]-dfdx[N-3]
+% linear interpolation
+yi=interp1(x,y,xi,'linear');
 
-# now plot both the approximate derivative and the exact
-# derivative cos(x) to see how well we did
-pyplot.plot(x,dfdx,'r-',x,cos(x),'b-')
+% plot the data and the interpolation
+plot(x,y,'b*',xi,yi,'r-')
+title('Linear Interpolation')
 
-# also plot the difference between the approximate and exact
-pyplot.figure()
-pyplot.plot(x,dfdx-cos(x),'b-')
-pyplot.title('Difference between approximate and exact derivatives')
-pyplot.show()
+% cubic interpolation
+yi=interp1(x,y,xi,'pchip');
+
+% plot the data and the interpolation
+figure
+plot(x,y,'b*',xi,yi,'r-')
+title('Cubic Interpolation')
+
+% spline interpolation
+yi=interp1(x,y,xi,'spline');
+
+% plot the data and the interpolation
+figure
+plot(x,y,'b*',xi,yi,'r-')
+title('Spline Interpolation')

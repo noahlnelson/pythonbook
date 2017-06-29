@@ -10,10 +10,10 @@ worth way more than that if you do it right.
 
 \subsection*{Making a Grid}
 \index{Plotting, xy} Simple plots of $y$ vs. $x$ are done using a
-library called \texttt{matplotlib}.  First, arrays of $x$ and $y$
-values must be constructed.  To build an array $x$ of $x$-values
+library called \code{matplotlib}.  In order to build make a plot, \code{matplotlib} needs arrays of $x$ and $y$ points that are going to be plotted.  It cannot generate these points on its own.
+To build an array \code{x} of $x$-values
 starting at $x=0$, ending at $x=10$, and having a step size of
-$.01$, you'll need numpy's \texttt{arange} function:
+$.01$, you'll need numpy's \code{arange} function:
 \begin{Verbatim}
 from numpy import arange
 x=arange(0,10,0.01)
@@ -24,19 +24,19 @@ function $y(x)=\sin(5x)$ simply type this
 from numpy import sin
 y=sin(5*x)
 \end{Verbatim}
-\reminder{\lefthand}{Remember that you must use \ul{numpy's} \texttt{sin}
+\reminder{\lefthand}{Remember that you must use \ul{numpy's} \code{sin}
   function if you want to be able to pass an array of values to it.
   Using math's version will produce an error.}
 Both of these arrays are the same length, as you can check with the
-{\tt len} command
+\code{len} command
 \begin{Verbatim}
 len(x)
 len(y)
 \end{Verbatim}
 
 \subsection*{Plotting the Function}
-Once you have two arrays of the same size, you plot \texttt{y} vs.
-\texttt{x} like this
+Once you have two arrays of the same size, you plot \code{y} vs.
+\code{x} like this
 \begin{Verbatim}
 from matplotlib import pyplot
 pyplot.figure()
@@ -44,9 +44,9 @@ pyplot.plot(x,y)
 pyplot.show()
 \end{Verbatim}
 This will create a plot where the points are connected.  If you omit
-the \texttt{pyplot.show()} command, the plot will not appear on your
+the \code{pyplot.show()} command, the plot will not appear on your
 screen.  You can save the plot to a file by replacing the
-\texttt{pyplot.show()}  command with
+\code{pyplot.show()}  command with\sidenote{You determine the filetype by the file extension. \code{'filename.png'} makes a png image, while \code{'filename.pdf'} makes a pdf.}
 \begin{Verbatim}
 pyplot.savefig('filename.png')
 \end{Verbatim}
@@ -58,12 +58,12 @@ pyplot.scatter(x,y)
 \end{Verbatim}
 
 \index{Array, first or second half} And what if you want to plot part
-of the \texttt{x} and \texttt{y} arrays? The {\tt colon} operator can
+of the \code{x} and \code{y} arrays? The \code{colon} operator can
 help.  Try the following code to plot the first and second half
 separately:
 \begin{Verbatim}
 from matplotlib import pyplot
-nhalf = len(x)/2
+nhalf = len(x)//2
 pyplot.plot(x(1:nhalf),y(1:nhalf))
 pyplot.plot(x(nhalf:),y(nhalf:))
 pyplot.show()
@@ -78,18 +78,18 @@ your own axes, like this:
 pyplot.axis([0, 10, -1.3, 1.3])
 \end{Verbatim}
 \index{Xlim} \index{Ylim} Or, if you want to specify just the
-$x$-range or the $y$-range, you can use {\tt xlim}:
+$x$-range or the $y$-range, you can use \code{xlim}:
 \begin{Verbatim}
-pyplotplot(x,y)
+pyplot.plot(x,y)
 pyplot.xlim([0, 10])
 \end{Verbatim}
-or {\tt ylim}:
+or \code{ylim}:
 \begin{Verbatim}
 pyplot.plot(x,y)
 pyplot.ylim([-1.3, 1.3])
 \end{Verbatim}
-And if you want equally scaled axes, so that plots of circles are
-perfectly round instead of elliptical, use
+And if you want equally scaled axes, so that the x and y axis are the same size\sidenote{Without equal axes, plots of circles are
+elliptical instead of perfectly round.}, use
 \begin{Verbatim}
 pyplot.axis('equal')
 \end{Verbatim}
@@ -98,8 +98,8 @@ pyplot.axis('equal')
 
 \subsection*{Logarithmic Plots}
 \index{Log plots} \index{Plots, logarithmic} To make log and
-semi-log plots use the matplotlib's commands {\tt semilogx}, {\tt semilogy}, and
-{\tt loglog}. They work like this:
+semi-log plots use the matplotlib's commands \code{semilogx}, \code{semilogy}, and
+\code{loglog}. They work like this:
 \begin{Verbatim}
 from matplotlib import pyplot
 from numpy import arange,exp
@@ -107,7 +107,7 @@ pyplot.clf()  # Clear the figure
 x=arange(0,8,0.1)
 y=exp(x)
 
-pyplot.semilogx(x,y)  # Replace with semilogx or loglog
+pyplot.semilogx(x,y)  # Replace with semilogy or loglog
 pyplot.title('semilogx')
 
 pyplot.show()
@@ -115,39 +115,39 @@ pyplot.show()
 
 \subsection*{3-D Line Plots}
 \index{Space curves} \index{Plot3} \index{Curves, 3-D} Python will
-draw three-dimensional curves in space with the {\tt plot} command.
+draw three-dimensional curves in space with the \code{plot} command.
 However, there are a few additional lines of code that must be added
 to make the plot 3 dimensional.  Here is how you would do a spiral on
 the surface of a sphere using spherical coordinates.  I've
 hightlighted the additions needed for the 3D plot
 \marginpar{\captionsetup{type=table}
 \begin{tabular}{ll}
-'-'   &    solid line style     \\
-'--'  &    dashed line style    \\
-'-.'  &    dash-dot line style  \\
-':'   &    dotted line style    \\
-'.'   &    point marker         \\
-','   &    pixel marker         \\
-'o'   &    circle marker        \\
-'v'   &    triangle down marker \\
-'\^'   &    triangle up marker   \\
-'<'   &    triangle left marker \\
-'>'   &    triangle right marker\\
-'1'   &    tri down marker      \\
-'2'   &    tri up marker        \\
-'3'   &    tri left marker      \\
-'4'   &    tri right marker     \\
-'s'   &    square marker        \\
-'p'   &    pentagon marker      \\
-'*'   &    star marker          \\
-'h'   &    hexagon1 marker      \\
-'H'   &    hexagon2 marker      \\
-'+'   &    plus marker          \\
-'x'   &    x marker             \\
-'D'   &    diamond marker       \\
-'d'   &    thin diamond marker  \\
-'|'   &    vline marker         \\
-'\_'   &    hline marker         \\
+\code{'-'}   &    solid line style     \\
+\code{'--'}  &    dashed line style    \\
+\code{'-.'}  &    dash-dot line style  \\
+\code{':'}   &    dotted line style    \\
+\code{'.'}   &    point marker         \\
+\code{','}   &    pixel marker         \\
+\code{'o'}   &    circle marker        \\
+\code{'v'}   &    triangle down marker \\
+\code{'\^'}   &    triangle up marker   \\
+\code{'<'}   &    triangle left marker \\
+\code{'>'}   &    triangle right marker\\
+\code{'1'}   &    tri down marker      \\
+\code{'2'}   &    tri up marker        \\
+\code{'3'}   &    tri left marker      \\
+\code{'4'}   &    tri right marker     \\
+\code{'s'}   &    square marker        \\
+\code{'p'}   &    pentagon marker      \\
+\code{'*'}   &    star marker          \\
+\code{'h'}   &    hexagon1 marker      \\
+\code{'H'}   &    hexagon2 marker      \\
+\code{'+'}   &    plus marker          \\
+\code{'x'}   &    x marker             \\
+\code{'D'}   &    diamond marker       \\
+\code{'d'}   &    thin diamond marker  \\
+\code{'|'}   &    vline marker         \\
+\code{'\_'}   &    hline marker         \\
 \end{tabular}
 \captionof{table}{Line styles and plot markers.\label{tab:linestyles}}
 }
@@ -205,7 +205,7 @@ you get green dots at the data points with no connecting line.  Table
 %information.
 
 \subsection*{Labeling your plots}
-To label the $x$ and $y$ axes, do this after the {\tt plot} command:
+To label the $x$ and $y$ axes, do this after the \code{plot} command:
 \begin{Verbatim}
 pyplot.xlabel('Distance (m)')
 pyplot.ylabel('Amplitude (mm)')
@@ -215,7 +215,7 @@ And to put a title on you can do this:
 pyplot.title('Oscillations on a String')
 \end{Verbatim}
 \index{Lettering plots} \index{Text, on plots} To write on your
-plot, you can use Python's {\tt text} command in the format:
+plot, you can use Python's \code{text} command in the format:
 \begin{Verbatim}
 pyplot.text(10,.5,'Hi');
 \end{Verbatim}
@@ -224,8 +224,8 @@ your plot.
 
 You can also build labels and titles that contain numbers you have
 generated; just construct a formatted string and then use this string
-variable as the argument of the commands {\tt xlabel}, {\tt ylabel},
-and {\tt title}, like this:
+variable as the argument of the commands \code{xlabel}, \code{ylabel},
+and \code{title}, like this:
 \begin{Verbatim}
 s = 'Oscillations with k={:.d}'.format(5)
 pyplot.title(s)
@@ -263,7 +263,7 @@ $\zeta$    & $\backslash$zeta    \\
 labels and titles on your plots you can print Greek letters,
 subscripts, and superscripts by using the LaTeX syntax. To print
 Greek letters the string should be preceded with an 'r' and the math
-should be enclosed in \texttt{\$}, like
+should be enclosed in \code{\$}, like
 this:
 \begin{Verbatim}
 pyplot.xlabel(r'$\theta$')
@@ -284,17 +284,16 @@ $\backslash$Gamma, i.e., you just capitalize the first letter.
 
 \index{Subscripts, superscripts} To put a subscript on a character
 use the underscore character on the keyboard: $\theta_1$ is coded
-by typing $\backslash${\tt theta\_1}. And if the subscript is more
-than one character long do this: $\backslash${\tt theta\_\{12\}}
+by typing \code{\\theta_1}. And if the subscript is more
+than one character long do this: \code{\\theta_\{12\}}
 (makes $\theta_{12}$). Superscripts work the same way only using
-the {\tt $\wedge$} character: use $\backslash${\tt
-theta$\wedge$\{10\}} to print $\theta^{10}$.
+the \code{^} character: use \code{\\theta^\{10\}} to print $\theta^{10}$.
 
 \section{Multiple Plots}
 
 \index{Multiple plots} \index{Figure windows} You may want to put
 one graph in figure window 1, a second plot in figure window~2,
-etc. To do so, put the Python command {\tt pyplot.figure()} before each plot
+etc. To do so, put the Python command \code{pyplot.figure()} before each plot
 command, like this
 \begin{Verbatim}
 from numpy import arange, sin, cos
@@ -329,18 +328,18 @@ pyplot.title('Second way')
 pyplot.show()
 \end{Verbatim}
 The second way is convenient if you have lots of plots to put on
-the same figure.  
+the same figure.
 
 \subsection*{Subplots}
 
 It is often helpful to put multiple plots in the same figure, but
 on separate axes. The command to produce plots like this is {\tt
-subplot}, and the syntax is \texttt{subplot(rows,columns,plot
+subplot}, and the syntax is \code{subplot(rows,columns,plot
 number)} This command splits a single figure window into an array
-of subwindows, the array having {\tt rows} rows and {\tt columns}
+of subwindows, the array having \code{rows} rows and \code{columns}
 columns. The last argument tells Python which one of the windows
 you are drawing in, numbered from plot number 1 in the upper left
-corner to plot number {\tt rows*columns} in the lower right corner,
+corner to plot number \code{rows*columns} in the lower right corner,
 just as printed English is read. See online help for more
 information on subplots.  For instance, to make two-row figure, do
 this
@@ -358,41 +357,41 @@ pyplot.plot(x,f2)
 %
 %Creating plots is an important task in science and engineering.  The
 %old addage ``A picture is worth a thousand words!'' is wrong.... it's
-%worth way more than that if you do it right.  
+%worth way more than that if you do it right.
 %\section{Plotting Data}
 %Python does not plot functions.  This is true of any computer
 %software used to make plots.  Rather, the computer samples the
 %function at a series of points in the domain and plots those points.
 %In python, we can create a plot like this using a library called
-%\texttt{matplotlib}.  A simple scatter plot can be generated like this
-%\begin{Verbatim} 
+%\code{matplotlib}.  A simple scatter plot can be generated like this
+%\begin{Verbatim}
 %from matplotlib import pyplot  #Import necessary functions
 %
 %xData = [1.2,2.3,8.3,10.5]  # x-coordinates of the data points
 %xData = [2.2,8.5,1.2,3.5]   # y-coordinates of the data points
 %pyplot.scatter(xData,yData)  # make the plot
 %pyplot.show()                # Display the plot to your screen.
-%\end{Verbatim} 
+%\end{Verbatim}
 %Here we have plotted some data and displayed them to the screen.
 %\subsection*{Customizing Scatter Plots}
 %You can easily modify the style,color, and size of the plot markers.
 %The change the style of the plot marker, add the optional
-%\texttt{marker} argrument to the scatter function, like this
-%\begin{Verbatim} 
-%pyplot.scatter(xData,yData,marker='+') # Use plus sign as the marker  
-%\end{Verbatim} 
+%\code{marker} argrument to the scatter function, like this
+%\begin{Verbatim}
+%pyplot.scatter(xData,yData,marker='+') # Use plus sign as the marker
+%\end{Verbatim}
 %A list of plot marker styles is given in table \ref{tab:styles}
 %\marginpar{\footnotesize\captionsetup{type=table}
 %  \vspace{0.5in}
 %\begin{tabular}{ll}
-%\texttt{'+'} & Plus \\
-%\texttt{'.'} & Point \\
-%\texttt{','} & Pixel \\
-%\texttt{'v'} & Triangle down \\
-%\texttt{'8'} & Octagon \\
-%\texttt{'s'} & Square \\
-%\texttt{'p'} & Pentagon \\
-%\texttt{'x'} & X \\
+%\code{'+'} & Plus \\
+%\code{'.'} & Point \\
+%\code{','} & Pixel \\
+%\code{'v'} & Triangle down \\
+%\code{'8'} & Octagon \\
+%\code{'s'} & Square \\
+%\code{'p'} & Pentagon \\
+%\code{'x'} & X \\
 %\end{tabular}
 %\captionof{table}{Sampling of available plot markers.\label{tab:styles}}
 %}
@@ -402,8 +401,8 @@ pyplot.plot(x,f2)
 %Plotting a function requires that you sample the function at some
 %regular interval and then use those function samples to create a plot
 %similar to the one we did above. You can then connect the plotted
-%points using the \texttt{plot} function (also inside of
-%\texttt{matplotlib}).
+%points using the \code{plot} function (also inside of
+%\code{matplotlib}).
 %\begin{Verbatim}
 %from numpy import arange
 %from math import sin
@@ -413,26 +412,26 @@ pyplot.plot(x,f2)
 %pyplot.plot(xData,yData)
 %pyplot.show()
 %\end{Verbatim}
-%The \texttt{plot} function connects the data points being plotted.
-%The \texttt{arange} function has been used to create a dense mesh of
-%points to sample my function over.  Using the \texttt{range} function
-%would probably not be a good choice here because it can't 
-%Notice that \texttt{arange} takes three arguments: starting position,
+%The \code{plot} function connects the data points being plotted.
+%The \code{arange} function has been used to create a dense mesh of
+%points to sample my function over.  Using the \code{range} function
+%would probably not be a good choice here because it can't
+%Notice that \code{arange} takes three arguments: starting position,
 %ending position, and step size.  You should take a look at the
-%variable \texttt{xData} to see what you just created.  Also note the
-%line that was used to generate the function values (\texttt{yData}).
+%variable \code{xData} to see what you just created.  Also note the
+%line that was used to generate the function values (\code{yData}).
 %This is a compact way to combine a loop with a list and is worthwhile
-%to learn.  Notice that I am evaluating \texttt{sin(x)} at each point
-%in my list called \texttt{xData} and saving each number in a list
+%to learn.  Notice that I am evaluating \code{sin(x)} at each point
+%in my list called \code{xData} and saving each number in a list
 %(hence the brackets enclosing the whole things).  When
 %I'm all done, I have a list of function values evaluated at the exact
-%points in \texttt{xData}.\sidenote{Think about this until it makes
+%points in \code{xData}.\sidenote{Think about this until it makes
 %  sense.  It will save you time.}
 %
 %\section{Histograms}
 %Histograms are very useful plots when thinking about mean values and
 %spread in data sets.  As with the other plots, the library
-%\texttt{matplotlib} has the needed function to create this plot.
+%\code{matplotlib} has the needed function to create this plot.
 %Below is an example
 %\begin{Verbatim}
 %from matplotlib import pyplot
@@ -445,7 +444,7 @@ pyplot.plot(x,f2)
 %\section{Displaying multiple plots}
 %Frequently you will want to display multiple plots on the same figure.
 % To do this, simply execute multiple plot commands and wait until the
-% end to use the \texttt{show} command, like this:
+% end to use the \code{show} command, like this:
 %\begin{Verbatim}
 %from matplotlib import pyplot
 %measurements = [3.46, 2.48, 1.98, 3.42, 3.56, 3.87, 3.9, 4.2, 2.9]
@@ -457,25 +456,25 @@ pyplot.plot(x,f2)
 %pyplot.show()
 %
 %\end{Verbatim}
-%Notice that the \texttt{pyplot.show()}  is only performed once after
+%Notice that the \code{pyplot.show()}  is only performed once after
 %all of the plot objects have been created.
 %
 %If you want to display multiple plots on the same canvas, you have to
-%use the \texttt{subplots} command, like this:
+%use the \code{subplots} command, like this:
 %\begin{Verbatim}
-%f, (ax1, ax2) = pyplot.subplots( 2, sharex=True) 
+%f, (ax1, ax2) = pyplot.subplots( 2, sharex=True)
 %\end{Verbatim}
 %
 %This command creates a figure with 2 plots on it: one on top of the other.
 %If you wanted the plots to be in a grid pattern, you could replace the
-%\texttt{2} in the subplots command with \texttt{(2,2)} (for example).
+%\code{2} in the subplots command with \code{(2,2)} (for example).
 %This would create a 2 x 2 grid of plots, a total of 4 plots.  Notice
 %that the subplots command is returning 2 things: the figure, and the 2
 %plots.  The figure is the canvas that the plots are being placed on.
 %You can create the plot objects like this:
 %\begin{Verbatim}
 %from scipy.stats import norm  # Import norm to create some data to plot
-%f, (ax1, ax2) = pyplot.subplots( 2, sharex=True) 
+%f, (ax1, ax2) = pyplot.subplots( 2, sharex=True)
 %data= norm.rvs(2.5,0.5,100)  # Create some data to plot
 %ax1.hist(data,bins = 100)  # Create the first plot
 %data= norm.rvs(2.5,0.5,1000)  # Create some more data to plot

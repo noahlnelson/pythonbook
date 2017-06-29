@@ -1,25 +1,24 @@
-from numpy import arange,meshgrid,cos,exp,pi,mgrid
 from matplotlib import pyplot
-from mpl_toolkits.mplot3d import Axes3D  #<- You need this to make 3D plots
+from mpl_toolkits.mplot3d import Axes3D  # <- Important
+from numpy import pi, arange, sin, cos
 
-# Define the arrays x and y
-# Don't make the step size too small or you will kill the
-# system (you have a large, but finite amount of memory)
-x=arange(-1,1,0.1)
-y=arange(0,1.5,0.1)
+dphi=pi/100 # set the spacing in azimuthal angle
 
-# Use meshgrid to convert these 1-d arrays into 2-d matrices
-# of x and y values over the plane
-X,Y=meshgrid(x,y)
-#X,Y=mgrid[-1:1:0.1,0:1.5:0.1]  # You could also do this in place of meshgrid
-# Get F(x,y) by using F(X,Y). Note the use of .* with X and Y
-# rather than with x and y
-F=(2-cos(pi*X))*exp(Y)
+N=30 # set the number of azimuthal trips
+phi=arange(0,N * 2 * pi, dphi)
 
-# Plot the function
+theta=phi/N/2 # go from north to south once
+
+r=1  # sphere of radius 1
+
+# convert spherical to Cartesian
+x=r*sin(theta)*cos(phi)
+y=r*sin(theta)*sin(phi)
+z=r*cos(theta)
+
+# plot the spiral
 fig = pyplot.figure()
-ax=fig.gca(projection='3d')
-ax.plot_surface(X,Y,F)
-pyplot.xlabel('x')
-pyplot.ylabel('y')
+fig.gca(projection='3d')  # Create 3D axis
+pyplot.plot(x,y,z)
+pyplot.axis('equal')
 pyplot.show()
