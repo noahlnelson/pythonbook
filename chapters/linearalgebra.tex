@@ -1,0 +1,45 @@
+\chapter{Linear Algebra}
+\label{chap:linalg}
+\section{Matrices}
+Matrix math is different from normal math.  That will become more
+clear after you take a linear algebra class.  If you want to do matrix
+math or linear algebra, \code{numpy}'s \code{matrix} object is what you
+want to use.  A \code{matrix} object can be created in a few ways.  Here are
+a few examples
+
+\subsection*{Creating Matrices}
+A \texttt{matrix} object can be created in a
+few ways.  Here are a few examples
+>>>>>>> Added plotting chapters
+\begin{Verbatim}
+from numpy import matrix
+
+a = matrix('1 2; 3 4')  # Create a 2 x 2 matrix from string
+b = matrix([[1,2],[3,4]])  # Create 2 x 2 matrix from list
+c = matrix('1;2;3;4')  #Create column vector: a 4 x 1 matrix
+\end{Verbatim}
+The first definition is a nice way to create a matrix from a string.
+The \code{;} indicates the end of the rows.  You can also convert a
+list or array into a matrix.  Note that if you print a matrix object
+to screen, it will probably look the same as an array or list (or
+similar).  The differences are the things you can do with a matrix
+object as compared to an array object, or list object.
+
+\subsection*{Math with Matrices}
+Once the matrix is defined, lots of cool and useful math becomes
+available to you.  Here are a few examples:
+
+\begin{Verbatim}
+from numpy import matrix
+
+a = matrix('1 2; 3 4')  # Create 2 x 2 matrix from string
+b = matrix('5 6; 8 9')  # Create 2 x 2 matrix from string
+col = matrix('3;4')  # Create 2 x 1 column vector
+
+c = a.T   # Transpose the matrix
+d = a.I   # Find inverse of matrix
+e = a.H   # Find conjugate transpose of matrix
+f = a * b # Matrix multiplication
+g = b * col # Multiply matrix b to column vector
+h = a**2   # Square the matrix. Not the same as squaring an array.
+\end{Verbatim}

@@ -327,23 +327,6 @@ c = a[3][1]
 Here \code{[3][1]} means we are accessing the 2nd element of the 4th
 list. (remember: Python lists are zero-indexed)  
  
-\subsection*{Built-in Functions for Lists}
-Python has many built-in functions that work on lists.  You've already
-seem some of them.  Here are a few examples
-\begin{Verbatim}
-myList = range(5,25,2)  # Create list starting at 5, ending at 25,
-                        # in increments of 2
-len(myList)             # Find how many elements are in myList
-myList.append(520)      # Add the number 520 to the end of myList
-\end{Verbatim}
- Here, \code{range} will create a list \underline{of integers }
-starting at $5$, ending at $25$ in increments of $2$.  The
-\code{len} function will find the length of a list, and
-\code{append} will add an element to the end of a list.  Table
-\ref{tab:HousekeepingList} lists some of the more common built-in
-functions/operations for lists.  Please note that this is not a
-comprehensive list.  A complete list of available function can be
-found in the appendix.
 \marginpar{\footnotesize\captionsetup{type=table}
   \vspace{-4.5in}
 \begin{tabular}{lp{1.05in}}
@@ -388,78 +371,6 @@ functions/operations for lists.  Please note that this is not a
 comprehensive list.  A complete list of available function can be
 found in the appendix.
 
-\section{String Variables}
-\index{Strings} String variables contain a sequence of characters, and
-can be created and assigned using quotes, like this
-\begin{Verbatim}
-s='This is a string'
-\end{Verbatim}
-\sidenote{You may also enclose the characters in double quotes. }
-%If you need an apostrophe in your string, repeat a single quote,
-%like this:
-%\begin{Verbatim}
-%t='Don''t worry'
-%\end{Verbatim}
-Some Python functions require options to be passed to them using
-strings. Make sure you enclose them in quotes, as shown
-above.  There are many useful function that can be used with strings.
-For example, strings can be concatenated (joined) together using the
-\code{+} operator:
-\begin{Verbatim}
-a = 'Hello'
-b = ', my name is B. Nelson'
-c = a + b
-\end{Verbatim}
-The number of characters in a string can be calculated using the
-\code{len} function.
-\begin{Verbatim}
-a = 'Hello'
-b = ', my name is B. Nelson'
-c = a + b
-d = len(c)
-\end{Verbatim}
-Individual characters inside of a string may be accessed  and sliced
-in the same way that elements of a list are accessed and sliced.
-\begin{Verbatim}
-a = 'Hello, my name is B. Nelson'
-a[18]
-a[2:15]
-\end{Verbatim}
-\marginpar{\footnotesize\captionsetup{type=table}
-  \vspace{-2.5in}
-\begin{tabular}{lp{1.05in}}
-\code{a.join(b)}  & Join all elements in list \code{b} while
-placing string \code{a} between each pair of elements.\\ \\
-%\code{str.capitalize()}  & Capitalize all characters in string
-%\code{str} \\ \\
-\code{a.count(b)}  & Count the number of occurrences of
-string \code{b} in string \code{a}\\ \\
-\code{a.lower()}  & Convert upper case letters to lower case \\ \\
-\code{a[x]}  &  Access element \code{x} in string \code{a} \\ \\
-\code{a[x:y:z]}  &  Slice a string, starting at element
-\code{x}, ending at element \code{y}, with a step size of \code{z}
-\\ \\
-\code{a + b}  &  Concatenate strings \code{a} and \code{b}.  \\ \\
-%\code{a.replace('t','c')} & Replace every letter t in string \code{a} with the letter c.\\ \\
-\end{tabular}
-\captionof{table}{A sampling of ``housekeeping'' functions for
-strings.\label{tab:HousekeepingStrings}}
-}
- However, you'll have little luck modifying a single character in a
-string unless you first convert the string to a list, like this
-\begin{Verbatim}
-a = 'Hello, my name is B. Nelson'
-b = list(a)  # convert string a to a list
-b[18] = 'S'  # Modify the 18th element in the list.
-c = "".join(b)  # Join all the elements back together into one string.
-\end{Verbatim}
-The \code{join} function used here was probably unfamiliar to you.
-It is a built-in function for use with strings.  It joins together all
-of the elements in list \code{b} into one string, putting whatever
-is in "" in between
-each element.  There are many built-in functions that can be used with
-strings.  Some of the more commonly used ones are shown in Table
-\ref{tab:HousekeepingStrings}
 
 \section{Naming Variables}
 So far in this book, we've named most of our variables using the first
