@@ -3,3 +3,4 @@ python.toc
 python.tex~
 texput.log
 .gitignore~
+ch[123456789]*

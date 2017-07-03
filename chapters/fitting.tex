@@ -22,38 +22,25 @@ function that best mimicks the data.
 \section{Fitting to an Arbitrary Function}
 The \code{scipy.optimizes} library contains a wealth of useful function, one
 of which is called \code{curve\_fit}.  Sounds promising, right?
-Let's use this function to fit to some made-up data.  Let's extract
-some data from the function
+Let's try it out.  Assume you've collected the following data
+
+\begin{Verbatim}
+x = [4.30949, 5.33127, 2.21479, 5.56794, 3.49002, 0.00272514, 1.3348, \
+7.90191, 6.79002, 0.0857548]
+
+y = [0.418161, -0.328667, -1.58646, -0.305927, 0.56044, 0.0272141, \
+1.16629, -0.0092056, 0.142341, 0.817534]
+\end{Verbatim}
+and you decide it would be a prudent choice to attempt to fit this
+data to the function
 \begin{equation}
 y(x)  = a \sin(b x) \exp(c x)
 \end{equation}
-where $a = 3$, $b=2$ and $c= -1$.  We'll sample this function at the
-following points
-\begin{Verbatim}
-[0.2,0.7,1,1.5,1.8,2,4,5,6,7,10,15]
-\end{Verbatim}
-and also add some random noise.  Here is the python code to do all of
-that:
-\begin{Verbatim}
-from numpy import array,sin,exp  # Import needed math functions
-from scipy.stats import norm     # Import normal distribution to add noise.
-
-#Define sample points
-x = array([0.2,0.7,1,1.5,1.8,2,4,5,6,7,10,15])
-
-a = 3
-b = 2
-c = -1
-#    Evaluate the function........and add some random noise.
-y = a * sin(b * x) * exp(c * x) + norm.rvs(0,.0069,len(x))
-\end{Verbatim}
-All of these things should be familiar to you if you have read through
-previous chapters.  Notice the use of \code{norm.rvs} to sample a
-normal distrubution.
-
-Now we're ready to send our data into the function \code{curve\_fit}
-perform the fitting. First, we need to import the library and define
-the function being fitted to:
+Your task then is to find values for \texttt{a}, \texttt{b}, and
+\texttt{c} that make the function the best approximation to the data.
+To do that we must send our data into the function
+\code{curve\_fit}. First, we need to import the library and define the
+function being fitted to:
 \begin{Verbatim}
 import scipy.optimize as opt
 
@@ -62,14 +49,21 @@ def func(x,a,b,c)
 
 fit = opt.curve_fit(func,x,y)
 \end{Verbatim}
-Notice that I have defined that function that I am trying to fit the
-data to.  The \code{curve_fit} function needs to know this information.
-The \code{curve\_fit} function requires three arguments: The function
-that is being fitted, the independent variable values, and the
-dependent variables values.  There are several optional arguments that
-can be passed to this function.  For example, you can specify a guess
-at the solution and that guess will serve as a starting
-point.
+Notice that I have defined the function that I am trying to fit the
+data to and called it \code{func}.  When defining this function,
+take note that the first argument must be the independent variable (x
+in this case) and after that you are free to put as many adjustable
+parameters as you need.  In this case we had three (a,b, and c).  The
+\code{curve\_fit} function requires three arguments: The function that
+is being fitted, the independent variable values, and the dependent
+variables values (in that order).  
+The \code{curve\_fit} function returns a list of two things.  The
+first thing is a list of the parameter values.  The second thing is
+the variance (uncertainty) in the parameter values.  You can access
+these just as you would do with any other list.
+There are several optional arguments that can be passed to
+this function.  For example, you can specify a guess at the solution
+and that guess will serve as a starting point.
 \begin{Verbatim}
 guess = [2.5,1.2,-3]  # Guess for a, b, and c.
 fit = opt.curve_fit(func,x,y,p0=guess)
@@ -85,7 +79,7 @@ fit = opt.curve_fit(func,x,y,bounds=paramBounds)
 and you can specify the uncertainty in the data points
 \begin{Verbatim}
 #Specify uncertainty on each data point
-uncertainty = [0.01,0.02,0.1,0.2,0.05,0.2,0.5,0.01,0.02,0.01,0.1]  
+uncertainty = [0.01,0.02,0.1,0.2,0.05,0.2,0.5,0.01,0.02,0.01,0.1,0.05]  
 fit = opt.curve_fit(func,x,y,sigma=uncertainty)
 \end{Verbatim}
 

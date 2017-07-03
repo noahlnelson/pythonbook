@@ -155,20 +155,22 @@ y_{N+1} = 3 y_N - 3 y_{N-1} + y_{N-2} ~.
 
 
 
-\section{Matlab interpolaters}
+\section{Python interpolaters}
 
 \subsection*{Interp1}
-\index{Interp1} Matlab has its own interpolation routine {\tt
-interp1} which does the things discussed in the previous two sections
+\index{Interp1} The Scipy library has an interpolation routine called {\tt
+interp1d} which does the things discussed in the previous two sections
 automatically. Suppose you have a set of data points $\{x,y\}$ and
 you have a different set of x-values $\{x_i\}$ for which you want to
 find the corresponding $\{y_i\}$ values by interpolating in the
 $\{x,y\}$ data set. You simply use any one of these three forms of
-the {\tt interp1} command:
+the {\tt interp1} command (assuming \code{x} and \code{y} are already
+loaded with the data points):
 \begin{Verbatim}
-yi=interp1(x,y,xi,'linear')
-yi=interp1(x,y,xi,'pchip')
-yi=interp1(x,y,xi,'spline')
+from scipy.interpolate import interp1d
+yi=interp1(x,y)  # Linear interpolation
+yi=interp1(x,y,kind = 'slinear')  # Spline interpolation to 2nd order
+yi=interp1(x,y,'spline')
 \end{Verbatim}
 We haven't talked about spline interpolation yet.  It is a
 piece-wise polynomial fit that typically does an excellent job of
@@ -179,91 +181,104 @@ works on a crude data set representing the sine function.
 
 \begin{codeexample}
 \begin{VerbatimOut}{\listingFile}
-clear; close all;
+from scipy.interpolate import interp1d
+from numpy import pi,linspace, sin,random
+from matplotlib import pyplot
 
-% make the crude data set with dx too big for
-% good accuracy
-dx=pi/5;
-x=0:dx:2*pi;
-y=sin(x);
+# make the crude data set with dx too big for
+# good accuracy
+dx=pi/5
+x=linspace(0,2 * pi,10)
+y=sin(x)
 
-% make a fine x-grid
-xi=0:dx/20:2*pi;
+# make a fine x-grid
+xi=linspace(0,2 * pi,200)
+# interpolate on the coarse grid to
+# obtain the fine yi values
 
-% interpolate on the coarse grid to
-% obtain the fine yi values
+# linear interpolation
+yi=interp1d(x,y,kind = 'linear')
+# plot the data and the interpolation
+pyplot.plot(x,y,'b*',xi,yi(xi),'r-')
+pyplot.title('Linear Interpolation')
 
-% linear interpolation
-yi=interp1(x,y,xi,'linear');
+# quadratic spline interpolation
+yi=interp1d(x,y,kind='quadratic');
 
-% plot the data and the interpolation
-plot(x,y,'b*',xi,yi,'r-')
-title('Linear Interpolation')
+# plot the data and the interpolation
+pyplot.figure()
+pyplot.plot(x,y,'b*',xi,yi(xi),'r-')
+pyplot.title('Quadratic Spline Interpolation')
 
-% cubic interpolation
-yi=interp1(x,y,xi,'pchip');
+# cubic spline interpolation
+yi=interp1d(x,y,kind = 'cubic');
 
-% plot the data and the interpolation
-figure
-plot(x,y,'b*',xi,yi,'r-')
-title('Cubic Interpolation')
-
-% spline interpolation
-yi=interp1(x,y,xi,'spline');
-
-% plot the data and the interpolation
-figure
-plot(x,y,'b*',xi,yi,'r-')
-title('Spline Interpolation')
+# plot the data and the interpolation
+pyplot.figure()
+pyplot.plot(x,y,'b*',xi,yi(xi),'r-')
+pyplot.title('Cubic Spline Interpolation')
+pyplot.show()
 \end{VerbatimOut}
 \end{codeexample}
-
+There are a few cautionary notes to make here.  The data used to
+interpolate need not be spaced out regularly over the domain of
+interest but the quality of the interpolation will not be as good when
+there are big gaps between data points.  Note also that
+\code{interp1d} is an {\it interpolator} not an {\it extrapolator}.
+Hence if you try to ``interpolate'' at a location that is beyond the
+domain of the sampled values (that's called extrapolation), you will get an error.
 
 
 \section{Two-dimensional interpolation}
 
-\index{Interp2} \index{Interpolation, 2-dimensions} Matlab also knows how to
-do 2-dimensional interpolation on a data set of $\{x,y,z\}$ to find
-approximate values of $z(x,y)$ at points $\{x_i,y_i\}$ which don't lie on
-the data points $\{x,y\}$.  In the completely general situation where your
-data points $\{x,y,z\}$ don't fall on a regular grid, you can use the
-command {\tt TriScatteredInterp} to interpolate your function onto an arbitrary
-new set of points $\{x_i,y_i\}$, such as an evenly
-spaced 2-dimensional grid for plotting. Examine the code below to see how
-{\tt TriScatteredInterp} works, and play with the value of {\tt N} and see
-how the interpolation quality depends on the number of points.
+\index{Interp2} \index{Interpolation, 2-dimensions} The Scipy library
+also has function that will allow you to do 2-dimensional interpolation on a
+data set of $\{x,y,z\}$ to find approximate values of $z(x,y)$ at
+points $\{x_i,y_i\}$ which don't lie on the data points $\{x,y\}$.  In
+the completely general situation where your data points $\{x,y,z\}$
+don't fall on a regular grid, you can use the command {\tt griddata}
+to interpolate your function onto an arbitrary new set of points
+$\{x_i,y_i\}$, such as an evenly spaced 2-dimensional grid for
+plotting. Examine the code below to see how {\tt griddata}
+works, and play with the value of {\tt N} and see how the
+interpolation quality depends on the number of points.
 \begin{codeexample}
 \begin{VerbatimOut}{\listingFile}
-clear; close all;
+from scipy.interpolate import griddata
+from numpy import mgrid,cos,sin,arange,random,pi
+from matplotlib import pyplot
+from mpl_toolkits.mplot3d import Axes3D
 
-% Make some "data" at random points x,y points
-N=200;
-x = (rand(N,1)-0.5)*6;
-y = (rand(N,1)-0.5)*6;
-z = cos((x.^2+y.^2)/2);
 
-% Create an interpolating function named F
-F = TriScatteredInterp(x,y,z,'natural');
+# Make some "data" at random points x,y points
+N=200
+points = (random.rand(N,2) - 0.5) * 6
+#z = points[:,0]*(1-points[:,0])*cos(4*pi*points[:,0]) *
+sin(4*pi*points[:,1]**2)**2
+z=cos((points[:,0]**2+points[:,1]**2)/2)
 
-% Create an evenly spaced grid to interpolate onto
-xe = -3:.1:3;
-ye = xe;
-[XE,YE] = ndgrid(xe,ye);
+# Define grid of points to interpolate at
+grid_x, grid_y = mgrid[-3:3:100j, -3:3:200j]
 
-% Evaluate the interpolation function on the even grid
-ZE = F(XE,YE);
+# Interpolate to points located at grid_x,grid_y and save to F
+F = griddata(points,z,(grid_x,grid_y),method='cubic')
 
-% plot the interpolated surface
-surf(XE,YE,ZE);
+#Plot a contour map
+pyplot.imshow(F.T, extent=(0,1,0,1), origin='lower')
 
-% overlay the "data" as dots
-hold on;
-plot3(x,y,z,'.');
-axis equal
+#Plot a surface plot
+fig = pyplot.figure()
+ax = fig.gca(projection='3d')
+ax.plot_surface(grid_x,grid_y,F)
+
+# overlay the "data" as dots
+pyplot.plot(points[:,0],points[:,1],z,'r.')
+pyplot.axis('equal')
+pyplot.show()
 \end{VerbatimOut}
 \end{codeexample}
 
-The {\tt TriScatteredInterp} command is very powerful in the sense
+The {\tt griddata} command is very powerful in the sense
 that you can ask it to estimate $z(x,y)$ for arbitrary $x$ and $y$ (within
 your data range).  However, for large data sets it can be slow.  In the
 case that your data set is already on a regular grid, its much faster to

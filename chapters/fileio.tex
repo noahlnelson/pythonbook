@@ -1,0 +1,171 @@
+\chapter{Reading from and Writing to Files}
+
+\label{chap:fileio}
+
+\section{Reading Files}
+Often you will find yourself wanting to read the contents of a file
+into Python so that you can perform a calculation or make a plot.
+There are two possible types of files you may want to read: (i)
+highly-structured files with only numerical data and ii)
+randomly-formatted files with non-numerical data mixed in with
+numerical data.  By highly structured I mean files where i) every row of your
+file has the same number of entries, ii) all of your entries are
+seperated by the same character (maybe just a space but it could be
+something else too), and iii) no non-numerical entries.  The following
+data file is highly structured:
+\begin{Verbatim}
+1.2 4 5 2
+3.1 2.9 4.9 1.9
+4.2 1 9 2
+3.1 2.9 4.9 1.9
+1.2 4 5 2
+3.1 2.9 4.9 1.9
+\end{Verbatim}
+It contains only numbers, each row has the same number of entries and
+the numbers are all seperated by white space.  In contrast, here is an
+example of a data file that is not highly structured:
+\begin{Verbatim}
+x y z t r(optional)
+1.2 4 5 2 6
+3.1 2.9&& 4.9 1.9
+4.2 ,1 9 2
+3.1 2.9, 4.9, 1.9& 5
+1.2 4 5 2
+3.1 2.9 4.9 1.9
+\end{Verbatim}
+Notice that: i) there are non-numerical entries, ii) rows have a
+different number of entries, iii) entries are seperated by different
+delimiters (sometimes \&\&, sometimes a comma is used, and sometimes
+white space is used).
+
+If your file is the first type(highly structured, numerical data
+only), the Numpy library has functions that will make your life very
+simple.  If your file falls into the latter category, you will have to
+use native Python functions to read and parse the file contents manually based
+on the formatting of the file.
+
+\subsection*{Structured data files with numerical data only}
+Let's start with highly-structured data files with only numerical entries.
+In this case, Numpy's \code{loadtxt} is your friend.  It will load the
+file and save the numerical data as an array.  Here is an example:
+\begin{Verbatim}
+from numpy import loadtxt
+data = loadtxt('dataFile.txt')
+\end{Verbatim}
+If your entries were seperated by something other than white space
+(commas for example), you could add the optional argument
+\code{delimiter =','} to \code{loadtxt} to specify the seperator.
+It's worth mentioning that \code{loadtxt} can handle the presence of
+non-numerical entries if you need it to.  You'll want to use the
+optional argument \texttt{dtypes} to help you specify what type of
+data \code{loadtxt} should expect to find.  Thank you Numpy!
+
+\subsection*{Randomly-formatted files with non-numerical data}
+If your data file contains characters and does not have a well-defined
+structure, you'll have to read the file using Python's native
+functions and then parse the contents manually.  To read in a file you
+first need to open the file using the \code{open} command.  Next, you
+can read the contents using one of the following: \code{read},
+\code{readlines}, or \code{readline}.  Finally, you should always
+close the file using the \code{close} command.  Let's say you created
+a file called \texttt{dataFile.txt} that had the following contents:
+\begin{Verbatim}
+x y z t r(optional)
+1.2 4 5 2 6
+3.1 2.9&& 4.9 1.9
+4.2 ,1 9 2
+3.1 2.9, 4.9, 1.9& 5
+1.2 4 5 2
+3.1 2.9 4.9 1.9
+\end{Verbatim}
+You could read this file like this
+\begin{Verbatim}
+f = open('dataFile.txt','r')  #Open the file
+f.readlines()   # Read the entire file and save it as a list of strings
+f.close()
+\end{Verbatim}
+The \texttt{'r'} in the \code{open} command indicates that you are
+opening the file for the purpose of reading it.  Other options are
+\texttt{'w'} for writing to files (more to come later on that),
+\texttt{'a'} for appending, and \texttt{'r+'} for reading {\bf and}
+writing.  The \code{readlines} command will read the entire contents
+of the file (it's your problem if the size of the file exceeds your
+RAM storage capability) and saves it as a {\bf list of strings}: one
+string for each line in your file.  If you were to use \code{read}
+instead of \code{readlines}, the entire file would be read and saved
+to a {\bf single string}.  The \code{readline} command will read a
+single line in the file.  An alternate way to read data that
+automatically ensures that the file closes after the read completes is
+done like this:
+\begin{Verbatim}
+with open('dataFile.txt','r') as file:
+    data = file.readlines()
+\end{Verbatim}
+This will do the exact same thing that the above code does.  The file
+is automatically closed after it is read.
+
+Notice that the data inside of a file is saved as a string (or list of
+strings). That's most likely not the most convenient form if you are
+dealing with numerical data.  For the above example, using
+\code{readlines} to read the example file from above would save the
+following list in Python:
+\begin{Verbatim}
+[' x y z t r(optional)\n','1.2 4 5 2 6\n', ' 3.1 2.9&& 4.9 1.9\n',
+' 4.2 ,1 9 2\n',' 3.1 2.9, 4.9, 1.9& 5\n','1.2 4 5 2\n','3.1 2.9 4.9 1.9\n']
+\end{Verbatim}
+How do you get at the data that you need?  This is where your ability
+to work with and modify lists and strings will come in handy.  The
+exact details of what you should do will depend on your specific data
+file.  For this particular file, the commands \code{del},
+\code{split}, and \code{float} would probably come in handy.
+%\begin{Verbatim}
+%del data[0]
+%\end{Verbatim}
+%This will delete the first element of the list,leaving only the
+%numerical data. \reminder{\lefthand}{Note that using \code{del} modifies the
+%  variable containing the list. So performing two \code{del} commands,
+%one right after another, would delete the first two elements.}
+
+\section{Writing to Files}
+Writing Python data to file is as simple as is reading a file.  Just
+like when you are reading a file, determining which function to use
+will be determined by the type of data that you are writing.  If your
+data is strictly numerical information stored in an array, Numpy has
+the function you want to use.  On the other hand, if your data is rife
+with inconsistencies, non-numerical data, etc, you'll have to use
+something else.
+
+\subsection*{Writing well-structured, numerical data}
+If you have an {\bf array} of data and you want to save that data to a
+file, you can do it with \texttt{Numpy}'s \code{savetxt} command, like
+this:
+\begin{Verbatim}
+from numpy import savetxt
+savetxt('filename.txt',myArray)
+\end{Verbatim}
+Maybe you have multiple one-dimensional arrays and you want them saved
+to a file as columns.  You can do that like this:
+\begin{Verbatim}
+savetxt('filename.txt',(x,y,z))
+\end{Verbatim}
+where \texttt{x},\texttt{y}, and \texttt{z} are the one-dimensional
+arrays. You can specify a delimiter (seperator) to include in between
+data entries using the \code{delimiter=' '} option and putting the
+delimiter in quotes.  See online documentation for other optional
+arguments.
+
+\subsection*{Non-numerical and randomly-structured file writes}
+
+
+
+
+\marginpar{\footnotesize\captionsetup{type=table}
+  \vspace{-4.5in}
+\begin{tabular}{lp{1.05in}}
+\code{sum(a)}  & Returns the sum of the elements of \code{a} \\ \\
+\end{tabular}
+\captionof{table}{A sampling of ``housekeeping'' functions for
+lists.\label{tab:HousekeepingList}}
+}
+
+

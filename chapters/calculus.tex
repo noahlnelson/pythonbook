@@ -4,7 +4,7 @@
 
 In numerical physics we represent functions like $f(x)$ as discrete points on
 a grid.  If you are careful, you can use these discrete values to quickly
-give you numerical approximations to the derivative $f'(x)$ and the integral
+calculate numerical approximations to the derivative $f'(x)$ and the integral
 $\int_a^b f(x) dx$.
 
 \medskip
@@ -37,7 +37,7 @@ pair of points $x=0.3$ and $x=0.5$ to obtain tangent line $b$ is a much
 better approximation.
 
 As an example of what a good job centering does, try differentiating
-$\sin{x}$ this way:
+$\sin{x}$ at $x=1$ this way:
 \begin{Verbatim}
 from numpy import sin
 dfdx=(sin(1+1e-5)-sin(1-1e-5))/2e-5
@@ -291,7 +291,36 @@ to higher accuracy.
 \subsection*{Indefinite integrals}
 
 And what if you need to find the indefinite integral? For example,
-maybe you need to calculate the integral of If you have arrays of
+maybe you need to calculate the integral of 
+\begin{equation}
+f(x) = e^{-x^2}
+\end{equation}
+You can integrate this function numerically in exactly the same way
+that you did the definite integral.   The only difference is that
+instead of summing up all of the contributions into one number, you
+keep a cumulative sum.  Here is one way that you could do it with Python:
+
+\begin{Verbatim}
+from numpy import arange,exp
+from matplotlib import pyplot
+N=1000
+a=0
+b=5.
+dx=(b-a)/N
+
+x=arange(.5*dx,b - 0.5 * dx, dx)  # build an x array of centered values
+f=exp(-x**2)  # load the function
+
+# do the approximate integral
+s=[sum(f[:n]) * dx for n in range(len(f))]  #<- pay attention to this line.
+print(s)
+pyplot.plot(x,s)
+pyplot.show()
+\end{Verbatim}
+You'll want to study the line starting with \verb!s=! until it makes
+sense.  If that doesn't make sense to you, you could replace that line
+with:
+If you have arrays of
 ($x,f(x)$), you can quickly approximate the indefinite integral function
 $\int_a^x f(x') dx'$ using Scipy's {\tt cumtrapz} functions.
 \index{Indefinite integral function} This function takes an array of function

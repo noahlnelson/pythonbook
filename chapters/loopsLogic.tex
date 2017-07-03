@@ -91,14 +91,15 @@ check our answer:
 \marginpar{\footnotesize\captionsetup{type=table}
   \vspace{2.5in}
 \begin{tabular}{lp{1.05in}}
-\code{==}  &  Equal\\ \\
-\code{!=}  &  Not equal\\ \\
-\code{>=}  &  Greater than or equal\\ \\
-\code{>}  &  Greater than\\ \\
-\code{<=}  &  Less than or equal\\ \\
-\code{and}  &  and\\ \\
-\code{or}  &  or\\ \\
-\code{!}  &  not\\ \\
+\texttt{==}  &  Equal\\ \\
+\texttt{>=}  &  Greater than or equal\\ \\
+\texttt{>}  &  Greater than\\ \\
+\texttt{<}  &  Less than\\ \\
+\texttt{<=}  &  Less than or equal\\ \\
+\texttt{!=}  &  Not equal\\ \\
+\texttt{and}  &  and\\ \\
+\texttt{or}  &  or\\ \\
+\texttt{not}  &  not\\ \\
 \end{tabular}
 \captionof{table}{Python's logic elements.\label{tab:Logicelements}}
 }
@@ -215,10 +216,9 @@ while term > 1e-10:  # Loop while term is bigger than 1e-10
 
 \section{Combining loops and functions}
 One task that will be repeated many times is that of evaluating a
-function on a discrete set of points.  There are two possibilities here. If
-the function of interest is found in numpy, you can simply pass the
-array of domain values into the function and it will return an array
-of function values, like this:
+function on a discrete set of points.  There are two possibilities
+here. You can create the list of domain values as an array and then
+pass that array to the function you want to evaluate, like this
 \begin{Verbatim}
 from numpy import arange,sin
 x = arange(0,10,.01)
@@ -226,30 +226,28 @@ y = sin(x)
 \end{Verbatim}
 Notice that numpy's \code{sin} function was used here.  It was
 designed to accept an array of numbers for its argument and it knows
-that you want it to evaluate the function at all of the points.  If
-the function you're interested is not found in numpy, you'll have to
-be a little more clever.For example, what if I defined
-the following function:
+that you want it to evaluate the function at all of the points.  You
+can also do this with user-defined functions. For example, what if I
+defined this function
 \begin{Verbatim}
 def myFunction(x):
     result = 5 * x**2 - 3 * x**3
     return result
 \end{Verbatim}
 and wanted to sample it over a chosen domain, saving all of the
-values in a list along the way.  You could create a
-loop and one-by-one append the function values to the list, like this:
+values in a list along the way.  You can create an array of domain
+values and then send it to this function.  The function will be
+evaluated at all of the points in your array. \sidenote{this will not
+  work with lists.}
 \begin{Verbatim}
 from numpy import arange
-myFuncVals = []
 myDomain = arange(0,10,.01)
-for i in myDomain:
-    myFuncVals.append(myFunction(i))
+myFuncVals = myFunction(myDomain)
 \end{Verbatim}
-It turns out that there is a simpler way to accomplish this:
+You can also do this another way by combining a loop with a list, like this:
 \begin{Verbatim}
 from numpy import arange
-myDomain = arange(0,10,.01)
-myFuncVals = [myFunction(n) for n in myDomain]
+myFuncVals = [myFunction(n) for n in arange(0,10,.01)]
 \end{Verbatim}
 Study the last line until it makes sense to you.  I have combined a
 loop with a list to create the list of function values.  Some would

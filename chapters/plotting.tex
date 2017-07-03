@@ -50,8 +50,10 @@ screen.  You can save the plot to a file by replacing the
 \begin{Verbatim}
 pyplot.savefig('filename.png')
 \end{Verbatim}
-If you want to see the actual data points being plotted, do this
-instead.
+If you want to see the actual data points being plotted, you
+can either add the string 'ro' inside of the plot command (the 'r'
+means make the data points red and the 'o' means plot circle markers) or use the
+\code{scatter} function, like this:
 \begin{Verbatim}
 from matplotlib import pyplot
 pyplot.scatter(x,y)
@@ -63,9 +65,9 @@ help.  Try the following code to plot the first and second half
 separately:
 \begin{Verbatim}
 from matplotlib import pyplot
-nhalf = len(x)//2
-pyplot.plot(x(1:nhalf),y(1:nhalf))
-pyplot.plot(x(nhalf:),y(nhalf:))
+nhalf = len(x)/2
+pyplot.plot(x[0:nhalf],y[0:nhalf])
+pyplot.plot(x[nhalf:],y[nhalf:])
 pyplot.show()
 \end{Verbatim}
 

@@ -405,10 +405,24 @@ you could do it like this:
 \begin{Verbatim}
 b[1:3,1:3]  # Slice out a sub-array (Exactly what you wanted!)
 \end{Verbatim}
-This can't be done with lists, but using an array it's very simple.
-Also note that you must use the \code{[x1:y1,x2:y2]} notation rather
-than the \code{[x1:y1][x2:y2]} notation.  Use of the latter will not
-fail, but it will not produce the sub-matrix desired.
+If you want all of the elements in a given dimension, use the \code{:}
+alone with no numbers surrounding it. For example, the following:
+\begin{Verbatim}
+b[:,1:3]  
+\end{Verbatim}
+would extract all of the rows on columns 1 and 2:
+\begin{equation}
+\left(\begin{tabular}{cc}
+2 & 3 \\
+5 & 6 \\
+8 & 8 \\
+\end{tabular}
+\right)
+\end{equation}
+.  This kind of slicing just can't be done with lists.  Also note that
+you must use the \code{[x1:y1,x2:y2]} notation rather than the
+\code{[x1:y1][x2:y2]} notation, familiar with lists.  Use of the
+latter will not fail, but it will not produce the sub-matrix desired.
 \section{Matrices}
 Matrix math is different from normal math.  That will become more
 clear after you take a linear algebra class.  If you want to do matrix
