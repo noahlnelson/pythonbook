@@ -1,16 +1,21 @@
 \chapter{Linear Algebra}
 \label{chap:linalg}
+Linear algebra is the study of sets of linear equations and their
+solutions.  Matrices and column vectors are common mathematical
+objects used in this field of Mathematics.  In this chapter we will
+illustrate how to use Python (numpy actually) to solve common problems
+encountered in the field of linear algebra.
 \section{Matrices}
-Matrix math is different from normal math.  That will become more
-clear after you take a linear algebra class.  If you want to do matrix
-math or linear algebra, \code{numpy}'s \code{matrix} object is what you
-want to use.  A \code{matrix} object can be created in a few ways.  Here are
-a few examples
+We have already seen the many mathematical advantages associated with
+using arrays.  Numpy also has a matrix object that was specially
+designed to perform operations that are typical to matrices.  If you
+want to do matrix math or linear algebra, \code{numpy}'s \code{matrix}
+object is a good choice.  A \code{matrix} object can be created in a
+few ways.  Here are a few examples
 
 \subsection*{Creating Matrices}
 A \texttt{matrix} object can be created in a
 few ways.  Here are a few examples
->>>>>>> Added plotting chapters
 \begin{Verbatim}
 from numpy import matrix
 
@@ -20,7 +25,7 @@ c = matrix('1;2;3;4')  #Create column vector: a 4 x 1 matrix
 \end{Verbatim}
 The first definition is a nice way to create a matrix from a string.
 The \code{;} indicates the end of the rows.  You can also convert a
-list or array into a matrix.  Note that if you print a matrix object
+list or an array into a matrix.  Note that if you print a matrix object
 to screen, it will probably look the same as an array or list (or
 similar).  The differences are the things you can do with a matrix
 object as compared to an array object, or list object.
@@ -43,3 +48,104 @@ f = a * b # Matrix multiplication
 g = b * col # Multiply matrix b to column vector
 h = a**2   # Square the matrix. Not the same as squaring an array.
 \end{Verbatim}
+ Many other useful functions are available to matrix objects.  Online
+ documentation is very helpful.  A small sampling of what is available
+ is found in Table \ref{tab:matrixTable}
+
+\section{Solving a Set of Linear Equations}
+A common problem encountered in Linear Algebra is that of solving a
+set of linear equations.  Here is an example of a set of two linear
+equations, with two unknown variables:
+
+\begin{equation}
+3 x + y = 9\qquad
+x + 2 y = 8
+\end{equation}
+This problem can be represented
+in matrix form like this:
+
+\begin{equation}
+\mathbf{A}.\vec{x} = \vec{b}
+\end{equation}
+where
+\begin{equation}
+\mathbf{A} = \left( \begin{tabular}{cc}
+3 & 1 \\
+1 & 2 \\
+\end{tabular}
+\right)
+\end{equation},
+\begin{equation}
+\vec{b} = \left( \begin{tabular}{c}
+9  \\
+8  \\
+\end{tabular}
+\right)
+\end{equation}, 
+and
+\begin{equation}
+\vec{x} = \left( \begin{tabular}{c}
+x  \\
+y  \\
+\end{tabular}
+\right)
+\end{equation}, 
+\marginpar{\footnotesize\captionsetup{type=table} \vspace{-2.5in}
+\begin{tabular}{lp{1.05in}}
+\code{a.trace()}        & Calculate trace of matrix a.\\
+\code{a.shape}        & Returns the shape of matrix a.\\
+\code{a.H}        & Returns the conjugate transpose of matrix a.\\
+\code{a.diagonal()}        & Return diagonal elements of matrix a.\\
+\code{(a==b).all()}        & Check if all elements of a matrix satisfy
+a condition.\\
+\code{(a==b).any()}        & Check if any elements of a matrix satisfy
+a condition.\\
+\end{tabular}
+\captionof{table}{A sampling of functions that work on matrix objects in
+  numpy.  See online documentation for further details.\label{tab:matrixTable}}
+}
+
+Numpy has a function called \texttt{solve} that will solve this
+problem.  This is how it is used:
+\begin{Verbatim}
+from numpy.linalg import solve
+from numpy import matrix
+
+a = matrix('3,1;1,2')
+b = matrix('9;8')
+x = solve(a,b)
+\end{Verbatim}
+Please note that $a$ and $b$ need not be matrix objects for the
+\code{solve} function to work correctly.  Array objects will work just
+fine.  However, if you do use matrix objects, you could also solve the
+problem like this:
+\begin{Verbatim}
+x = a.I * b # Multiply the inverse of A by b.
+\end{Verbatim}
+
+
+\section{Eigenvalue Problems}
+Eigenvalue problems show up in many branches of science
+including:Quantum Mechanics, signal processing, and Geology. The
+eigenvalue problem is similar to the linear system of equations
+problem except that the r.h.s is not known.  Here is the mathematical
+statement for an eigenvalue problem.
+
+\begin{equation}
+\vec{A}.\vec{x} = \lambda \vec{x}
+\end{equation}
+The solution to this problem yields a value for $\lambda$ and a
+corresponding vector $\vec{x}$ corresponding to it.  Here is how the
+problem would be solved in Python:
+\begin{Verbatim}
+from numpy.linalg import eig
+from numpy import matrix
+
+a = matrix('1,-1;1,1')
+vals,vecs = eig(a)
+\end{Verbatim}
+Notice that the function \code{eig} returns two things: i) the
+eigenvalues ($\lambda$) and ii) the eigenvectors.  Since it returns
+two things, I need two variables on the l.h.s to save them to.  The
+first thing is the eigenvalues and the second is the corresponding
+eigenvectors, which are the columns of the matrix that is returned.

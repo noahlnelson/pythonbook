@@ -5,56 +5,58 @@ involve math.  You've already seen how to do very simple math. Here we
 will give you all the tools you will need to do any mathematical
 calculation you could want.
 
-
-\section{Mathematical functions}
-\marginpar{\footnotesize\captionsetup{type=table}
-  \vspace{0.5in}
-\begin{tabular}{l}
-\texttt{sin(x)} \\
-\texttt{cos(x)} \\
-\texttt{tan(x)} \\
-\texttt{arcsin(x)} \\
-\texttt{arccos(x)} \\
-\texttt{arctan(x)} \\
-\texttt{sinh(x)} \\
-\texttt{cosh(x)} \\
-\texttt{tanh(x)} \\
-\texttt{sign(x)} \\
-\texttt{exp(x)} \\
-\texttt{sqrt(x)} \\
-\texttt{log(x)} \\
-\texttt{log10(x)} \\
-\texttt{log2(x)} \\
-\end{tabular}
-\captionof{table}{A very small sampling of functions belonging to the
-  \texttt{numpy} library.\label{tab:Numpy}}
-}
- Common (and not-so common) mathematical functions like \code{exp}
-and \code{sqrt} are available via the libraries \code{numpy},
-\code{scipy}, and \code{math}.  There are some good reasons to not
-use the \code{math} library, which we will discuss shortly.  Some
-commonly-used mathemtical functions from these libraries can be found
-in the tables.
-
-\section{There Are Limits to Lists}
-There are several things that seem natural to do with lists but that
-should not (cannot) be done.  First, you may feel tempted to associate
-a list with a mathematical vector and try to perform vector math on
-them. For instance, it may seem natural to try
+The calculations that you will perform can be roughly categorized into
+two types: (i) simple calculations involving a couple of numbers ( e.g.
+$5.5 \sin(6.2 \times \frac{\pi}{2})$ or $5.5 J_0(3.5 \times
+\frac{\pi}{4})$) and (ii) more complicated calculations involving many
+numbers (e.g. $5.5 \sum_i (x_i - D)^2$ where $x$ is a list of 200,000
+numbers)
+\section{Simple Calculations}
+Any mathematical function that you could possibly need to perform a
+simple calculation can be found in the library \code{numpy} or
+\code{scipy}. Here is an example:
 \begin{Verbatim}
-a = [5.1 , 3.2 , 6.8 , 9.2]
-b = 5 * a
+from numpy import sin, pi
+from scipy.special import j0 # Bessel function of the 1st kind of
+                             # order 0
+
+a = 5.5
+b = 6.2
+c = pi/2
+d = a * sin(b * c)
+e = a * j0(3.5 * pi/4)
 \end{Verbatim}
-or
+
+Most likely, \code{Numpy} has the mathematical function that you need
+and if it doesn't, then \code{scipy.special} probably has it. Tables
+\ref{tab:Numpy} and \ref{tab:Scipy} provide a small sampling of the
+functions available.  See online help for a more extensive listing.
+
+\section{More Complex Calculations: Don't Use Lists}
+What about more complicated calculations involving large data sets?
+It may seem natural to use a list to perform this type of calculation.
+It turns out that lists were not designed to do math. For example,
+suppose you defined the following list:
+\begin{Verbatim}
+a = [5.1 , 3.2 , 6.8]
+\end{Verbatim}
+,conceptualizing it as a mathematical vector, and then tried to calculate:
+\begin{Verbatim}
+b = 3 * a
+\end{Verbatim}
+expecting \code{b} to become \code{[15.3,9.6,20.4]}.  Try it.  Can you
+explain the result? Or maybe you define two lists and try to add them
+up, like this:
 \begin{Verbatim}
 a = [5.1 , 3.2 , 6.8 , 9.2]
 b = [2.7 , 1.9 , 3.2 , 9.9]
 c = a + b
 \end{Verbatim}
-Can you explain the results?  So lesson \# 1 is: Doing vector or
-matrix math \underline{cannot be done with a list}.  If you were
-allowed to do that, what should Python do when your lists were filled
-with non-numerical data, like this:
+Can you explain the results?  So lesson \# 1 is: \ul{Lists} are not
+mathematical vectors or matrices and doing vector or matrix math
+\underline{cannot be done with a list}.  If you were allowed to do
+that, what should Python do when your lists were filled with
+non-numerical data, like this:
 \begin{Verbatim}
 a = ['Physics', 'is']
 b = ['the', 'coolest', 'topic']
@@ -69,8 +71,7 @@ c = a[0]**a[1]  # Take the first element of a and raise it to a power
                 # equal to the second element of a
 \end{Verbatim}
 It just means that mathematical calculations involving entire arrays
-of numbers (like vector and matrix math) cannot be done using the list
-data type.
+of numbers cannot be done using the list data type.
 
 Second, it may be tempting to associate a
 2-D list with a matrix and try to use the \code{:} to slice out a
@@ -141,11 +142,12 @@ and you want to calculate the summation
 \end{equation}
 where $x_i$ are the data given above and $D = 5$.  You could
 calculate, one-by-one, each contribution in the sum and then add them
-up.  However, there is to be an easier way.  The easier way involves a
-library called \code{numpy} .  The main object used in this library is
-called an \code{array}, which is very similar to a list except that an
-array is intended for mathematical use.  If \code{x} were a Numpy
-array, the code would be as simple as:
+up.  However, there has to be an easier way.  The easier way involves
+a library called \code{numpy} .  The main object used in this library
+is called an \code{array}, which is very similar to a list except that
+an array is intended for mathematical use.  If \code{x} were a Numpy
+array, the code to evaluate the sum in equation \ref{eq:sum} would be
+as simple as:
 \begin{Verbatim}
 D=5 #define D so the next line looks exactly like the equation
 my_sum=sum((x-D)**3)
@@ -252,16 +254,38 @@ g = xArray * yArray  # Multiply the elements of array one to the elements of
 In short, you can do all of the math that you were hoping you could do
 when you first learned about Python lists.
 
+\subsection*{Mathematical functions with Arrays}
+\marginpar{\footnotesize\captionsetup{type=table}
+  \vspace{0.5in}
+\begin{tabular}{l}
+\texttt{sin(x)} \\
+\texttt{cos(x)} \\
+\texttt{tan(x)} \\
+\texttt{arcsin(x)} \\
+\texttt{arccos(x)} \\
+\texttt{arctan(x)} \\
+\texttt{sinh(x)} \\
+\texttt{cosh(x)} \\
+\texttt{tanh(x)} \\
+\texttt{sign(x)} \\
+\texttt{exp(x)} \\
+\texttt{sqrt(x)} \\
+\texttt{log(x)} \\
+\texttt{log10(x)} \\
+\texttt{log2(x)} \\
+\end{tabular}
+\captionof{table}{A very small sampling of functions belonging to the
+  \texttt{numpy} library.\label{tab:Numpy}}
+} 
 
-
-\subsection*{Evaluating Functions on Arrays}
-What if you wanted to evaluate the \code{sin} function over an
-entire data set.  You surely don't want to loop over every single
-value in the data set and evaluate the sine function on each number.
-It turns out that the \code{math} library and the \code{numpy}
-library both contain a function called \code{sin}.  The one from the
-\code{numpy} library is designed to work on arrays but the one from
-the \code{math} library is not. Here is an example
+Mathematical functions (like $\sin(x)$, $\sinh(x)$...etc.) can be
+evaluated using arrays as their arguments and the result is an array
+of function values.  (Just imagine wanting to calculate the $\sin$ of
+1,000,000 numbers!!) However, you must use functions from either the
+\code{numpy} or \code{scipy} library, and not from the \code{math}
+library.  The functions from \code{numpy} and \code{scipy} library are
+designed to work on arrays but the one from the \code{math} library is
+not. Here is an example
 \begin{Verbatim}
 import numpy as np
 import math
@@ -278,50 +302,13 @@ for single numbers.  \code{Numpy}'s \code{sin} function, on the
 other hand, does know what to do with an array of numbers: it
 calculates the sin of all the numbers.
 
-\subsection*{Summing the elements}
-Suppose you have a list(or array) of numbers and you'd like to add up
-all of the elements.  Python has a built-in \code{sum} function and
-there is also a \code{sum} function inside of \code{numpy} that
-will do this. They both do the same thing for one-dimensional lists.
-\begin{Verbatim}
-a = [1.5,2.2,9.8,4.6]
-b = sum(a)   #Use built-in sum function
-from numpy import sum
-c = sum(a)   # Use numpy's sum function
-\end{Verbatim}
-If you are summing up the elements of a two-dimensional list, the
-built-in version of the function will not work and you will have to
-use \code{numpy}'s version.
-\begin{Verbatim}
-a = [[1.5,2.2],[9.8,4.6]]  # Define a 2-d list, a list of lists
-b = sum(a)   #Use built-in sum function, notice the error
-from numpy import sum
-c = sum(a)   # Use numpy's sum function, no error.
-d = sum(a,axis = 1)
-\end{Verbatim}
-Notice the extra argument to the \code{sum} function in the last
-line.  The \code{axis=1}\sidenote{By default, \code{axis=0}.  Therefore \code{sum(a)} and \code{sum(a,axis=0)} perform the same operation.} indicates that you want to sum up the
-elements in each individual list and return a list of sums.  If you
-had a higher-dimensional list, you could use \code{axis=2} or
-\code{axis = 3} as well.
 
-Let's return, for a moment, to the problem posed at the beginning
-of this section involving the sum in equation \ref{eq:sum}.
-Hopefully you are starting to see that, if you work with arrays, this
-sum is very simple to compute.  Here's the code (assuming that the
-name of the array of numbers is \code{x}):
-\begin{Verbatim}
-D = 5
-sum( (x - D)**3)
-\end{Verbatim}
-Please note that this could not have been accomplished if x was a list
-of numbers rather than an array of numbers.
-
-\subsection*{Accessing Multiple Elements}
+\section{Accessing and Slicing Arrays}
 Accessing and slicing arrays can be done in exactly the same way as is
 done with lists.  However, there is some additional functionality for
-accessing and slicing arrays that do not apply to lists.  Let's
-consider the following 1-d array:
+accessing and slicing arrays that do not apply to lists.
+\subsection*{Accessing Multiple Elements}
+Let's consider the following 1-d array:
 \begin{Verbatim}
 from numpy import array
 a = array([1,2,3,4,5,6,7,8,9,10])
@@ -422,11 +409,74 @@ would extract all of the rows on columns 1 and 2:
 \end{tabular}
 \right)
 \end{equation}
+\marginpar{\footnotesize\captionsetup{type=table}
+  \vspace{0.5in}
+\begin{tabular}{lp{1.05in}}
+\texttt{airy(z)}& Airy function  \\
+\texttt{jv(z)} & Bessel function of 1st kind\\
+\texttt{yv(z)} & Bessel function of 2nd kind\\
+\texttt{kv(n,z)} & Modified Bessel function of 2nd kind of integer
+order n\\
+\texttt{iv(v,z)} & Modified Bessel function of 1st kind of real
+order v\\
+\texttt{hankel1(v,z)} & Hankel function of 1st kind of real
+order v\\
+\texttt{hankel2(v,z)} & Hankel function of 2nd kind of real
+order v\\
+\end{tabular}
+\captionof{table}{A very small sampling of functions belonging to the
+  \texttt{scipy.special} library.\label{tab:Scipy}}
+} 
 .  This kind of slicing just can't be done with lists.  Also note that
 you must use the \code{[x1:y1,x2:y2]} notation rather than the
 \code{[x1:y1][x2:y2]} notation, familiar with lists.  Use of the
 latter will not fail, but it will not produce the sub-matrix desired.
 
+
+\section{Miscellaneous Mathematical Functions}
+
+\subsection*{Summing the elements}
+Suppose you have a list(or array) of numbers and you'd like to add up
+all of the elements.  Python has a built-in \code{sum} function and
+there is also a \code{sum} function inside of \code{numpy} that
+will do this. They both do the same thing for one-dimensional lists.
+\begin{Verbatim}
+a = [1.5,2.2,9.8,4.6]
+b = sum(a)   #Use built-in sum function
+from numpy import sum
+c = sum(a)   # Use numpy's sum function
+\end{Verbatim}
+If you are summing up the elements of a two-dimensional list, the
+built-in version of the function will not work and you will have to
+use \code{numpy}'s version.
+\begin{Verbatim}
+a = [[1.5,2.2],[9.8,4.6]]  # Define a 2-d list, a list of lists
+b = sum(a)   #Use built-in sum function, notice the error
+from numpy import sum
+c = sum(a)   # Use numpy's sum function, no error.
+d = sum(a,axis = 1)
+\end{Verbatim}
+Notice the extra argument to the \code{sum} function in the last
+line.  The \code{axis=1}\sidenote{By default, \code{axis=0}.  Therefore \code{sum(a)} and \code{sum(a,axis=0)} perform the same operation.} indicates that you want to sum up the
+elements in each individual list and return a list of sums.  If you
+had a higher-dimensional list, you could use \code{axis=2} or
+\code{axis = 3} as well.
+
+
+\marginpar{\footnotesize\captionsetup{type=table} \vspace{-2.5in}
+\begin{tabular}{lp{1.05in}}
+\code{sum}& sum up the elements of an array.\\
+\code{prod}& find the product of the elements of an array.\\
+\code{cumsum}& cumulative sum up the elements of an array.\\
+\code{cumprod}& cumulative product up the elements of an array.\\
+\code{diff}        & discrete difference between all adjacent elements.\\
+\code{cross}        & cross product of two vectors.\\
+\code{inner}        & dot(inner) product of two vectors.\\
+
+\end{tabular}
+\captionof{table}{A sampling of miscellaneous functions in
+  numpy.  See online documentation for further details.\label{tab:NumpyMisc}}
+}
 \section{Complex Arithmetic}
 Python can work with complex numbers just as easily as real numbers.
 The variable \texttt{j} is the imaginary number $\sqrt{-1}$ and a
