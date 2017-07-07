@@ -381,3 +381,143 @@ plt.show()
 \end{VerbatimOut}
 \end{codeexample}
 
+\section{Pandas}
+Pandas is a Python package built to work with spreadsheet-like data, and it is very good at its job.
+
+Pandas stores data in something called a "dataframe".  A dataframe is simply data stored in rows and columns. As an example, here is some sample data taken by an accelerometer sitting on an elevator floor:
+\begin{Verbatim}
+time,gFx,gFy,gFz
+0.007,-0.0056,-0.0046,1.012
+0.008,0.0007,0.0024,1.0022
+0.008,0,0.0059,1.0039
+0.009,0.0054,-0.0022,1.0032
+0.009,-0.0015,-0.0056,1.0042
+0.009,0.0037,-0.002,0.9951
+0.01,-0.002,-0.002,1.002
+0.014,0.009,-0.0024,1.0159
+0.015,0.0012,-0.0037,1.01
+0.017,-0.0115,-0.002,1.0012
+0.019,-0.0022,-0.0015,1.001
+0.021,0.0024,-0.0022,1.0166
+\end{Verbatim}
+
+Here is that same data loaded into a dataframe:
+\begin{Verbatim}
+    time     gFx     gFy     gFz
+0  0.007 -0.0056 -0.0046  1.0120
+1  0.008  0.0007  0.0024  1.0022
+2  0.008  0.0000  0.0059  1.0039
+3  0.009  0.0054 -0.0022  1.0032
+4  0.009 -0.0015 -0.0056  1.0042
+5  0.009  0.0037 -0.0020  0.9951
+6  0.010 -0.0020 -0.0020  1.0020
+7  0.014  0.0090 -0.0024  1.0159
+8  0.015  0.0012 -0.0037  1.0100
+9  0.017 -0.0115 -0.0020  1.0012
+
+\end{Verbatim}
+
+It has 10 rows (0-9) and 4 columns (time, gFx, gFy, gFz).  Here's an example of the few things you can do with Pandas.  This example assumes that the elevator data is saved in the same folder as the program and is titled \code{elevator.csv}\sidenote{"csv" stands for comma separated values.  It is a very common datafile type, where each row is another set of data, and each value is separated by a comma.  Two other common data file types that are useful to look into are "JSON" and "xml".}.
+
+\begin{codeexample}
+\begin{VerbatimOut}{\listingFile}
+import pandas as pd
+import numpy as np
+
+
+#Load the datafile into a dataframe
+elevator_data=pd.read_csv('elevator.csv')
+
+#Print the first five lines of the dataframe
+print(elevator_data.head(5))
+
+#Load column names into a list
+
+column_names = list(elevator_data.columns)
+
+#Re-Zero the gFz column using the first five data points
+elevator_data['gFz']-=elevator_data['gFz'][0:5].mean()
+
+#Print the first 3 times
+print(elevator_data['time'][0:3])
+
+#convert accelerations from units of g to m/s^2
+accel_columns=['gFx','gFy','gFz']
+elevator_data[accel_columns]*=9.8
+
+#Create a new column with the magnitude of the acceleration
+elevator_data['a_mag']=np.sqrt((elevator_data[accel_columns]**2).sum(axis=1))
+
+#Find the maximum accleration
+max_accel = elevator_data['a_mag'].max()
+
+#Zero out any accelerations that are less than 10% of the maximum.
+zero_spots=elevator_data['a_mag']<0.1*max_accel
+#loc is useful when you need to set values on only part of a dataframe
+elevator_data.loc[zero_spots,accel_columns+['a_mag']]*=0
+#Usually, you can do the same thing with
+#elevator_data[zero_spots][accel_columns+['a_mag']]*=0
+#But there are a few exceptions, so pandas will give a warning
+#if you don't use .loc[]
+
+#plot t vs a_mag
+import matplotlib.pyplot as plt
+plt.plot(elevator_data['time'],elevator_data['a_mag'])
+plt.show()
+
+#Save the dataframe to a file
+elevator_data.to_csv('elevator_processed.csv')
+
+\end{VerbatimOut}
+\end{codeexample}
+\section{Regular Expressions}
+Python by itself is good at finding regular strings inside of others.  For example,
+\begin{Verbatim}
+my_string = "The quick brown fox"
+print(my_string.find('fox'))
+\end{Verbatim}
+will print \code{16} since the word fox starts at \code{my_string[16]}. However, \code{find} will not help you get all of the dates out of this sort of data:
+\begin{Verbatim}
+date, temperature
+05/08/2016, 69
+05/09/2016, 59
+05/10/2016, 51
+05/11/2016, 56
+05/12/2016, 70
+05/13/2016, 78
+05/14/2016, 78
+\end{Verbatim}
+You could search individually for every single date string, but there is a better way.
+
+Regular expressions, or regex for short, are a way to match patterns in strings.  Here's an example that will match any date in the mm/dd/20yy format:
+\begin{Verbatim}
+'[0-1][0-9]/[0-9]{2}/20[0-9]{2}'
+\end{Verbatim}
+Let's break down that example piece by piece.  Square brackets \code{[]} will match whatever is listed inside the brackets. So, \code{[0-9]} will match any digit from zero to nine while \code{[0-1]} only matches zero or one.  Therefore, you can use \code{[0-1][0-9]} to match \code{00}, \code{01}, \code{02}, all the way up to \code{19}.  Putting curly braces \code{\{\}} around a number tells the computer how many times the thing before is repeated. Therefore, \code{21\{5\}} tells the computer to look for \code{211111}, and \code{[0-9]\{2\}} matches any two digit number. There is a list of common regular expressions in Table \ref{tab:regex}.
+
+In Python, you can use regex with the \code{re} library.  However, regex is widely used in many programming languages, not only in Python. Knowing regex is an incredibly useful skill for anyone who needs to analyze data with a computer.
+
+\vspace{7mm}
+\begin{tabular}{lp{2.5in}p{2.5in}}
+Expression & Description & Example \\
+\hline
+\code{\\w} & Any word character (letter, number, or subscript) &\\ \\
+\code{\\W} & Anything that isn't a word character &\\ \\
+\code{\\s} & Any white space (spaces, tabs, etc) &\\ \\
+\code{\\S} & Anything but white space &\\ \\
+\code{\\n} & Newline (line break) &\\ \\
+\code{.}  & Any character (wildcard) &\\ \\
+\code{[ ]} & Whatever is listed in the brackets. \code{[ABC]} matches A, B, or C. & \\ \\
+\code{\\} & Escape character. &
+
+\end{tabular}
+\captionof{table}{Common regular expressions\label{tab:regex}}
+
+
+
+
+
+
+
+
+
