@@ -34,13 +34,13 @@ functions available.  See online help for a more extensive listing.
 
 \section{More Complex Calculations: Don't Use Lists}
 What about more complicated calculations involving large data sets?
-It may seem natural to use a list to perform this type of calculation.
-It turns out that lists were not designed to do math. For example,
+It may {\em seem} natural to use a list to perform this type of calculation.
+However, lists were not designed to do math. For example,
 suppose you defined the following list:
 \begin{Verbatim}
 a = [5.1 , 3.2 , 6.8]
 \end{Verbatim}
-,conceptualizing it as a mathematical vector, and then tried to calculate:
+conceptualizing it as a mathematical vector, and then tried to calculate:
 \begin{Verbatim}
 b = 3 * a
 \end{Verbatim}
@@ -70,7 +70,7 @@ a = [4.5,8,2.1,10.8,12]
 c = a[0]**a[1]  # Take the first element of a and raise it to a power
                 # equal to the second element of a
 \end{Verbatim}
-It just means that mathematical calculations involving entire arrays
+it just means that mathematical calculations involving entire arrays
 of numbers cannot be done using the list data type.
 
 Second, it may be tempting to associate a
@@ -142,7 +142,7 @@ and you want to calculate the summation
 \end{equation}
 where $x_i$ are the data given above and $D = 5$.  You could
 calculate, one-by-one, each contribution in the sum and then add them
-up.  However, there has to be an easier way.  The easier way involves
+up.  However, there is an easier way involving
 a library called \code{numpy} .  The main object used in this library
 is called an \code{array}, which is very similar to a list except that
 an array is intended for mathematical use.  If \code{x} were a Numpy
@@ -178,7 +178,7 @@ This will create an array that looks like this:
 \begin{Verbatim}
 [0,.1,.2,.3,.4,.5,.6.... 9.5,9.6,9.7,9.8,9.9]
 \end{Verbatim}
-\marginpar{\footnotesize\captionsetup{type=table} \vspace{-2.5in}
+\marginpar{\footnotesize\captionsetup{type=table} \vspace{-1.5in}
 \begin{tabular}{lp{1.05in}}
 \code{logspace}        & Returns numbers evenly spaced on a
 log scale.  Same arguments as \texttt{linspace}\\ \\
@@ -209,7 +209,8 @@ myArray = linspace(0,10,10)
 \end{Verbatim}
 This will create an array that looks like this:
 \begin{Verbatim}
-[0,1.11111,2.222222,3.333333,4.4444444,5.55555555,6.666666,7.7777777,8.8888888,10]
+[0,1.11111,2.222222,3.333333,4.4444444,5.55555555,6.666666,
+            7.7777777,8.8888888,10]
 \end{Verbatim}
 When you use the \code{linspace} function, you aren't specifying a
 step size: the distance between values in the array.  You can ask the
@@ -248,8 +249,9 @@ d = xArray + 3  # Add 3 to every element of the first array
 e = xArray * 5  # Multipy every element of the first array by 5
 f = xArray + yArray  # Add the elements of array one to the elements of
                      # array two
-g = xArray * yArray  # Multiply the elements of array one to the elements of
-                     # array two
+g = xArray * yArray  # Multiply the elements of array one by
+                     # the elements of array two
+
 \end{Verbatim}
 In short, you can do all of the math that you were hoping you could do
 when you first learned about Python lists.
@@ -276,7 +278,7 @@ when you first learned about Python lists.
 \end{tabular}
 \captionof{table}{A very small sampling of functions belonging to the
   \texttt{numpy} library.\label{tab:Numpy}}
-} 
+}
 
 Mathematical functions (like $\sin(x)$, $\sinh(x)$...etc.) can be
 evaluated using arrays as their arguments and the result is an array
@@ -321,13 +323,13 @@ b = a[[2,3,5,9]]
 \end{Verbatim}
 You can't do that with lists.
 
-How about for two-dimensional arrays, like this one:
+When using two-dimensional arrays, like this one:
 \begin{Verbatim}
 from numpy import array
 a = array([[1,2,3],[4,5,6],[7,8,9]])
 \end{Verbatim}
-Single elements of this array can easily be extracted, just as with
-lists.
+single elements of this array can easily be extracted, just as with
+lists:
 \begin{Verbatim}
 from numpy import array
 a = array([[1,2,3],[4,5,6],[7,8,9]])
@@ -398,7 +400,7 @@ b[1:3,1:3]  # Slice out a sub-array (Exactly what you wanted!)
 If you want all of the elements in a given dimension, use the \code{:}
 alone with no numbers surrounding it. For example, the following:
 \begin{Verbatim}
-b[:,1:3]  
+b[:,1:3]
 \end{Verbatim}
 would extract all of the rows on columns 1 and 2:
 \begin{equation}
@@ -410,8 +412,8 @@ would extract all of the rows on columns 1 and 2:
 \right)
 \end{equation}
 \marginpar{\footnotesize\captionsetup{type=table}
-  \vspace{0.5in}
-\begin{tabular}{lp{1.05in}}
+  \vspace{-1.0in}
+\begin{tabular}{lp{1.00in}}
 \texttt{airy(z)}& Airy function  \\
 \texttt{jv(z)} & Bessel function of 1st kind\\
 \texttt{yv(z)} & Bessel function of 2nd kind\\
@@ -426,8 +428,8 @@ order v\\
 \end{tabular}
 \captionof{table}{A very small sampling of functions belonging to the
   \texttt{scipy.special} library.\label{tab:Scipy}}
-} 
-.  This kind of slicing just can't be done with lists.  Also note that
+}
+This kind of slicing just can't be done with lists.  Also note that
 you must use the \code{[x1:y1,x2:y2]} notation rather than the
 \code{[x1:y1][x2:y2]} notation, familiar with lists.  Use of the
 latter will not fail, but it will not produce the sub-matrix desired.
@@ -447,7 +449,7 @@ from numpy import sum
 c = sum(a)   # Use numpy's sum function
 \end{Verbatim}
 If you are summing up the elements of a two-dimensional list, the
-built-in version of the function will not work and you will have to
+built-in version of \code{sum} will not work and you will have to
 use \code{numpy}'s version.
 \begin{Verbatim}
 a = [[1.5,2.2],[9.8,4.6]]  # Define a 2-d list, a list of lists
@@ -463,7 +465,7 @@ had a higher-dimensional list, you could use \code{axis=2} or
 \code{axis = 3} as well.
 
 
-\marginpar{\footnotesize\captionsetup{type=table} \vspace{-2.5in}
+\marginpar{\footnotesize\captionsetup{type=table} \vspace{0in}
 \begin{tabular}{lp{1.05in}}
 \code{sum}& sum up the elements of an array.\\
 \code{prod}& find the product of the elements of an array.\\

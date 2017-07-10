@@ -6,13 +6,15 @@ the function. A function is nothing more than a set of instructions
 packaged up and given a name.  The function can be as long and complex
 or short and succinct as you wish.
 
-The main purpose of a function is to take in information, do some calculations or other things, then produce a result.  Here's a function you should already be comfortable with:
+The main purpose of a function is to take in information, do some calculations with or otherwise manipulate that information, then produce a result.  Here's a function you should already be comfortable with:
 \begin{Verbatim}
 print('Print is a function.')
 \end{Verbatim}
-The \code{print} function takes a string, and tells the computer to write that string to the console.  You do not need to know all of the details of how a function works in order to use it.  You just need to know what to give it, and what the result is.
+The \code{print} function takes a string, and tells the computer to write that string to the console.
 
-All Python functions have the same general format: first you type the name of the function (\code{print}), then you put round parentheses \code{()} around whatever information you are giving to the function.  If a function needs more than one piece of information, you separate them with a comma:
+You do not need to know all of the details of how a function works in order to use it.  You just need to know what to give it, and what the result is.
+
+All Python functions have the same general format: first you type the name of the function (\code{print}), then you put round parentheses \code{()} around whatever information\sidenote{Not all Python functions require inputs.  You use those by typing the name of the function followed by empty parentheses \code{()}.} you are giving to the function.  If a function needs more than one piece of information, you separate them with a comma:
 \begin{Verbatim}
 x=[1,2,3]
 y=[4,5,6]
@@ -26,7 +28,7 @@ information needs to enter the box for it to be able to accomplish
 its task, and what information will exit the box.  Why a black box?
 Well, one benefit of functions is that the user doesn't need to
 know what's inside.  They only need to know what information the box
-need and what information the box will give back to her.
+needs and what information the box will give back to them.
 
 Python functions generally fall into three groups: functions that come standard with Python (called native functions), functions that you can import into Python, and functions that you write yourself.
 
@@ -42,7 +44,7 @@ str(67.3)    # Converts a float to a string.
 \end{Verbatim}
 The functions: \code{len}, \code{float}, and \code{str} are all
 built-in functions, and they each take a single argument.  Other
-built-in function are found in the margin tables in the previous section.
+built-in function are found in the margin tables of the previous section.
 
 
 
@@ -53,8 +55,7 @@ built-in function are found in the margin tables in the previous section.
 Many times, you will need to go beyond what Python can do by itself\sidenote{For example, Python doesn't include \code{sin()} and \code{cos()} as Native functions.}. However, that doesn't mean you have to create everything you need to do from scratch.  Most likely, the function that you need has already been coded. Somebody
 else created the function and made it available to anyone
 who wants it.  Groups of functions that perform similar tasks are
-typically bundled together into libraries. These libaries can be
-imported and the functions that they contain can be used.
+typically bundled together into libraries ready to be imported so that the functions that they contain can be used.
 
 It is critical that you know what information(variables) the function expects you to give it and what
 useful information the function will give back to you.  This
@@ -80,7 +81,7 @@ you'll need to import these functions from a library.
 \begin{Verbatim}
 import math
 \end{Verbatim}
-This imports a library called \code{math}.  This command is like telling to go get the \code{math} book off of the shelf.  Functions inside the
+This imports a library called \code{math}.  This command is like telling Python to go get the \code{math} book off of the shelf.  Functions inside the
 math library can be used like this
 \begin{Verbatim}
 math.sqrt(5.2)  # Take the square root of 5.2
@@ -167,7 +168,7 @@ result = myFunction(r,t)
 In this case, when the function is called, \code{a} gets assigned the
 value of $10$ and \code{b} gets assigned the value of $15$.  The
 result of this calculation (\code{f}) is passed out of the function
-and stored in the variable \code{result} for later use.  
+and stored in the variable \code{result} for later use.
 
 
 A word on local vs. global variables is in order here.  In the example
@@ -226,6 +227,27 @@ def sin(x):
 \end{Verbatim}
 This function takes in a number (\code{x}) and returns the sine of \code{x}.  When you use \code{sin()}, the rest of your program has no idea that the variables \code{result}, \code{k}, \code{sign}, and \code{denom} were assigned along the way.  The main program only knows that \code{sin()} took \code{x} and returned a number that has the value of $\sin(x)$.
 
+\subsection*{Importing User Defined Functions}
+If you ever write a function that you find yourself using over and over again, or if you've written so many functions for a program that it makes your program hard to read, you can save your functions in another file and import them just like a Python library.
+
+As an example, assume that you've written your own \code{sin}, \code{cos}, and \code{sum} functions and saved them in a file called \code{my_funcs.py}.  As long as the program that will use these functions is saved in the same folder\sidenote{You can specify a path to a different folder during your import, or make your functions available to any program using python on your computer.  However, the steps to do so are beyond the scope of this book.}, you can import and use them like any other library.
+\begin{Verbatim}
+#Method #1
+import my_funcs
+my_funcs.sin(15)
+
+#Method #2
+from my_funcs import sin
+sin(15)
+
+#Method #3
+import my_funcs as mf
+mf.cos(50)
+
+#Method #4
+from my_funcs import *
+cos(50)
+\end{Verbatim}
 
 
 

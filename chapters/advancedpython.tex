@@ -1,4 +1,4 @@
-\chapter[Advanced Python]{Advanced Python Techniques}
+\chapter{Advanced Python Techniques}
 There are several very useful Python techniques where full walkthroughs and descriptions don't into the scope of this book.  However, many of them you may not come across through the course of a normal science/engineering education.
 
 This chapter contains many of those, with brief descriptions and a few examples so that you as a reader can see first of all that they exist, second, when they might be useful, and third, what they are called so you can further research them on your own.
@@ -493,28 +493,47 @@ Regular expressions, or regex for short, are a way to match patterns in strings.
 \begin{Verbatim}
 '[0-1][0-9]/[0-9]{2}/20[0-9]{2}'
 \end{Verbatim}
-Let's break down that example piece by piece.  Square brackets \code{[]} will match whatever is listed inside the brackets. So, \code{[0-9]} will match any digit from zero to nine while \code{[0-1]} only matches zero or one.  Therefore, you can use \code{[0-1][0-9]} to match \code{00}, \code{01}, \code{02}, all the way up to \code{19}.  Putting curly braces \code{\{\}} around a number tells the computer how many times the thing before is repeated. Therefore, \code{21\{5\}} tells the computer to look for \code{211111}, and \code{[0-9]\{2\}} matches any two digit number. There is a list of common regular expressions in Table \ref{tab:regex}.
+Let's break down that example piece by piece.  Square brackets \code{[]} will match whatever is listed inside the brackets. So, \code{[0-9]} will match any digit from zero to nine while \code{[0-1]} only matches zero or one.  Therefore, you can use \code{[0-1][0-9]} to match \code{00}, \code{01}, \code{02}, all the way up to \code{19}.  Putting curly braces \code{\{\}} around a number tells the computer how many times the thing before is repeated. Therefore, \code{21\{5\}} tells the computer to look for \code{211111}, and \code{[0-9]\{2\}} matches any two digit number. There is a list of common regular expressions in Tables \ref{tab:regexchar} and \ref{tab:regexop}.
 
 In Python, you can use regex with the \code{re} library.  However, regex is widely used in many programming languages, not only in Python. Knowing regex is an incredibly useful skill for anyone who needs to analyze data with a computer.
 
+
 \vspace{7mm}
-\begin{tabular}{lp{2.5in}p{2.5in}}
-Expression & Description & Example \\
+
+\begin{tabular}{cp{0.4\textwidth}p{0.4\textwidth}}
+Regex & \multicolumn{1}{c}{Description} & \multicolumn{1}{c}{Example} \\
 \hline
-\code{\\w} & Any word character (letter, number, or subscript) &\\ \\
-\code{\\W} & Anything that isn't a word character &\\ \\
-\code{\\s} & Any white space (spaces, tabs, etc) &\\ \\
-\code{\\S} & Anything but white space &\\ \\
-\code{\\n} & Newline (line break) &\\ \\
-\code{.}  & Any character (wildcard) &\\ \\
-\code{[ ]} & Whatever is listed in the brackets. \code{[ABC]} matches A, B, or C. & \\ \\
-\code{\\} & Escape character. &
+\code{\\w} & Any word character (letter, number, or subscript) &\code{an\\w} matches \code{any} and \code{and}, but not \code{an,} \\
+\code{\\W} & Anything that isn't a word character &\code{friend\\W} matches \code{friend.} and \code{friend,} but not \code{friends}\\
+\code{\\s} & Any white space (spaces, tabs, etc) &\\
+\code{\\S} & Anything but white space &\\
+\code{\\n} & Newline (line break) &\\
+\code{.}  & Any character (wildcard) &\\
+\code{\\} & Escape character. Let's you use special characters as the actual character.& \code{.} is a wildcard. \code{\\.} is a period. \\
+\code{[ ]} & Anything listed in the brackets. & \code{[ABC]} matches A, B, or C. \\
+\code{[^ ]} & Anything not listed in the brackets & \code{[^0-9]} matches anything but the digits 0 through 9\\
+\code{^} & beginning of a line & \code{^A} only matches A when it is the first character in a line of text. \\
+\code{$} & end of a line & \code{A$} only matches A when it is the last character in a line of text. \\
 
 \end{tabular}
-\captionof{table}{Common regular expressions\label{tab:regex}}
+\captionof{table}{Common regular expressions that represent characters.\label{tab:regexchar}}
 
 
+\vspace{7mm}
+\begin{tabular}{cp{0.4\textwidth}p{0.4\textwidth}}
+Regex & \multicolumn{1}{c}{Description} & \multicolumn{1}{c}{Example} \\
+\hline
+\code{+} & one or more occurrences & \code{AB+} matches \code{AB}, \code{ABB}, and \code{ABBBBBB}\\
+\code{*} & zero or more occurrences & \code{AB+} matches \code{A}, \code{AB}, and \code{ABBBBBB}\\
+\code{?} & zero or one occurrence & \code{Hell?o} matches \code{Hello} and \code{Helo}\\
+\code{\{n\}} & $n$ occurrences & \code{[0-9]{3}} matches any three digits\\
+\code{\{n,\}} & $n$ or more occurrences & \code{[0-9]{3,}} matches \code{121} and \code{17572}\\
+\code{\{n,m\}} & $n$ to $m$ occurrences & \code{[0-9]{3,4}} matches \code{121} and \code{1984} but not \code{17572}\\
+\code{()} & Marks a pattern group & \code{A(BC){3}} matches \code{ABCBCBC}\\
+\code{|} & "or". Must be used inside \code{()} & \code{A(BC|DE)} matches \code{ABC} and \code{ADE}
 
+\end{tabular}
+\captionof{table}{Common regular expression quantifiers. These quantifiers apply to the proceeding character or group. \label{tab:regexop}}
 
 
 

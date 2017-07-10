@@ -1,19 +1,17 @@
 \chapter{Variables and Data Types}
 \label{chap:variablesDataTypes}
 
-When writing a computer program, there are several big ideas, or main
-pillars, that you should grasp to be successful.  Two of those pillars
-are variables and functions. This chapter will focus on assigning,
-manipulating, and using different variable types.  Later chapters will
-focus on other main ideas and some more specific tasks that can be
-accomplished using these foundational ideas.
 
 The simplest, and most fundamental object when programming a computer
 is the variable, which is nothing more than a name which is given to a
 piece of information. It allows the information to be saved (stored)
 so that it can be recalled and used later.  \index{Data types} There
-are different types of variables and each has it's use and
-limitations.  Python has many types of variables, but you will mostly
+are different types of variables and each has its use and
+limitations.  This chapter will focus on assigning,
+manipulating, and using different variable types.
+
+
+Python has many types of variables, but you will mostly
 use the following types: integers, floats, lists, and arrays.  What
 follows is a brief description of each variable type (we'll save our
 discussion of arrays until later) with some examples to illustrate.
@@ -29,7 +27,14 @@ assigned a value like this:\index{Assigning values}
 \begin{Verbatim}
 a = 20
 \end{Verbatim}
-This statement creates the variable \code{a} and assigns it a value of
+This statement creates the variable \code{a} and assigns\sidenote{Sometimes you may want your program to prompt the user to
+enter a value and then save the value that the user inputs to a
+varible.  This can be done like this:
+
+\code{a = input("What is your age?")}
+
+When you run your program, you will be prompted to enter your age.
+When you do, that number will be saved to the variable \code{a}.} it a value of
 $20$ (an \textbf{integer}).  The value of \code{a} can be modified in
 any way you choose.  For instance, the statement
 \begin{Verbatim}
@@ -43,15 +48,12 @@ adds one to whatever value was previously stored in
   in the variable \code{a}.  However, the mathematical equation
   $a=a+1$ is clearly false.}  Note that {\it variable names in Python
   are case sensitive,} so watch your capitalization.  \index{Case
-  sensitive} 
-Sometimes you may want your program to prompt the user to
-enter a value and then save the value that the user inputs to a
-varible.  This can be done like this:
-\begin{Verbatim}
-a = raw_input(``What is your age?'')
-\end{Verbatim}
-When you run your program, you will be prompted to enter your age.
-When you do, that number will be saved to the variable \texttt{a}.
+  sensitive}
+
+
+
+
+
 You can define multiple variables by putting the assignements on
 seperate lines:
 \begin{Verbatim}
@@ -119,7 +121,7 @@ rounding rules \\ \\
 \captionof{table}{A sampling of built-in functions commonly used with
 integers
   and floats.\label{tab:HousekeepingFloats}}
-}.
+}
 The result of such a calculation is always a float.  Only when
 all of the numbers used in a calculation are integers is the result an
 integer.
@@ -139,11 +141,11 @@ The purpose for using a boolean variable will become more clear as you
 study loops and logical statements, so stay tuned.
 \section{String Variables}
 \index{Strings} String variables contain a sequence of characters, and
-can be created and assigned using quotes, like this
+can be created and assigned using quotes, like this\sidenote{You may also enclose the characters in double quotes.}
 \begin{Verbatim}
 s='This is a string'
 \end{Verbatim}
-\sidenote{You may also enclose the characters in double quotes. }
+
 %If you need an apostrophe in your string, repeat a single quote,
 %like this:
 %\begin{Verbatim}
@@ -185,11 +187,11 @@ a[2:10]
 a[2:10:3]
 \end{Verbatim}
 The first statement here will extract the substring starting at the
-third element (element 2 is the third character) and going through the
-11th element.  You can add a stepsize, like we've done in the second
+third element (element 2 is the third character) and going up to the
+tenth element\sidenote{Python does not include the last element.  \code{a[1:4]} includes \code{a[1]}, \code{a[2]}, and \code{a[3]} but not \code{a[4]}.}.  You can add a stepsize, like we've done in the second
 statement.  In this case, the three means that it will extract every
-third character starting at the third and ending at the 11th.
-\marginpar{\footnotesize\captionsetup{type=table} \vspace{-2.5in}
+third character starting at the third and ending at the tenth.
+\marginpar{\footnotesize\captionsetup{type=table} \vspace{-5.5in}
 \begin{tabular}{lp{1.05in}}
 \code{a.join(b)}  & Join all elements in list \code{b} while
 placing string \code{a} between each pair of elements.\\ \\
@@ -221,7 +223,7 @@ strings.\label{tab:HousekeepingStrings}}
 %of the elements in list \code{b} into one string, putting whatever
 %is in "" in between
 %each element.  There are many built-in functions that can be used with
-%strings.  
+%strings.
 Some of the more commonly used functions for strings are shown in
 Table \ref{tab:HousekeepingStrings}
 
@@ -251,13 +253,13 @@ spaced out over a given range, Python's \code{range} function can help:
 a = range(10,52,3)
 \end{Verbatim}
 This will construct a list of \ul{integers} starting at $10$, ending at
-$52$, while stepping in increments of $3$. This function can also be
+$51$, while stepping in increments of $3$. This function can also be
 called with $1$ or $2$ arguments and default values will be assigned
 to the missing ones.
 \begin{Verbatim}
-a = range(3,9)  # Creates a list starting at 3, ending a 9 stepping
+a = range(3,9)  # Creates a list starting at 3, ending a 8 stepping
                 # in increments of 1 (default value)
-b = range(10)   # Creates a list starting at 0(default), ending at 10
+b = range(10)   # Creates a list starting at 0(default), ending at 9
                 # stepping
                 # in increments of 1(default value)
 \end{Verbatim}
@@ -290,7 +292,9 @@ Take special note to the last two statements where a negative index is
 used.  Using a negative index means that you are counting from the
 back of the list forward.
 Please note that python lists are zero-indexed: the first element of
-any list is 0, the second element is 1, etc.  Lists can be easily
+any list is 0, the second element is 1, etc.
+
+Lists can be easily
 modified by specifying which element you want to change and what you
 want it changed to:
 \begin{Verbatim}
@@ -323,12 +327,11 @@ accessing an individual element requires two indices, like this
 a = [[4,3,2],[1,2.5,90],[4.2,2.9,10.5],[239.4,1.4],[2.27,98,234,16.2]]
 c = a[3][1]
 \end{Verbatim}
-Here \code{[3][1]} means we are accessing the 2nd element of the 4th
-list. (remember: Python lists are zero-indexed)  
- 
+Here \code{[3][1]} means we are going to the 4th list and accessing the 2nd element. (remember: Python lists are zero-indexed)
+
 \marginpar{\footnotesize\captionsetup{type=table}
   \vspace{-4.5in}
-\begin{tabular}{lp{1.05in}}
+\begin{tabular}{lp{0.95in}}
 \code{a[x]}        & Access element \code{x} in list \code{a}\\
 \code{a[x:y:z]}        & Extract a slice of list \code{a}\\
 \code{a.append(x)}        & Append \code{x} to list \code{a} \\
@@ -367,8 +370,9 @@ starting at $5$, ending at $25$ in increments of $2$.  The
 \code{append} will add an element to the end of a list.  Table
 \ref{tab:HousekeepingList} lists some of the more common built-in
 functions/operations for lists.  Please note that this is not a
-comprehensive list.  A complete list of available function can be
-found in the appendix.
+comprehensive list.
+%A complete list of available function can be
+%found in the appendix.
 
 
 \section{Naming Variables}
@@ -399,8 +403,7 @@ It's great to calculate something useful, but not that helpful unless
 you can see it.  Beginners often ask the question, ``I calculted XX
 but Python didn't do anything.''  Actually, Python did exactly what
 you told it:  It calculted XX and called it a day.  If you want to see
-XX, you have to print it.   The fastest way to see something, as
-you've already seen is using the print statement:
+XX, {\em you have to print it} with the print statement:
 \begin{Verbatim}
 a = 5.3
 b = [5,3,2.2]
@@ -442,12 +445,12 @@ be printed are provided as arguments to the \code{format} statement
 and are inserted into the string sequentially wherever curly braces
 (\code{\{\}}) are found.  The odd characters inside of the curly
 braces are a format code: they indicate how you would like the
-variable formatted when it is printed. The \code{:d} is used to
-indicate an integer variable and \code{:f} is used for floats.
+variable formatted when it is printed. The \code{:d}
+indicates an integer variable and \code{:f} indicates a float.
 Further specifications regarding spacing can also be made.  The
 \code{5.2} in the float formatting indicates that I'd like the number
 to be displayed with at least 5 digits and 2 numbers after the
-decimal.  A summary of what is available is given in table
+decimal.  A selection of what available format statements is given in table
 \ref{tab:HousekeepingFormat}
 
 

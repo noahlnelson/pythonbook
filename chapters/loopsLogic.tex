@@ -18,13 +18,11 @@ Here you are {\it iterating} over the list \code{[3,2,1,9.9]}.  This
 means that the loop variable (\code{i} in this case) gets assigned
 the values of the list elements, one by one, until it reaches the end
 of the list.  You can iterate over lists, arrays, and
-matrices.  Just as with functions, indentation is used to indicate
-where the loop ends.  \sidenote{Technically, an interable is an object that has a
+matrices.  Just as with functions, Python uses indentation to indicate
+where the loop ends.  \sidenote{Technically, you can iterate on any object that has a
   member function called \code{next}, but unless you
   understand classes, this is probably confusing to you.}  The list
-that you iterate over can contain anything.\sidenote{Once again,
-  notice that Python uses indentation to determine what the contents
-  of the loop are.}  For instance, here is a loop over a list of
+that you iterate over can contain anything.  For instance, here is a loop over a list of
 strings:
 \begin{Verbatim}
 for i in ['Physics', 'is','so','fun']:
@@ -47,7 +45,7 @@ for i in arange(5,50,.1):
 \end{Verbatim}
 These examples are so simple that you might wonder when a loop might
 actually be useful to you.  Let's see if we can build a loop to
-calculate the following sum\sidenote{\code{theSum += 1/n**2} is equivalent to \code{theSum = theSum + 1/n**2}, but runs a little faster and is a little bit easier to read.  See Table \ref{tab:Operations} for more shorthand notations.}:
+calculate the following sum\sidenote{\code{theSum += 1/n**2} is equivalent to \code{theSum = theSum + 1/n**2}, but runs a little faster and is a little bit easier to read, once you get used to it.  See Table \ref{tab:Operations} for more shorthand notations.}:
 \begin{equation}
 \Sigma_{n=1}^{1000} \frac{1}{n^2}
 \end{equation}
@@ -91,15 +89,15 @@ check our answer:
 \marginpar{\footnotesize\captionsetup{type=table}
   \vspace{2.5in}
 \begin{tabular}{lp{1.05in}}
-\texttt{==}  &  Equal\\ \\
-\texttt{>=}  &  Greater than or equal\\ \\
-\texttt{>}  &  Greater than\\ \\
-\texttt{<}  &  Less than\\ \\
-\texttt{<=}  &  Less than or equal\\ \\
-\texttt{!=}  &  Not equal\\ \\
-\texttt{and}  &  and\\ \\
-\texttt{or}  &  or\\ \\
-\texttt{not}  &  not\\ \\
+\code{==}  &  Equal\\ \\
+\code{>=}  &  Greater than or equal\\ \\
+\code{>}  &  Greater than\\ \\
+\code{<}  &  Less than\\ \\
+\code{<=}  &  Less than or equal\\ \\
+\code{!=}  &  Not equal\\ \\
+\code{and}  &  True if both conditions joined by \code{and} are true\\ \\
+\code{or}  &  True if either of the conditions joined by \code{or} are true \\ \\
+\code{not}  & True if the following condition is false.  \\ \\
 \end{tabular}
 \captionof{table}{Python's logic elements.\label{tab:Logicelements}}
 }
@@ -153,8 +151,8 @@ print(c)     # It sure looks like they are the same.
 print(" {:.45f} ".format(b))  #b--- out to 45 decimal places
 print(" {:.45f} ".format(c))  #c--- out to 45 decimal places
 \end{Verbatim}
-The first two print statement displays the value of \code{b} to one
-decimal place. In the second two print statement I am forcing Python
+The first two print statements display the value of \code{b} to one
+decimal place. The second two print statements force Python
 to display the value of \code{b} and \code{c} out to 45 decimal
 places.  Notice that the true value of \code{b} is not \ul{exactly}
 equal to 0.3.  This is why the statement \code{print(b==c)} returns
@@ -173,7 +171,7 @@ print(abs(b - c) < 1e-10)
 Logic can be combined with loops using something called a
 \code{while} loop.  A \code{while} loop is a good choice when you
 don't know beforehand exactly how many iterations of the loop will be
-executed but rather want the loop to contiune to execute until some
+executed but rather want the loop to continue to execute until some
 condition is met.  As an example, let's compute the sum
 \begin{equation}
 \sum \frac{1}{n^2}
@@ -189,14 +187,14 @@ while term > 1e-10:  # Loop while term is bigger than 1e-10
     s += term     # Add 1/n^2 to the running total
 \end{Verbatim}
 This loop will continue to execute until \code{term}<1e-10. Note
-that unlike the for loop, here you have to do your own counting, being
+that unlike the for loop, here you have to do your own counting. Be
 careful about what value n starts at and when it is incremented
 (\code{n+=1}). Also notice that \code{term} must be assigned
 prior to the start of the loop.  If it wasn't the loop's first logical
-test would fail and the loop wouln't execute at all.
+test would fail and the loop wouldn't execute at all.
 
 Sometimes \code{while} loops are awkward to use because you can get
-stuck in an infinite loop if your check condition is never false. The
+stuck in an infinite loop\sidenote{Usually, you can farce your program to stop by pressing ctrl+c or cmd+c} if your check condition is never false. The
 \code{break} command is designed to help you here. When
 \code{break} is executed in a loop the script jumps to just after
 the end at the bottom of the loop. The \code{break} command also
