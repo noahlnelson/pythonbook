@@ -19,7 +19,7 @@ and quickly evaluated it.  Your lambda functions can have as many
 arguments as you'd like: just seperate the arguments with commas.  At
 this point, you may be asking yourself why this is such a big deal:
 Why would you ever really need to do this.  Well, there are some
-python \underline{functions that take functions as their
+Python \underline{functions that take functions as their
   arguments}.\sidenote{Stop and process that for a minute.}(as opposed
 to taking simple numbers or strings) An example of this is the
 \code{filter} function which serves to extract elements of a list
@@ -108,7 +108,7 @@ print(remove_doubles)
 long_list = [x for pair in remove_doubles for x in pair]
 print(long_list)
 \end{Verbatim}
-Notice in the \code{long_list} example that \code{pair} must be set with the first \code{for} statement, then iterated over in the second. Python reads left to right.  This format will create an error since python runs into the variable \code{pair} before it knows what it means:
+Notice in the \code{long_list} example that \code{pair} must be set with the first \code{for} statement, then iterated over in the second. Python reads left to right.  This format will create an error since Python runs into the variable \code{pair} before it knows what it means:
 \begin{Verbatim}
 long_list = [ x for x in pair for pair in remove_doubles]
 \end{Verbatim}

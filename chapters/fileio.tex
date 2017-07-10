@@ -35,7 +35,7 @@ x y z t r(optional)
 \end{Verbatim}
 Notice that: i) there are non-numerical entries, ii) rows have a
 different number of entries, iii) entries are seperated by different
-delimiters (sometimes \&\&, sometimes a comma is used, and sometimes
+delimiters\sidenote{A {\bf delimiter} is a character that separates data points.} (sometimes \&\&, sometimes a comma is used, and sometimes
 white space is used).
 
 If your file is the first type(highly structured, numerical data
@@ -57,7 +57,7 @@ If your entries were seperated by something other than white space
 \code{delimiter =','} to \code{loadtxt} to specify the seperator.
 It's worth mentioning that \code{loadtxt} can handle the presence of
 non-numerical entries if you need it to.  You'll want to use the
-optional argument \texttt{dtypes} to help you specify what type of
+optional argument \code{dtypes} to help you specify what type of
 data \code{loadtxt} should expect to find.  Thank you Numpy!
 
 \subsection*{Randomly-formatted files with non-numerical data}
@@ -68,7 +68,7 @@ first need to open the file using the \code{open} command.  Next, you
 can read the contents using one of the following: \code{read},
 \code{readlines}, or \code{readline}.  Finally, you should always
 close the file using the \code{close} command.  Let's say you created
-a file called \texttt{dataFile.txt} that had the following contents:
+a file called \code{dataFile.txt} that had the following contents:
 \begin{Verbatim}
 x y z t r(optional)
 1.2 4 5 2 6
@@ -81,13 +81,13 @@ x y z t r(optional)
 You could read this file like this
 \begin{Verbatim}
 f = open('dataFile.txt','r')  #Open the file
-f.readlines()   # Read the entire file and save it as a list of strings
+data=f.readlines()   # Read the entire file and save it as a list of strings
 f.close()
 \end{Verbatim}
-The \texttt{'r'} in the \code{open} command indicates that you are
+The \code{'r'} in the \code{open} command indicates that you are
 opening the file for the purpose of reading it.  Other options are
-\texttt{'w'} for writing to files (more to come later on that),
-\texttt{'a'} for appending, and \texttt{'r+'} for reading {\bf and}
+\code{'w'} for writing to files (more to come later on that),
+\code{'a'} for appending, and \code{'r+'} for reading {\bf and}
 writing.  The \code{readlines} command will read the entire contents
 of the file (it's your problem if the size of the file exceeds your
 RAM storage capability) and saves it as a {\bf list of strings}: one
@@ -101,8 +101,7 @@ done like this:
 with open('dataFile.txt','r') as file:
     data = file.readlines()
 \end{Verbatim}
-This will do the exact same thing that the above code does.  The file
-is automatically closed after it is read.
+This will do the exact same thing that the above code does.  Python will automatically close the file once the program is no longer indented.
 
 Notice that the data inside of a file is saved as a string (or list of
 strings). That's most likely not the most convenient form if you are
@@ -137,7 +136,7 @@ something else.
 
 \subsection*{Writing well-structured, numerical data}
 If you have an {\bf array} of data and you want to save that data to a
-file, you can do it with \texttt{Numpy}'s \code{savetxt} command, like
+file, you can do it with \code{Numpy}'s \code{savetxt} command, like
 this:
 \begin{Verbatim}
 from numpy import savetxt
@@ -148,8 +147,8 @@ to a file as columns.  You can do that like this:
 \begin{Verbatim}
 savetxt('filename.txt',(x,y,z))
 \end{Verbatim}
-where \texttt{x},\texttt{y}, and \texttt{z} are the one-dimensional
-arrays. You can specify a delimiter (seperator) to include in between
+where \code{x},\code{y}, and \code{z} are the one-dimensional
+arrays and all have the same length. You can specify a delimiter (seperator) to include in between
 data entries using the \code{delimiter=' '} option and putting the
 delimiter in quotes.  See online documentation for other optional
 arguments.

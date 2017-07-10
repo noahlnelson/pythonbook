@@ -173,7 +173,7 @@ F=(2-cos(pi*X))*exp(Y)
 # Plot the function
 fig = pyplot.figure()
 ax=fig.gca(projection='3d')
-ax.plot_wireframe(X,Y,F)  
+ax.plot_wireframe(X,Y,F)
 pyplot.xlabel('x')
 pyplot.ylabel('y')
 pyplot.show()
@@ -386,8 +386,8 @@ was created in the {\tt meshgrid} format rather than the {\tt mgrid} format.
 \begin{VerbatimOut}{\listingFile}
 from numpy import arange, mgrid,ones,array
 from matplotlib import pyplot
-x = arange(0,1,0.1) 
-y = arange(0,1,0.1) 
+x = arange(0,1,0.1)
+y = arange(0,1,0.1)
 
 #Define the position arrays x and y
 X,Y = meshgrid(x,y)
@@ -409,6 +409,44 @@ pyplot.streamplot(x,y,u,v,start_points=sp.T,color='crimson',linewidth = 2)
 pyplot.show()
 \end{VerbatimOut}
 \end{codeexample}
+
+\subsection*{3-D Line Plots}
+\index{Space curves} \index{Plot3} \index{Curves, 3-D} Python will
+draw three-dimensional curves in space with the \code{plot} command.
+However, there are a few additional lines of code that must be added
+to make the plot 3 dimensional.  Here is how you would do a spiral on
+the surface of a sphere using spherical coordinates.  I've
+hightlighted the additions needed for the 3D plot
+
+\begin{codeexample}
+\begin{VerbatimOut}{\listingFile}
+from matplotlib import pyplot
+from mpl_toolkits.mplot3d import Axes3D  # <- Important
+from numpy import pi, arange, sin, cos
+
+dphi=pi/100 # set the spacing in azimuthal angle
+
+N=30 # set the number of azimuthal trips
+phi=arange(0,N * 2 * pi, dphi)
+
+theta=phi/N/2 # go from north to south once
+
+r=1  # sphere of radius 1
+
+# convert spherical to Cartesian
+x=r*sin(theta)*cos(phi)
+y=r*sin(theta)*sin(phi)
+z=r*cos(theta)
+
+# plot the spiral
+fig = pyplot.figure()
+fig.gca(projection='3d')  # Create 3D axis
+pyplot.plot(x,y,z)
+pyplot.axis('equal')
+pyplot.show()
+\end{VerbatimOut}
+\end{codeexample}
+
 
 \section{Animations}
 Often you will want to see how a plot evolves over time.  Maybe you

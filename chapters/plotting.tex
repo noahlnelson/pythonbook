@@ -9,7 +9,7 @@ worth way more than that if you do it right.
 \section{Linear Plots}
 
 \subsection*{Making a Grid}
-\index{Plotting, xy} Simple plots of $y$ vs. $x$ are done using a
+\index{Plotting, xy} Simple plots of $x$ vs. $y$ are done using a
 library called \code{matplotlib}.  In order to build make a plot, \code{matplotlib} needs arrays of $x$ and $y$ points that are going to be plotted.  It cannot generate these points on its own.
 To build an array \code{x} of $x$-values
 starting at $x=0$, ending at $x=10$, and having a step size of
@@ -51,8 +51,8 @@ screen.  You can save the plot to a file by replacing the
 pyplot.savefig('filename.png')
 \end{Verbatim}
 If you want to see the actual data points being plotted, you
-can either add the string 'ro' inside of the plot command (the 'r'
-means make the data points red and the 'o' means plot circle markers) or use the
+can either add the string \code{'ro'} inside of the plot command (the \code{'r'}
+means make the data points red and the \code{'o'} means plot circle markers) or use the
 \code{scatter} function, like this:
 \begin{Verbatim}
 from matplotlib import pyplot
@@ -114,14 +114,6 @@ pyplot.title('semilogx')
 
 pyplot.show()
 \end{Verbatim}
-
-\subsection*{3-D Line Plots}
-\index{Space curves} \index{Plot3} \index{Curves, 3-D} Python will
-draw three-dimensional curves in space with the \code{plot} command.
-However, there are a few additional lines of code that must be added
-to make the plot 3 dimensional.  Here is how you would do a spiral on
-the surface of a sphere using spherical coordinates.  I've
-hightlighted the additions needed for the 3D plot
 \marginpar{\captionsetup{type=table}
 \begin{tabular}{ll}
 \code{'-'}   &    solid line style     \\
@@ -153,34 +145,29 @@ hightlighted the additions needed for the 3D plot
 \end{tabular}
 \captionof{table}{Line styles and plot markers.\label{tab:linestyles}}
 }
-\begin{codeexample}
-\begin{VerbatimOut}{\listingFile}
+\subsection{Plots with Error Bars}
+To make plots with errorbars, use matplotlib's command \code{errorbar}. It works like this:
+\begin{Verbatim}
 from matplotlib import pyplot
-from mpl_toolkits.mplot3d import Axes3D  # <- Important
-from numpy import pi, arange, sin, cos
+from numpy import arange
 
-dphi=pi/100 # set the spacing in azimuthal angle
+x=arange(0,8,0.1)
+y=x**2
 
-N=30 # set the number of azimuthal trips
-phi=arange(0,N * 2 * pi, dphi)
+#Set error in x and y
+#Notice that x and y are are different sizes
+x_error = 0.05 #Constant error in x
+y_error = y/10 #Each error bar will be 10% of x
 
-theta=phi/N/2 # go from north to south once
-
-r=1  # sphere of radius 1
-
-# convert spherical to Cartesian
-x=r*sin(theta)*cos(phi)
-y=r*sin(theta)*sin(phi)
-z=r*cos(theta)
-
-# plot the spiral
-fig = pyplot.figure()
-fig.gca(projection='3d')  # Create 3D axis
-pyplot.plot(x,y,z)
-pyplot.axis('equal')
+#Make an errorbar plot without an x error
+pyplot.errorbar(x,y,yerr=y_error)
 pyplot.show()
-\end{VerbatimOut}
-\end{codeexample}
+
+#Make an errorbar plot with x error
+pyplot.errorbar(x,y,xerr=x_error,yerr=y_error)
+pyplot.show()
+
+\end{Verbatim}
 
 \section{Plot Appearance}
 
@@ -320,8 +307,7 @@ same plot line
 pyplot.plot(x,f1,'r-',x,f2,'b-')
 pyplot.title('First way')
 \end{Verbatim}
-Here's the second way. After the first plot, tell Python
-to hold the plot so you can put a second one with it
+Here's the second way: ese two separate plot commands before calling \code{pyplot.show()} or \code{pyplot.savefig()}.
 \begin{Verbatim}
 pyplot.figure()
 pyplot.plot(x,f1,'r-')
@@ -330,7 +316,7 @@ pyplot.title('Second way')
 pyplot.show()
 \end{Verbatim}
 The second way is convenient if you have lots of plots to put on
-the same figure.
+the same figure.  For example, you could create each of the plots in a for loop, then show the plot after the end of the loop.
 
 \subsection*{Subplots}
 
@@ -364,7 +350,7 @@ pyplot.plot(x,f2)
 %Python does not plot functions.  This is true of any computer
 %software used to make plots.  Rather, the computer samples the
 %function at a series of points in the domain and plots those points.
-%In python, we can create a plot like this using a library called
+%In Python, we can create a plot like this using a library called
 %\code{matplotlib}.  A simple scatter plot can be generated like this
 %\begin{Verbatim}
 %from matplotlib import pyplot  #Import necessary functions
