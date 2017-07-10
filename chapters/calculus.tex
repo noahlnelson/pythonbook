@@ -295,10 +295,11 @@ maybe you need to calculate the integral of
 \begin{equation}
 f(x) = e^{-x^2}
 \end{equation}
-You can integrate this function numerically in exactly the same way
-that you did the definite integral.   The only difference is that
-instead of summing up all of the contributions into one number, you
-keep a cumulative sum.  Here is one way that you could do it with Python:
+which has no analytical solutions. You can integrate this function
+numerically in exactly the same way that you did the definite
+integral.  The only difference is that instead of summing up all of
+the contributions into one number, you keep a cumulative sum.  Here is
+one way that you could do it with Python:
 
 \begin{Verbatim}
 from numpy import arange,exp
@@ -318,11 +319,48 @@ pyplot.plot(x,s)
 pyplot.show()
 \end{Verbatim}
 You'll want to study the line starting with \verb!s=! until it makes
-sense.  If that doesn't make sense to you, you could replace that line
-with:
-If you have arrays of
-($x,f(x)$), you can quickly approximate the indefinite integral function
-$\int_a^x f(x') dx'$ using Scipy's {\tt cumtrapz} functions.
+sense.  If this line doesn't make sense to you, we can make it more
+explicit (but less elegant programatically) by replacing the
+integration line with:
+\begin{Verbatim}
+thesum = 0
+for i in f:
+    thesum += i * dx
+
+\end{Verbatim}
+
+Here we have implemented the rectangle rule for integrating the function.
+More complicated integration methods (trapezoidal, Simpson's rule,
+etc.) can be implemented by changing the thing that is being added in
+the loop.
+
+\section{Python Integrators}
+The \code{numpy} and \code{scipy} libraries have several functions
+designed to perform numerical integration.  For example, \code{numpy}
+has a function called \code{cumsum} (sounds helpful here right?) that
+integrates using the rectangle rule, just as we did above. Here is how
+it works:
+
+\begin{Verbatim}
+from numpy import arange,exp,cumsum
+from matplotlib import pyplot
+N=1000
+a=0
+b=5.
+dx=(b-a)/N
+
+x=arange(.5*dx,b - 0.5 * dx, dx)  # build an x array of centered values
+f=exp(-x**2)  # load the function
+
+# do the approximate integral
+s=cumsum(f*dx)
+pyplot.plot(x,s)
+pyplot.show()
+\end{Verbatim}
+
+The Scipy libary has a sublibrary called {\tt integrate} which
+contains a host of useful functions for integrating.  function will do a similar thing except that it
+will use.
 \index{Indefinite integral function} This function takes an array of function
 values in {\tt y} and an $x$-spacing {\tt dx} and returns an approximate
 indefinite integral function $g(x)=\int_a^x y(x') dx'$ using the trapezoid
@@ -395,7 +433,6 @@ end
 \end{codeexample}
 
 
-\section{Python Integrators}
 
 \index{Integrate, Python Integrator} \index{Integrate2, Python 2-D
 Integrator} For simple integrals of functions sampled at discrete points

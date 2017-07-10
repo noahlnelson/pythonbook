@@ -168,9 +168,9 @@ the {\tt interp1} command (assuming \code{x} and \code{y} are already
 loaded with the data points):
 \begin{Verbatim}
 from scipy.interpolate import interp1d
-yi=interp1(x,y)  # Linear interpolation
-yi=interp1(x,y,kind = 'slinear')  # Spline interpolation to 2nd order
-yi=interp1(x,y,'spline')
+yi=interp1d(x,y)  # Linear interpolation
+yi=interp1d(x,y,kind = 'slinear')  # Spline interpolation to 2nd order
+yi=interp1d(x,y,kind = 'quadratic')
 \end{Verbatim}
 We haven't talked about spline interpolation yet.  It is a
 piece-wise polynomial fit that typically does an excellent job of
@@ -226,7 +226,8 @@ interest but the quality of the interpolation will not be as good when
 there are big gaps between data points.  Note also that
 \code{interp1d} is an {\it interpolator} not an {\it extrapolator}.
 Hence if you try to ``interpolate'' at a location that is beyond the
-domain of the sampled values (that's called extrapolation), you will get an error.
+domain of the sampled values (that's called extrapolation), you will
+get an error.
 
 
 \section{Two-dimensional interpolation}

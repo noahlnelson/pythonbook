@@ -132,6 +132,24 @@ These matrices have the indexes in the $X(i,j)$, $Y(i,j)$ order,
 but lose the spatial correlation that \code{meshgrid} gives
 between Eq.~\eqref{eq:MeshgridMatrices} and Fig.~\ref{figMeshGrid}.
 
+A third argument can be added to the \code{mgrid} command to indicate
+the stepsize.  For example, try the following:
+\begin{Verbatim}
+from numpy import mgrid
+X,Y=mgrid[1:4:0.5,4:6:0.5]
+\end{Verbatim}
+The $0.5$ that was added indicates that I want a mesh from one to four
+in increments of $0.5$.  If the third argument is imaginary, like
+this:
+\begin{Verbatim}
+from numpy import mgrid
+X,Y=mgrid[1:4:10j,4:6:10j]
+\end{Verbatim}
+then the meaning changes to indicating the number of elements you'd
+like in the range.  This is very similar to the difference between
+\code{arange} and \code{linspace}.
+
+
 Plots made either with \code{plot_surface(X,Y,F)} or \code{contour(X,Y,F)} (discussed below) will look
 the same with either grid.  However, {\tt streamline} plots require your
 data to be in the format provided by {\tt meshgrid}.  You will need to be
