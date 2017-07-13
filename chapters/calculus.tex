@@ -323,10 +323,11 @@ sense.  If this line doesn't make sense to you, we can make it more
 explicit (but less elegant programatically) by replacing the
 integration line with:
 \begin{Verbatim}
+s = []
 thesum = 0
 for i in f:
     thesum += i * dx
-
+    s.append(thesum)
 \end{Verbatim}
 
 Here we have implemented the rectangle rule for integrating the function.
@@ -336,7 +337,31 @@ the loop.
 
 \section{Python Integrators}
 The \code{numpy} and \code{scipy} libraries have several functions
-designed to perform numerical integration.  For example, \code{numpy}
+designed to perform numerical integration.  When integrating, there
+are two types of situations that are most likely: i) You know the
+function that you want to integrate or ii) You don't know the
+function you are integrating but you have samples (data points) from the it.
+If you know what function you want to integrate,
+\code{quad}\sidenote{\code{dblquad} and \code{tplquad} are also
+  available for double and triple integrations respectively.  Look for
+online help for more details.},
+\code{romberg}, and \code{quadrature} are good choices.  Here is an
+example of how to use \code{romberg}:  
+\begin{Verbatim}
+from numpy import sin, exp
+from scipy.integrate import romberg
+
+# First define the function you are wanting to integrate
+def func(x):
+   return sin(2 * x**2) * exp(-x)
+
+integral = romberg(func,0,5)
+print integral
+\end{Verbatim}
+The functions \code{quad} and \code{quadruature} can be used in the
+same way.  
+
+For example, \code{numpy}
 has a function called \code{cumsum} (sounds helpful here right?) that
 integrates using the rectangle rule, just as we did above. Here is how
 it works:

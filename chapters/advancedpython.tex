@@ -3,6 +3,22 @@ There are several very useful Python techniques where full walkthroughs and desc
 
 This chapter contains many of those, with brief descriptions and a few examples so that you as a reader can see first of all that they exist, second, when they might be useful, and third, what they are called so you can further research them on your own.
 
+\section{Iterating with the enumerate function}
+You've seen how to iterate over a list, extracting each element,
+one-by-one.  There are times when, in addition to extracting the
+elements of the thing you are iterating over, you'd like to also
+extract it's location in the list.  You can do that with the
+\code{enumerate} function.  Here's an example where every fourth
+element is added up:  
+\begin{Verbatim}
+a = [4,5,2,8,99,65,78,32,39,67,92,120,567,23]
+thesum = 0
+for index,val in enumerate(a):
+    if index % 4 == 0:
+        thesum +=val
+\end{Verbatim}
+The function \code{enumerate} returns the list element \textbf{and}
+it's location in the list.
 \section{Lambda (unnamed) functions}
 Sometimes, a function that you need to
 define is quite simple (maybe even one line) and it'd be nice if you
@@ -144,6 +160,8 @@ print(my_list[1])
 print(my_tuple[1]) #Notice that tuples still use [] for indexing
 \end{Verbatim}
 
+Since tuples cannot be modified , they are great when you don't want
+to accidentally modify your data set.
 \subsection*{Dictionaries}
 Imagine that your program needed the name, age, and birthday of several of your classmates.  You could store that data as a list of lists, like this:
 \begin{Verbatim}

@@ -108,9 +108,9 @@ factorial(20)
 \end{Verbatim}
 
 \section{Logical Statements}
- Often we only want to do something when some condition is satisfied.
-This requires the use of logic.  The simplest logic is the \code{if}
-statement, which works like this:
+Often we only want to do something when some condition is satisfied.
+This requires the use of logic.  The simplest logic is the
+\code{if\\elif\\else} statement, which works like this:
 \begin{Verbatim}
 a = 1
 b = 3
@@ -173,7 +173,7 @@ Logic can be combined with loops using something called a
 don't know beforehand exactly how many iterations of the loop will be
 executed but rather want the loop to continue to execute until some
 condition is met.  As an example, let's compute the sum
-\begin{equation}
+\begin{equation}\label{eq:sum}
 \sum \frac{1}{n^2}
 \end{equation}
 by looping until the terms become smaller than $\num{1e-10}$.
@@ -194,7 +194,7 @@ prior to the start of the loop.  If it wasn't the loop's first logical
 test would fail and the loop wouldn't execute at all.
 
 Sometimes \code{while} loops are awkward to use because you can get
-stuck in an infinite loop\sidenote{Usually, you can farce your program to stop by pressing ctrl+c or cmd+c} if your check condition is never false. The
+stuck in an infinite loop\sidenote{Usually, you can force your program to stop by pressing ctrl+c or cmd+c} if your check condition is never false. The
 \code{break} command is designed to help you here. When
 \code{break} is executed in a loop the script jumps to just after
 the end at the bottom of the loop. The \code{break} command also
@@ -212,42 +212,65 @@ while term > 1e-10:  # Loop while term is bigger than 1e-10
         break
 \end{Verbatim}
 
-\section{Combining loops and functions}
-One task that will be repeated many times is that of evaluating a
-function on a discrete set of points.  There are two possibilities
-here. You can create the list of domain values as an array and then
-pass that array to the function you want to evaluate, like this
+\subsection*{The continue statement}
+Another useful statement that is used with loops is the
+\code{continue} statement.  When \code{continue} is used, the
+remainder of the loop is skipped and the next iteration of the loop
+begins.  So for example, if you wanted to do
+the sum from equation \ref{eq:sum} but only include those terms for
+which n is a multiple of 3, it could be done like this:
+
 \begin{Verbatim}
-from numpy import arange,sin
-x = arange(0,10,.01)
-y = sin(x)
+term = 1  # Load the first term in the sum
+s = term  # Initialize the sum
+n = 1     # Set a counter
+while term > 1e-10:  # Loop while term is bigger than 1e-10
+    n +=  1        #Add 1 to n so that it will count: 2,3,4,5
+    if n % 3 != 0:
+        continue
+    term = 1./n**2    # Calculate the next term to add
+    s += term     # Add 1/n^2 to the running total
 \end{Verbatim}
-Notice that numpy's \code{sin} function was used here.  It was
-designed to accept an array of numbers for its argument and it knows
-that you want it to evaluate the function at all of the points.  You
-can also do this with user-defined functions. For example, what if I
-defined this function
-\begin{Verbatim}
-def myFunction(x):
-    result = 5 * x**2 - 3 * x**3
-    return result
-\end{Verbatim}
-and wanted to sample it over a chosen domain, saving all of the
-values in a list along the way.  You can create an array of domain
-values and then send it to this function.  The function will be
-evaluated at all of the points in your array. \sidenote{this will not
-  work with lists.}
-\begin{Verbatim}
-from numpy import arange
-myDomain = arange(0,10,.01)
-myFuncVals = myFunction(myDomain)
-\end{Verbatim}
-You can also do this another way by combining a loop with a list, like this:
-\begin{Verbatim}
-from numpy import arange
-myFuncVals = [myFunction(n) for n in arange(0,10,.01)]
-\end{Verbatim}
-Study the last line until it makes sense to you.  I have combined a
-loop with a list to create the list of function values.  Some would
-call this a {\bf mapping} between my function and the list of domain
-values.  See section \ref{sec:comprehensions} for more details.
+
+Now, when the value of n is not a multiple of 3, the sum will not be
+updated and the associated terms are effectively skipped.
+
+%\section{Combining loops and functions}
+%One task that will be repeated many times is that of evaluating a
+%function on a discrete set of points.  There are two possibilities
+%here. You can create the list of domain values as an array and then
+%pass that array to the function you want to evaluate, like this
+%\begin{Verbatim}
+%from numpy import arange,sin
+%x = arange(0,10,.01)
+%y = sin(x)
+%\end{Verbatim}
+%Notice that numpy's \code{sin} function was used here.  It was
+%designed to accept an array of numbers for its argument and it knows
+%that you want it to evaluate the function at all of the points.  You
+%can also do this with user-defined functions. For example, what if I
+%defined this function
+%\begin{Verbatim}
+%def myFunction(x):
+%    result = 5 * x**2 - 3 * x**3
+%    return result
+%\end{Verbatim}
+%and wanted to sample it over a chosen domain, saving all of the
+%values in a list along the way.  You can create an array of domain
+%values and then send it to this function.  The function will be
+%evaluated at all of the points in your array. \sidenote{this will not
+%  work with lists.}
+%\begin{Verbatim}
+%from numpy import arange
+%myDomain = arange(0,10,.01)
+%myFuncVals = myFunction(myDomain)
+%\end{Verbatim}
+%You can also do this another way by combining a loop with a list, like this:
+%\begin{Verbatim}
+%from numpy import arange
+%myFuncVals = [myFunction(n) for n in arange(0,10,.01)]
+%\end{Verbatim}
+%Study the last line until it makes sense to you.  I have combined a
+%loop with a list to create the list of function values.  Some would
+%call this a {\bf mapping} between my function and the list of domain
+%values.  See section \ref{sec:comprehensions} for more details.
