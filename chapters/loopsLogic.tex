@@ -187,8 +187,8 @@ while term > 1e-10:  # Loop while term is bigger than 1e-10
     s += term     # Add 1/n^2 to the running total
 \end{Verbatim}
 This loop will continue to execute until \code{term}<1e-10. Note
-that unlike the for loop, here you have to do your own counting. Be
-careful about what value n starts at and when it is incremented
+that unlike the \code{for} loop, here you have to do your own counting. Be
+careful about what value \code{n} starts at and when it is incremented
 (\code{n+=1}). Also notice that \code{term} must be assigned
 prior to the start of the loop.  If it wasn't the loop's first logical
 test would fail and the loop wouldn't execute at all.

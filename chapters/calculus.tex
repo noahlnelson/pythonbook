@@ -29,7 +29,7 @@ the derivative to be evaluated.
 \marginfig{Figures/figDerivatives}{The centered derivative approximation works
     best.}
 
-To see the importance of centering, consider Fig.~\ref{figDerivatives}. In
+To see the importance of centering, consider Fig.~\ref{Figures/figDerivatives}. In
 this figure we are trying to find the slope of the tangent line at $x=0.4$.
 The usual calculus-book formula uses the data points at $x=0.4$ and $x=0.5$,
 giving tangent line $a$. It should be obvious that using the ``centered''
@@ -114,7 +114,7 @@ pyplot.plot(x,dfdx,'r-',x,cos(x),'b-')
 
 # also plot the difference between the approximate and exact
 pyplot.figure()
-pyplot.plot(x,dfdx-cos(x),'b-') 
+pyplot.plot(x,dfdx-cos(x),'b-')
 pyplot.title('Difference between approximate and exact derivatives')
 pyplot.show()
 \end{VerbatimOut}
@@ -151,7 +151,7 @@ def derivs(y,dx):
 
     yp[1:N-1]=(y[2:N]-y[0:N-2])/(2*dx)
     ypp[1:N-1]=(y[2:N]-2*y[1:N-1]+y[0:N-2])/(dx**2)
-    
+
     # now use either linear or quadratic extrapolation to load the
     # derivatives at the endpoints
 
@@ -180,7 +180,7 @@ y=cos(x)
 fp,fpp=derivs(y,.01)
 
 # plot the approximate derivatives
-pyplot.plot(x,fp,'r-',x,fpp,'b-') 
+pyplot.plot(x,fp,'r-',x,fpp,'b-')
 pyplot.title('Approximate first and second derivatives')
 pyplot.show()
 \end{VerbatimOut}
@@ -197,7 +197,7 @@ approximate the integral $\int_a^b f(x) dx$ by subdividing the interval
 $[a,b]$ into $N$ subintervals of width $h = (b-a)/N$ and then evaluating
 $f(x)$ at the center of each subinterval. We replace $f(x) dx$ by $f(x_j) h$
 and sum over all the subintervals to obtain an approximate integral. This
-method is shown in Fig.~\ref{figMidpoint}. Notice that this method should
+method is shown in Fig.~\ref{Figures/figMidpoint}. Notice that this method should
 work pretty well over subintervals like [1.0,1.5] where $f(x)$ is nearly
 straight, but probably is lousy over subintervals like [0.5,1.0] where the
 function curves.
@@ -291,7 +291,7 @@ to higher accuracy.
 \subsection*{Indefinite integrals}
 
 And what if you need to find the indefinite integral? For example,
-maybe you need to calculate the integral of 
+maybe you need to calculate the integral of
 \begin{equation}
 f(x) = e^{-x^2}
 \end{equation}
@@ -346,7 +346,7 @@ If you know what function you want to integrate,
   available for double and triple integrations respectively.  Look for
 online help for more details.},
 \code{romberg}, and \code{quadrature} are good choices.  Here is an
-example of how to use \code{romberg}:  
+example of how to use \code{romberg}:
 \begin{Verbatim}
 from numpy import sin, exp
 from scipy.integrate import romberg
@@ -359,7 +359,7 @@ integral = romberg(func,0,5)
 print integral
 \end{Verbatim}
 The functions \code{quad} and \code{quadruature} can be used in the
-same way.  
+same way.
 
 For example, \code{numpy}
 has a function called \code{cumsum} (sounds helpful here right?) that
@@ -479,9 +479,9 @@ references to a Python function in their arguments (like {\tt fzero},
 to optimize accuracy.
 
 The Python routine {\tt integral} adaptively approximates the function with
-parabolas (as shown in Fig.~\ref{figSimpson}) or other functions instead of
+parabolas (as shown in Fig.~\ref{Figures/figSimpson}) or other functions instead of
 the rectangles of the midpoint method. The parabolic method is called
-Simpson's Rule. As you can see from Fig.~\ref{figSimpson}, parabolas do a
+Simpson's Rule. As you can see from Fig.~\ref{Figures/figSimpson}, parabolas do a
 much better job, making {\tt quad} a standard Python choice for integration.
 To use the {\tt integral} command, you need to define your function using an
 anonymous function.  For example, to

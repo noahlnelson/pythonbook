@@ -1,5 +1,5 @@
 \chapter{Basic Plotting}
-\label{chap:1DPlots}
+\label{chap:Plotting}
 
 Creating plots is an important task in science and engineering.  The
 old addage ``A picture is worth a thousand words!'' is wrong.... it's
@@ -114,38 +114,8 @@ pyplot.title('semilogx')
 
 pyplot.show()
 \end{Verbatim}
-\marginpar{\captionsetup{type=table}
-\begin{tabular}{ll}
-\code{'-'}   &    solid line style     \\
-\code{'--'}  &    dashed line style    \\
-\code{'-.'}  &    dash-dot line style  \\
-\code{':'}   &    dotted line style    \\
-\code{'.'}   &    point marker         \\
-\code{','}   &    pixel marker         \\
-\code{'o'}   &    circle marker        \\
-\code{'v'}   &    triangle down marker \\
-\code{'\^'}   &    triangle up marker   \\
-\code{'<'}   &    triangle left marker \\
-\code{'>'}   &    triangle right marker\\
-\code{'1'}   &    tri down marker      \\
-\code{'2'}   &    tri up marker        \\
-\code{'3'}   &    tri left marker      \\
-\code{'4'}   &    tri right marker     \\
-\code{'s'}   &    square marker        \\
-\code{'p'}   &    pentagon marker      \\
-\code{'*'}   &    star marker          \\
-\code{'h'}   &    hexagon1 marker      \\
-\code{'H'}   &    hexagon2 marker      \\
-\code{'+'}   &    plus marker          \\
-\code{'x'}   &    x marker             \\
-\code{'D'}   &    diamond marker       \\
-\code{'d'}   &    thin diamond marker  \\
-\code{'|'}   &    vline marker         \\
-\code{'\_'}   &    hline marker         \\
-\end{tabular}
-\captionof{table}{Line styles and plot markers.\label{tab:linestyles}}
-}
-\subsection{Plots with Error Bars}
+
+\subsection*{Plots with Error Bars}
 To make plots with errorbars, use matplotlib's command \code{errorbar}. It works like this:
 \begin{Verbatim}
 from matplotlib import pyplot
@@ -188,6 +158,37 @@ pyplot.plot(x,y,'g.')
 you get green dots at the data points with no connecting line.  Table
 \ref{tab:linestyles} has a list of the possiblilities
 
+\marginpar{\captionsetup{type=table}\vspace{-4in}
+\begin{tabular}{ll}
+\code{'-'}   &    solid line style     \\
+\code{'--'}  &    dashed line style    \\
+\code{'-.'}  &    dash-dot line style  \\
+\code{':'}   &    dotted line style    \\
+\code{'.'}   &    point marker         \\
+\code{','}   &    pixel marker         \\
+\code{'o'}   &    circle marker        \\
+\code{'v'}   &    triangle down marker \\
+\code{'\^'}   &    triangle up marker   \\
+\code{'<'}   &    triangle left marker \\
+\code{'>'}   &    triangle right marker\\
+\code{'1'}   &    tri down marker      \\
+\code{'2'}   &    tri up marker        \\
+\code{'3'}   &    tri left marker      \\
+\code{'4'}   &    tri right marker     \\
+\code{'s'}   &    square marker        \\
+\code{'p'}   &    pentagon marker      \\
+\code{'*'}   &    star marker          \\
+\code{'h'}   &    hexagon1 marker      \\
+\code{'H'}   &    hexagon2 marker      \\
+\code{'+'}   &    plus marker          \\
+\code{'x'}   &    x marker             \\
+\code{'D'}   &    diamond marker       \\
+\code{'d'}   &    thin diamond marker  \\
+\code{'|'}   &    vline marker         \\
+\code{'\_'}   &    hline marker         \\
+\end{tabular}
+\captionof{table}{Line styles and plot markers.\label{tab:linestyles}}
+}
 %For on-screen viewing these standard plot appearance commands will
 %usually be fine.  If you want to make publication quality figures
 %you will have to work harder. See Chapter~\ref{chap:Plots} for more
@@ -307,7 +308,7 @@ same plot line
 pyplot.plot(x,f1,'r-',x,f2,'b-')
 pyplot.title('First way')
 \end{Verbatim}
-Here's the second way: ese two separate plot commands before calling \code{pyplot.show()} or \code{pyplot.savefig()}.
+Here's the second way: use two separate plot commands before calling \code{pyplot.show()} or \code{pyplot.savefig()}.
 \begin{Verbatim}
 pyplot.figure()
 pyplot.plot(x,f1,'r-')

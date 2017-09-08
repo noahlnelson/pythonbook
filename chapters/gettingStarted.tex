@@ -1,5 +1,5 @@
-\chapter{Running Python}
-\label{chap:RunningPython}
+\chapter{Getting Started}
+\label{chap:GettingStarted}
 
 \marginfig{Figures/PythonCW.jpg}{Canopy's environment for running
   Python code.}
@@ -62,7 +62,7 @@ you should do most of your programming in the editor.
 
 
 \section{It's a Calculator}
-The very easiest, yet meaningful thing you can with Python is to
+The very easiest, yet meaningful thing you can do with Python is to
 perform simple math. Simple math can be performed pretty much just as
 you would expect. Here are a few examples\sidenote{The \code{#} marks something called a comment.  Python knows to ignore anything on a line that comes after a \code{#}.  They exist so that you can leave notes to anyone reading the program, without affecting what the program does.}
 \begin{Verbatim}
@@ -78,3 +78,48 @@ calculation has been performed, you will not see the result unless you
 statement will usually be omitted in code examples to maintain
 brevity.  You should always print your result so you can see what you
 have done.
+
+
+\section{Getting the Most Out of This Book}
+In this book, all Python code will be offset like this:
+\begin{Verbatim}
+# A simple Print Statement
+print('I Can do Python')
+\end{Verbatim}
+
+In order to make the textbook easier to read and understand, it usually omits print statements and direct instructions to type the examples into a Python script and run it.  For example, here's a selection from one of the early chapters:
+
+\vspace*{\baselineskip}
+
+\begin{minipage}{0.9\textwidth} \footnotesize
+You can define multiple variables by putting the assignements on
+seperate lines:
+\begin{Verbatim}
+a = 2
+b = 4
+c = a * b
+\end{Verbatim}
+Here we have stored the value $2$ in \code{a}, the value $4$ in
+\code{b} and then used those assignments to calculate a new value: $ 2
+\times 4$ and assign that value to the variable \code{c}.
+
+\end{minipage}
+
+As the reader, you should type {\em all examples} into a Python script (program) and run it.  As a general rule, you should also \code{print}\sidenote{As long as they aren't buried inside a function, you can also see what is stored in each variable by typing the variable name into the console and pressing enter.} all of the variables, or at the very least the ones that highlight the new ideas that the example demonstrates.  Remember: if you don't tell Python to print something, it won't.
+
+So, as an example, when you reach the selection above while reading you should type the following (or something similar) into a Python script and run it:
+
+\begin{Verbatim}
+a = 2
+b = 4
+c = a * b
+print(a)
+print(b)
+print(c)
+#Or print multiple variables at once
+print(a,b,c)
+
+\end{Verbatim}
+
+Typing every example by hand (don't copy and paste) will help you better process what each program does.  It also forces you to read it like Python will: one line at a time, top to bottom.
+

@@ -107,7 +107,7 @@ Notice that the data inside of a file is saved as a string (or list of
 strings). That's most likely not the most convenient form if you are
 dealing with numerical data.  For the above example, using
 \code{readlines} to read the example file from above would save the
-following list in Python:
+following list in Python:\sidenote{The string, \code{'\n'} is called either "new line" or "line break" and is the equivalent of hitting enter on a keyboard in a text editor.}
 \begin{Verbatim}
 [' x y z t r(optional)\n','1.2 4 5 2 6\n', ' 3.1 2.9&& 4.9 1.9\n',
 ' 4.2 ,1 9 2\n',' 3.1 2.9, 4.9, 1.9& 5\n','1.2 4 5 2\n','3.1 2.9 4.9 1.9\n']
@@ -154,7 +154,18 @@ delimiter in quotes.  See online documentation for other optional
 arguments.
 
 \subsection*{Non-numerical and randomly-structured file writes}
+If you need to write a non-data file, you can write it line by using the \code{write} command.  Just like the \code{readlines()} command, first you need to open the file. Then, use the \code{write}\sidenote{\code{write} follows the same formatting rules as \code{print}} command to write in your open file:\sidenote{Note the use of \code{'\n'} to tell Python to start a new line in the file.}
+\begin{Verbatim}
+with open('myFile.txt','w') as f:
+   f.write('The first line of the file\n')
 
+   for i in range(2,10):
+      f.write('Line Number {}\n'.format(i))
+   f.write('The last line of the file')
+
+
+\end{Verbatim}
+Python closes the file once the program is no longer indented.
 
 
 

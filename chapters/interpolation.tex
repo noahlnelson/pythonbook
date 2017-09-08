@@ -57,7 +57,7 @@ linear interpolation gives the obvious result $y=(y_1+y_2)/2$.
 
 But you must be careful when using this method that your points are
 close enough together to give good values. In
-Fig.~\ref{figLineInterp}, for instance, the linear approximation to
+Fig.~\ref{Figures/figLineInterp}, for instance, the linear approximation to
 the curved function represented by the dashed line ``a'' is pretty
 poor because the points $x=0$ and $x=1$ on which this line is based
 are just too far apart. Adding a point in between at $x=0.5$ gets
@@ -74,7 +74,7 @@ it is easy to show that the formula above gives the simple rule
 f_{N+1} = 2 f_N-f_{N-1}
 \end{equation}
 
-You must be careful here as well: segment ``d'' in Fig.~\ref{figLineInterp}
+You must be careful here as well: segment ``d'' in Fig.~\ref{Figures/figLineInterp}
 is the linear extrapolation of segment ``b'', but because the
 function starts to curve again ``d'' is a lousy approximation unless
 $x$ is quite close to $x=2$.
@@ -85,7 +85,7 @@ $x$ is quite close to $x=2$.
 Quadratic interpolation and extrapolation are more accurate than
 linear because the quadratic polynomial $a x^2 + bx + c$ can more
 easily fit curved functions than the linear polynomial $ax + b$.
-Consider Fig.~\ref{figQuadInterp}. It shows two quadratic fits to the curved
+Consider Fig.~\ref{Figures/figQuadInterp}. It shows two quadratic fits to the curved
 function. The one marked ``a'' just uses the points $x=0,1,2$ and is
 not very accurate because these points are too far apart. But the
 approximation using $x=0,0.5,1$, marked ``b'', is really quite good,
