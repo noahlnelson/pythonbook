@@ -8,20 +8,64 @@ find a function that best mimicks that data that you've gathered.  In
 this chapter you'll see how to do that.
 
 \section{Fitting to Linear Functions}
-When you think of fitting a function to a data set you most likely
-think of least-squares fitting.  Mathematically, this can be stated
-as minimzing the following quantity:
-\begin{equation}
-\sum_{i=1}^N (y_i - f(x_i))^2
-\end{equation}
-Here, $y_i$ represents the data point collected at $x_i$ and $f(x)$ represents
-the fitting function evaluated at $x_i$.  By varying the parameters in
-the function until the above sum is minimized, you are finding the
-function that best mimicks the data.
+The most common way of fitting to linear data is to use a linear least squares fit.  Linear least squares is often used because it is easy (once you get used to it),  and it has a known solution. (It's a plug and chug formula)
+Most other types of fits have a computer try several different values\sidenote{The computer chooses which values to try algorithmically.  One of the more commonly used methods is the Gauss-Newton Method.} and see which one fits the best.  Sometimes the computer will miss the actual best fit for something that is just better than the choices nearby, and even if the computer does find the best fit, it will take much longer to get there.
+
+\marginfig{Figures/linearleastsquares}{A plot of data fitted with a least squares line.  The green marks show $\chi_i$, or how far each data point is from the line.}
+
+You can use linear least squares whenever you predict that your data should match \[y=mx+b\]. However, there is no single line that will go through every single data point.  There's always a little bit of error, often written as $\chi$ (represented by the little green lines in Fig. \ref{Figures/linearleastsquares}).  Therefore, the equation that  actually matches the data is \[y_i=mx_i+b+\chi_i\]
+where $y_i$ is the $y$ value corresponding to each individual $x$ value, $x_i$.  $\chi_i$ gives how far away each data point is from the line. We can solve for how far away from the line each data point is:
+\[\chi_i=y_i-b-mx_i\]
+and come up with a function that gives us a total error:
+\[E_{tot}=\sum_i^N \chi_i^2 = \sum_i^N (y_i-b-mx_i)^2\]
+which is just the sum of how far off every single data point is from the line.  We use $\chi_i^2$ as an easy way\sidenote{For those with more of a statistics background, using $\chi_i^2$ relates to the standard deviation of the data.  Just replace the mean with the value predicted by the equation.} to get the absolute value of each error.  We really only care about how far each data point is from the line, not whether it is above or below the line.
+
+Using calculus, you can find the slope and intercept of the line that will minimize the total error.  To do so, take the derivative of the error function with respect to the slope and intercept independently, and set them equal to zero:
+\[\frac{\partial E_{tot}}{\partial m}=0;\,\,\,\frac{\partial E_{tot}}{\partial b}=0\]
+If you do those derivatives, and use the two equations to solve for $m$ and $b$, you get this:
+\[m=\frac{\left<xy\right>-\left<x\right>\left<y\right>}{\left<x^2\right>-\left<x\right>^2}\]
+\[b=\left<y\right>-m\left<x\right>\]
+where $m$ and $b$ are the slope and intercept of the line that gets closest to all of the data points and $\left<\right>$ means the average of the thing inside, i.e. $\left<x\right>$ is the average of all the $x$s, and to calculate $\left<xy\right>$ you'd multiply each $x$ value by its corresponding $y$ value, then take the average.
+\sidenote{Using error propagation, you can find the uncertainty of the fit.  The error in the slope is:
+\[\sigma_m=\frac{\sigma_y}{\sqrt{N\left(\left<x^2\right>-\left<x\right>^2\right)}}\]
+and the error in the intercept is:
+\[\sigma_b=\sigma_y\sqrt{\frac{\left<x^2\right>}{N\left(\left<x^2\right>-\left<x\right>^2\right)}}\]
+$\sigma_y$ represents the average error of each y value, and is calculated using:
+\[\sigma_y=\sqrt{\frac{1}{N-2}\sum_i^N \left(y_i-b-mx_i\right)^2}\]}
+
+Here is an example function that takes in lists of x and y data, then returns the slope and intercept of a linear least squares fit line.
+\begin{Verbatim}
+def linearLeastSquares(x,y):
+    #Import numpy
+    import numpy as np
+    #Get the number of data points
+    N=len(x)
+
+    #Make sure x and y are numpy arrays to make array math easy
+    x=np.asarray(x)
+    y=np.asarray(y)
+
+    #Calculate the average values needed to find the slope and intercept
+    xbar=np.mean(x) #Average Value of the x data
+    ybar=np.mean(y) #Average value of the y data
+    xbar2=np.mean(x**2) #Average value of the x data squared
+    xybar=np.mean(x*y) #Average value of xdata*ydata
+
+
+
+    #Use the linear least squares formula to calculate
+    #the slope and the intercept of the best fit line
+    slope=(xybar-xbar*ybar)/(xbar2-xbar**2)
+    intercept=ybar-slope*xbar
+    return slope, intercept
+
+\end{Verbatim}
+
+
 
 \section{Fitting to an Arbitrary Function}
-The \code{scipy.optimizes} library contains a wealth of useful function, one
-of which is called \code{curve\_fit}.  Sounds promising, right?
+While fitting to a line is quick and (relatively) easy, not all data will fit a line. To help,
+the \code{scipy.optimizes} library contains the \code{curve\_fit} function (among many others).  Sounds promising, right?
 Let's try it out.  Assume you've collected the following data
 
 \begin{Verbatim}
@@ -36,8 +80,8 @@ data to the function
 \begin{equation}
 y(x)  = a \sin(b x) \exp(c x)
 \end{equation}
-Your task then is to find values for \texttt{a}, \texttt{b}, and
-\texttt{c} that make the function the best approximation to the data.
+Your task then is to find values for \code{a}, \code{b}, and
+\code{c} that make the function the best approximation to the data.
 To do that we must send our data into the function
 \code{curve\_fit}. First, we need to import the library and define the
 function being fitted to:
@@ -56,7 +100,7 @@ in this case) and after that you are free to put as many adjustable
 parameters as you need.  In this case we had three (a,b, and c).  The
 \code{curve\_fit} function requires three arguments: The function that
 is being fitted, the independent variable values, and the dependent
-variables values (in that order).  
+variables values (in that order).
 The \code{curve\_fit} function returns a list of two things.  The
 first thing is a list of the parameter values.  The second thing is
 the variance (uncertainty) in the parameter values.  You can access
@@ -73,14 +117,23 @@ You can specify bounds on the search parameters:
 # Set bounds on a to (0,4)
 # Set bounds on b to (0,3)
  # Set bounds on c to (-4,2)
-paramBounds = [[0,0,-4],[4,3,2]] 
+paramBounds = [[0,0,-4],[4,3,2]]
 fit = opt.curve_fit(func,x,y,bounds=paramBounds)
 \end{Verbatim}
 and you can specify the uncertainty in the data points
 \begin{Verbatim}
 #Specify uncertainty on each data point
-uncertainty = [0.01,0.02,0.1,0.2,0.05,0.2,0.5,0.01,0.02,0.01,0.1,0.05]  
+uncertainty = [0.01,0.02,0.1,0.2,0.05,0.2,0.5,0.01,0.02,0.01,0.1,0.05]
 fit = opt.curve_fit(func,x,y,sigma=uncertainty)
+\end{Verbatim}
+
+You can also find the uncertainty in the fit parameters:
+\begin{Verbatim}
+#Change the fit line to:
+fit,pcov = opt.curve_fit(func,x,y,sigma=uncertainty)
+#pcov holds the estimated covariance of the different fit parameters.
+#Convert the covariance into one standard deviation fit error estimates:
+fit_err = np.sqrt(np.diag(pcov))  #requires that numpy is imported as np
 \end{Verbatim}
 
 \section{Plotting the Fit}

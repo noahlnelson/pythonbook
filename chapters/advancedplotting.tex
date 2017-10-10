@@ -53,7 +53,7 @@ pyplot.show()
 The picture should convince you that Python did indeed make
 things two-dimensional, and that this way of plotting could be very
 useful. But exactly how Python did it is tricky, so pay close
-attention.  First notice that anytime you want a 3 dimensional plot,
+attention.  First, notice that anytime you want a 3 dimensional plot,
 you will need the following lines:
 
 \begin{Verbatim}
@@ -282,7 +282,7 @@ pyplot.show()
 
 \section{Contour Plots}
 
-Contour plots can be generated in a very similar way as for surface
+Python generates contour plots very similarly to surface
 plots.  Instead of using \code{plot_surface} or \code{plot_wireframe},
 the command \code{contour} is used.  Look at the example below.
 
@@ -307,7 +307,7 @@ X,Y=meshgrid(x,y)
 F=(2-cos(pi*X))*exp(Y)
 
 # Plot the function
-pyplot.contour(X,Y,F)
+pyplot.contour(X,Y,F)  #Also try pyplot.contourf(X,Y,F)
 pyplot.xlabel('x')
 pyplot.ylabel('y')
 pyplot.show()
@@ -391,9 +391,8 @@ back.
 \section{Streamlines}
 
 In addition to plotting little arrows at each point in the vector field, you
-can plot ``streamlines.'' For fluid dynamics, streamlines show the path that
-a particle would follow if the arrows at each point represent the fluid
-velocity at that point.  In electricity and magnetism, flow lines for the
+can plot ``streamlines.'' In fluid dynamics, streamlines show the path that
+a small particle would follow if it was entrained in the fluid.  In electricity and magnetism, streamlines for the
 electric and magnetic fields are the field lines that you learned about in
 your introductory electricity and magnetism course.
 

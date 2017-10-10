@@ -21,13 +21,13 @@ Other useful statistical functions can be found in table \ref{tab:numpystats}
 \code{median}&  Median of data\\
 \code{average}&  Compute weighted average\\
 \code{mean}&  Compute the arithmetic mean\\
-\code{nanmean}&  Compute the arithmetic mean, ommiting nan(not a number) entries\\
+\code{nanmean}&  Compute the arithmetic mean, ommiting \code{nan} (not a number) entries\\
 \code{percentile}&  Compute a given percentile of the data\\
 \code{std}&  Standard deviation\\
 \code{histogram}&  Compute histogram of data.\\
 \end{tabular}
 \captionof{table}{A very small sampling of functions belonging to the
-  \texttt{numpy} library.\label{tab:numpystats}}
+  \code{numpy} library.\label{tab:numpystats}}
 }
 
 Let me explain the function \code{nanmean} briefly.  NaN is shorthand
@@ -38,8 +38,8 @@ operation is attempted. The ``value'' \code{inf} may also appears when
 \begin{Verbatim}
 from numpy import array,sqrt
 a = array([[-2.,0.,1.,2.,3.,4.]])
-print sqrt(a)
-print a/0
+print(sqrt(a))
+print(a/0)
 \end{Verbatim}
 and look at the results.  You should see arrays with non-numerical
 entries (\code{nan} or \code{inf}).  If, in the process of
@@ -63,7 +63,7 @@ distribution, numbers close to the peak are more likely to be chosen
 over numbers that are close to the tails of the distribution.  There
 are many statistical distributions, each with their place in science,
 and you should always think about which distribution is appropriate
-for your problem.  
+for your problem.
 
 The simplest distribution is the uniform (or flat) distribution and
 numpy has a sub-libary that can sample from it (and many others)
@@ -91,16 +91,8 @@ A small sampling of the statistical distributions available via numpy
 are given in table \ref{tab:distributions}.  For all of the
 distributions, the optional argument \code{size=} can be added to
 specify the number of samples you'd like.
-
-\section{Plotting}
-Statistical plotting tool range from plotting a continuous
-distribution to making a histogram of some collected data.  Plotting a
-continuous distribution is nothing more than plotting the function
-corresponding to that distribution.  However, instead of having to
-look up that function, \code{scipy.stats} makes your life a little easier by
-making the functions available to you.
 \marginpar{\footnotesize\captionsetup{type=table}
-  \vspace{-4.5in}
+  \vspace{-3.25in}
 \begin{tabular}{lp{0.95in}}
 \code{rvs(size=100)}  & Sample from the distribution. size defaults
 to 1 if omitted. \\
@@ -112,8 +104,68 @@ to 1 if omitted. \\
 the distribution. \\
 \end{tabular}
 \captionof{table}{A sampling of functions available to any statistical
-  distribution inside of \code{scipy.stats}.\label{tab:distfunctions}}
+  distribution inside of \code{scipy.stats}.\label{tab:distributions}}
 }
+
+\subsection*{Acceptance-Rejection Method}
+If you need to generate a random distribution that isn't uniform nor Gaussian, you can use the acceptance-rejection method.  The method involves three steps:
+\begin{enumerate}
+\item Use a uniform random number generator to choose a value
+\item Find the value of the random number plugged into your desired distribution function.
+\item Choose a second random number.  If it is smaller than the value found in the previous step, keep the random number from step one.  Otherwise, reject the number from step one and repeat.
+\end{enumerate}
+In order for this method to work, you need to normalize your distribution function so that its maximum value is 1.
+
+Here's an example function that creates a list of random numbers with a Maxwell-Boltzmann distribution\sidenote{The Maxwell-Boltzmann Distribution  is \[f(v)=\sqrt{\frac{2}{\pi}}\frac{v^2}{v_{th}^2}\exp\left(-\frac{v^2}{2v_{th}^2}\right)\]
+where $v$ is the speed of a particle in a gas, and $v_th$ is the thermal velocity of the gas.  When the peak value is normalized to one, the distribution becomes
+\[f_{norm}(v)=\frac{v^2}{2v_{th}^2}\exp\left(-\frac{v^2}{2v_{th}^2}\right)\]
+}
+given a thermal velocity and the desired number of random numbers.
+
+\begin{codeexample}
+\begin{VerbatimOut}{\listingFile}
+def rand_max_boltz(vth, N):
+    #Import the necessary functions from numpy
+    from numpy import sqrt, exp
+    from numpy.random import rand
+
+    #Load the Maxwell-Boltzmann distribution into a function
+    max_boltz = lambda v: v**2/2/vth**2*exp(1-v**2/2/vth**2)
+
+    #initialize an empty list to fill with random numbers
+    rand_list = []
+
+    #Now repeat acceptance-rejection until the program has reached
+    #the desired number of random numbers
+    while len(rand_list)<N:
+        #Generate the first random speed between 0 and 4*vth
+        rand_speed=rand()*4*vth #Technically, the speed should be anywhere from
+                           #zero to infinity, but only about 0.1% of particles
+                           #Have a velocity greater than 4*vth
+
+
+        #Find the function value of the random speed
+        func_val = max_boltz(rand_speed)
+
+        #Now check func_val against a second random number
+        if rand()<func_val:
+            rand_list.append(rand_speed)
+    return rand_list
+
+#Now use the function
+
+my_dist = rand_max_boltz(100,10000)
+\end{VerbatimOut}
+\end{codeexample}
+
+\section{Statistical Plotting}
+Statistical plotting tools range from plotting a continuous
+distribution to making a histogram of some collected data.  Plotting a
+continuous distribution is nothing more than plotting the function
+corresponding to that distribution.  However, instead of having to
+look up that function, \code{scipy.stats} makes your life a little easier by
+making the functions available to you.
+
 
 \subsection*{Continuous Distributions}
 While \code{numpy} has functions for performing simple statistical

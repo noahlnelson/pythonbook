@@ -1,7 +1,7 @@
 \chapter{Advanced Python Techniques}
-There are several very useful Python techniques where full walkthroughs and descriptions don't into the scope of this book.  However, many of them you may not come across through the course of a normal science/engineering education.
+There are several very useful Python techniques where full walkthroughs and descriptions are beyond the scope of this book.  However, many of them you may not come across through the course of a normal science/engineering education.
 
-This chapter contains many of those, with brief descriptions and a few examples so that you as a reader can see first of all that they exist, second, when they might be useful, and third, what they are called so you can further research them on your own.
+This chapter contains many of those, with brief descriptions and a few examples so that you as a reader can see first, that they exist; second, when they might be useful; and third, what they are called so you can further research them on your own.
 
 \section{Iterating with the enumerate function}
 You've seen how to iterate over a list, extracting each element,
@@ -9,7 +9,7 @@ one-by-one.  There are times when, in addition to extracting the
 elements of the thing you are iterating over, you'd like to also
 extract it's location in the list.  You can do that with the
 \code{enumerate} function.  Here's an example where every fourth
-element is added up:  
+element is added up:
 \begin{Verbatim}
 a = [4,5,2,8,99,65,78,32,39,67,92,120,567,23]
 thesum = 0
@@ -77,7 +77,7 @@ print('Life is {}.'.format('terrible' if mood=='Bad' else 'wonderful'))
 
 
 \section{List Comprehensions}\label{sec:comprehensions}
-A list comprehension is a more compact way to write a for loop.  Also, because of how Python handles memory, a list comprehension will be much faster than a for loop.  As an example, here is a for loop that makes a list of the numbers from 0 to 10, squared:
+A list comprehension is a more compact way to write a \code{for} loop.  Also, because of how Python handles memory, a list comprehension will be much faster than a \code{for} loop.  As an example, here is a \code{for} loop that takes a list of the numbers from 0 to 10 and creates a list of those numbers, squared:
 \begin{Verbatim}
 n_squared=[]
 for n in range(10):
@@ -90,7 +90,7 @@ n_squared = [n**2 for n in range(10)].
 \end{Verbatim}
 This structure is referred to as a list comprehension. Here is the general format:\sidenote{Putting <> around a phrase is a stand in for "put this thing here". You cannot copy this exact code and expect it to run in Python.}
 \begin{Verbatim}
-[<Thing_in_new_list> for <item_in_old_list> in <old_list>]
+[<item_in_new_list> for <item_in_old_list> in <old_list>]
 \end{Verbatim}
 Notice that you can only do list comprehensions on existing lists.  They do not work well for things like Euler's method, where the next value in a list depends on a previous value.
 
@@ -143,7 +143,7 @@ my_dict = {x:x**2 for x in range(30)}
 
 
 \section{Data Structures}\label{sec:datastruct}
-The "Data Structure" of a variable tells you how information is stored in that variable.  So far in this book, we've worked mostly with three different types: single variables, lists, and Numpy arrays. This section introduces three other very useful structures: the tuple, the dictionary, and the class.
+The ``Data Structure" of a variable tells you how information is stored in that variable.  So far in this book, we've worked mostly with three different types: single variables, lists, and Numpy arrays. This section introduces three other very useful structures: the tuple, the dictionary, and the class\sidenote{You may want also want to look into data trees, as well as common data storage formats like json and xml.}.
 
 \subsection*{Tuples}
 This book has mentioned tuples a few different times.  They are very similar to lists, but with two key differences:
@@ -542,12 +542,12 @@ Regex & \multicolumn{1}{c}{Description} & \multicolumn{1}{c}{Example} \\
 Regex & \multicolumn{1}{c}{Description} & \multicolumn{1}{c}{Example} \\
 \hline
 \code{+} & one or more occurrences & \code{AB+} matches \code{AB}, \code{ABB}, and \code{ABBBBBB}\\
-\code{*} & zero or more occurrences & \code{AB+} matches \code{A}, \code{AB}, and \code{ABBBBBB}\\
+\code{*} & zero or more occurrences & \code{AB*} matches \code{A}, \code{AB}, and \code{ABBBBBB}\\
 \code{?} & zero or one occurrence & \code{Hell?o} matches \code{Hello} and \code{Helo}\\
-\code{\{n\}} & $n$ occurrences & \code{[0-9]{3}} matches any three digits\\
-\code{\{n,\}} & $n$ or more occurrences & \code{[0-9]{3,}} matches \code{121} and \code{17572}\\
-\code{\{n,m\}} & $n$ to $m$ occurrences & \code{[0-9]{3,4}} matches \code{121} and \code{1984} but not \code{17572}\\
-\code{()} & Marks a pattern group & \code{A(BC){3}} matches \code{ABCBCBC}\\
+\code{\{n\}} & $n$ occurrences & \code{[0-9]\{3\}} matches any three digits\\
+\code{\{n,\}} & $n$ or more occurrences & \code{[0-9]\{3,\}} matches \code{121} and \code{17572}\\
+\code{\{n,m\}} & $n$ to $m$ occurrences & \code{[0-9]\{3,4\}} matches \code{121} and \code{1984} but not \code{17572}\\
+\code{()} & Marks a pattern group & \code{A(BC)\{3\}} matches \code{ABCBCBC}\\
 \code{|} & "or". Must be used inside \code{()} & \code{A(BC|DE)} matches \code{ABC} and \code{ADE}
 
 \end{tabular}
