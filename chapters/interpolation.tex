@@ -6,10 +6,9 @@ In computational physics we usually represent functions as arrays of values at
 discrete points in time and space. But we often want to be able to find
 function values at points not in the arrays. Finding function values between
 data points in the array is called {\it interpolation}; finding function
-values beyond the endpoints of the array is called {\it extrapolation}. A
-common way to do both is to use nearby function values to define a polynomial
-approximation to the function that is pretty good over a small region.  Both
-linear and quadratic function approximations will be discussed here.
+values beyond the endpoints of the array is called {\it extrapolation}.
+
+You can do both either using sophisticated functions built into the Scipy library or using quick, manually coded methods.  This chapter discusses both approaches.
 
 %% because Matlab's ode solvers don't use equally spaced
 %% time steps, and because you might want equal spacing,
@@ -38,25 +37,21 @@ linear and quadratic function approximations will be discussed here.
 \medskip
 
 \marginfig{Figures/figLineInterp}{Linear interpolation only works well over
-intervals where the function is straight.}
+intervals where the function is straight, or when the interval is small enough that the function is approximately straight.}
 
 \section{Manual Interpolation and Extrapolation}
-
+If you are going to Interpolate or Extrapolate large datasets, you are usually better off using the Scipy library.  However, you will often have a need to quickly calculate a boundary condition, or grab a single point between two others.  In these situations, knowing how to manually interpolate and extrapolate will significantly improve your program's performance. This section discusses linear and quadratic interpolation and extrapolation.
 \subsection*{Linear approximation}
-A linear approximation can be obtained with just two data points,
-say $(x_1,y_1)$ and $(x_2,y_2)$. You learned a long time ago that
-two points define a line, and the two-point formula for a line
-is
-\begin{equation}
+Two points define a line.  The equation of the line through those two points
+(say $(x_1,y_1)$ and $(x_2,y_2)$) is
+\begin{equation}\label{eq:pointline}
 y = y_1+ \frac{(y_2-y_1) }{ (x_2-x_1)} (x-x_1)
 \end{equation}
-This formula can be used between any two data points to linearly
-interpolate. For example, if $x$ in this formula is half-way between
-$x_1$ and $x_2$ at $x=(x_1+x_2)/2$ then it is easy to show that
-linear interpolation gives the obvious result $y=(y_1+y_2)/2$.
+where $x$ is where you want to interpolate, and $y$ is the value given by the interpolation.\sidenote{If $x$ in eq. \ref{eq:pointline} is half-way between
+$x_1$ and $x_2$ (at $x=(x_1+x_2)/2$), then the linear interpolation formula simplifies to $y=(y_1+y_2)/2$.}
 
-But you must be careful when using this method that your points are
-close enough together to give good values. In
+When using linear interpolation, you must be careful  that your points are
+close enough together that a line gives a good approximation to your data. In
 Fig.~\ref{Figures/figLineInterp}, for instance, the linear approximation to
 the curved function represented by the dashed line ``a'' is pretty
 poor because the points $x=0$ and $x=1$ on which this line is based
@@ -65,41 +60,34 @@ us the two-segment approximation ``c'' which is quite a bit better.
 Notice also that line ``b'' is a pretty good approximation because
 the function doesn't curve much.
 
-This linear formula can also be used to extrapolate. A common way
-extrapolation is often used is to find just one more function value
-beyond the end of a set of function pairs equally spaced in $x$. If
-the last two function values in the array are $f_{N-1}$ and $f_N$,
-it is easy to show that the formula above gives the simple rule
+You can also use eq. \ref{eq:pointline} to extrapolate. Often,
+you will need to find just one more point at the end of your data set. As long as your data is evenly spaced in $x$, eq. \ref{eq:pointline} simplifies to
 \begin{equation}\label{eq:linExtrap}
-f_{N+1} = 2 f_N-f_{N-1}
+y_{N+1} = 2 y_N-y_{N-1}
 \end{equation}
+where $y_N$ is the last data point, and $y_{N-1}$ is the second to last data point.
 
-You must be careful here as well: segment ``d'' in Fig.~\ref{Figures/figLineInterp}
+Just like with interpolation, you must be sure that the data point you are extrapolating to is roughly linear with the two points you are using to extrapolate: segment ``d'' in Fig.~\ref{Figures/figLineInterp}
 is the linear extrapolation of segment ``b'', but because the
-function starts to curve again ``d'' is a lousy approximation unless
-$x$ is quite close to $x=2$.
+function starts to curve ``d'' is a lousy approximation once $x>2$.
 
 
 
 \subsection*{Quadratic approximation}
-Quadratic interpolation and extrapolation are more accurate than
-linear because the quadratic polynomial $a x^2 + bx + c$ can more
-easily fit curved functions than the linear polynomial $ax + b$.
-Consider Fig.~\ref{Figures/figQuadInterp}. It shows two quadratic fits to the curved
+Quadratic interpolation and extrapolation is more accurate than
+linear with curved functions because the quadratic polynomial, $a x^2 + bx + c$, fits curve segments better than the linear polynomial, $ax + b$.
+Though once again, you must be sure that the data you are fitting to is roughly parabolic. As an example, look at Fig.~\ref{Figures/figQuadInterp}. It shows two quadratic fits to the curved
 function. The one marked ``a'' just uses the points $x=0,1,2$ and is
 not very accurate because these points are too far apart. But the
 approximation using $x=0,0.5,1$, marked ``b'', is really quite good,
-much better than a two-segment linear fit using the same three
-points would be.
+and is much better than a two-segment linear fit\sidenote{See the fit labeled ``c'' in Fig.~\ref{Figures/figLineInterp}.} to the same three points.
 
 \marginfig{Figures/figQuadInterp}{Quadratic interpolation follows the curves
     better if the curvature doesn't change sign. }
 
 To derive the quadratic interpolation and extrapolation function,
-we assume that we have three known points, $(x_1,y_1)$,
-$(x_2,y_2)$, and $(x_3,y_3)$.  If our parabola $y=a x^2 + bx + c$ is
-to pass through these three points, then the following set of
-equations must hold
+we need three known points, $(x_1,y_1)$,
+$(x_2,y_2)$, and $(x_3,y_3)$.  If our parabola $y=a x^2 + bx + c$ passes through all three points, then these equations will be true:
 \begin{equation}
     \begin{aligned}
     y_1 &= a x_1^2 + bx_1 + c \\
@@ -108,10 +96,8 @@ equations must hold
     \end{aligned}
 \end{equation}
 Unfortunately, when you solve this set of equations for $a$, $b$,
-and $c$, the formulas are ugly. If we simplify to the case where
-the three points are part of an equally spaced grid, things are
-prettier.  Let's assume equally spaced points spaced by $h$, so
-that $x_1=x_2-h$ and $x_3=x_2+h$. In this case, the solutions
+and $c$, the formulas are ugly and hard to work with. Unless your data is evenly spaced, you are better off using a more robust fitter from a library.  However, if the data is evenly spaced, the result is much simpler.  If we assume that $x_1,x_2,$ and $x_3$ are separated by a distance $h$ (so
+that $x_1=x_2-h$ and $x_3=x_2+h$) the solutions
 are\footnote{It is common in numerical analysis to derive this
 result using \index{Taylor's theorem} Taylor's theorem, which
 approximates the function $y(x)$ near the point $x=a$ as
@@ -126,7 +112,7 @@ Chapter~\ref{chap:Calculus}, the Taylor's series becomes
 y(x) \approx y_n + \frac{y_{n+1}-y_{n-1} }{ 2 h} (x-x_n)
 + \frac{y_{n-1}-2 y_n + y_{n+1} }{ 2 h^2} (x-x_n)^2 ~.
 \]
-This can be solved to find $a$, $b$, and $c$.
+which is a quadratic function of $(x-x_n)$, and you can just read off the coefficients $a$, $b$, and $c$.
 }
 \begin{equation}
     \begin{aligned}
@@ -158,23 +144,20 @@ y_{N+1} = 3 y_N - 3 y_{N-1} + y_{N-2} ~.
 \section{Python interpolaters}
 
 \subsection*{Interp1}
-\index{Interp1} The Scipy library has an interpolation routine called {\tt
+\index{Interp1} The Scipy library has an interpolation routine called \code{
 interp1d} which does the things discussed in the previous two sections
 automatically. Suppose you have a set of data points $\{x,y\}$ and
 you have a different set of x-values $\{x_i\}$ for which you want to
 find the corresponding $\{y_i\}$ values by interpolating in the
 $\{x,y\}$ data set. You simply use any one of these three forms of
-the {\tt interp1} command (assuming \code{x} and \code{y} are already
-loaded with the data points):
+the \code{interp1} command (assuming \code{x} and \code{y} are already
+loaded with the data points):\sidenote{Spline interpolation breaks the data into chunks, then fits a polynomial to each chunk. We refer to fitting to different chunks of data as a piece-wise fit.  Splines tend to do an excellent job fitting to smooth functions.}
 \begin{Verbatim}
 from scipy.interpolate import interp1d
 yi=interp1d(x,y)  # Linear interpolation
 yi=interp1d(x,y,kind = 'slinear')  # Spline interpolation to 2nd order
 yi=interp1d(x,y,kind = 'quadratic')
 \end{Verbatim}
-We haven't talked about spline interpolation yet.  It is a
-piece-wise polynomial fit that typically does an excellent job of
-matching smooth functions.
 
 Here is an example of how each of these three types of interpolation
 works on a crude data set representing the sine function.
@@ -220,9 +203,8 @@ pyplot.title('Cubic Spline Interpolation')
 pyplot.show()
 \end{VerbatimOut}
 \end{codeexample}
-There are a few cautionary notes to make here.  The data used to
-interpolate need not be spaced out regularly over the domain of
-interest but the quality of the interpolation will not be as good when
+The data used to interpolate need not be spaced out regularly over the domain of
+interest, but the quality of the interpolation will not be good when
 there are big gaps between data points.  Note also that
 \code{interp1d} is an {\it interpolator} not an {\it extrapolator}.
 Hence if you try to ``interpolate'' at a location that is beyond the
@@ -237,11 +219,11 @@ also has function that will allow you to do 2-dimensional interpolation on a
 data set of $\{x,y,z\}$ to find approximate values of $z(x,y)$ at
 points $\{x_i,y_i\}$ which don't lie on the data points $\{x,y\}$.  In
 the completely general situation where your data points $\{x,y,z\}$
-don't fall on a regular grid, you can use the command {\tt griddata}
+don't fall on a regular grid, you can use the command \code{griddata}
 to interpolate your function onto an arbitrary new set of points
 $\{x_i,y_i\}$, such as an evenly spaced 2-dimensional grid for
-plotting. Examine the code below to see how {\tt griddata}
-works, and play with the value of {\tt N} and see how the
+plotting. Examine the code below to see how \code{griddata}
+works, and play with the value of \code{N} and see how the
 interpolation quality depends on the number of points.
 \begin{codeexample}
 \begin{VerbatimOut}{\listingFile}
@@ -279,59 +261,80 @@ pyplot.show()
 \end{VerbatimOut}
 \end{codeexample}
 
-The {\tt griddata} command is very powerful in the sense
-that you can ask it to estimate $z(x,y)$ for arbitrary $x$ and $y$ (within
-your data range).  However, for large data sets it can be slow.  In the
-case that your data set is already on a regular grid, its much faster to
-use the {\tt interpn} command, like this:
+The \code{griddata} command is very powerful in the sense
+that you can ask it to estimate $z(x,y)$ for arbitrary\sidenote{\code{griddata} will work with data of any shape and interpolate it onto a grid, which can be very useful, but is a very computationally expensive process.} $x$ and $y$ (within
+your data range).  However, \code{griddata} is slow, especially for large data sets.  In the case that your data set is already on a regular grid, it's much faster to
+use the \code{interpn}\sidenote{\code{interpn} is built to interpolate in multiple dimensions. If your data is strictly two-dimensional, consider looking into one of these other interpolating functions in the \code{scipy} library: \code{interp2d} or \code{RectBivariateSpline}} command, like this:
 \begin{codeexample}
 \begin{VerbatimOut}{\listingFile}
-clear; close all;
+from scipy.interpolate import interpn
+from numpy import mgrid,cos,sin,arange,random,pi, vstack
+from matplotlib import pyplot
+from mpl_toolkits.mplot3d import Axes3D
 
-x=-3:.4:3; y=x;
+# Generate the rough x and y grids
+x_grid_rough, y_grid_rough = mgrid[-3:3.1:0.4,-3:3.1:0.4]
+# calculate a function usings the rough x and y, then build a surface plot
+Z=cos((x_grid_rough**2+y_grid_rough**2)/2)
+fig = pyplot.figure()
+ax = fig.gca(projection='3d')
+ax.plot_surface(x_grid_rough,y_grid_rough,Z)
+pyplot.title('Original')
+pyplot.show()
 
-% build the full 2-d grid for the crude x and y data
-% and make a surface plot
-[X,Y]=ndgrid(x,y);
-Z=cos((X.^2+Y.^2)/2);
-surf(X,Y,Z);
-title('Crude Data')
+#Build the finer grids to interpolate onto
+#Note: these grids do not have to have uniform spacing, but they do need
+#to be meshable
+x_grid_fine, y_grid_fine = mgrid[-3:3.1:0.1,-3:3.1:0.1]
 
-% now make a finer 2-d grid, interpolate linearly to
-% build a finer z(x,y) and surface plot it.
+#interpn fits to tuples of arrays, so here we set up those tuples
 
-% Because the interpolation is linear the mesh is finer
-% but the crude corners are still there
-xf=-3:.1:3;
-yf=xf;
-[XF,YF]=ndgrid(xf,yf);
-ZF=interpn(X,Y,Z,XF,YF,'linear');
-figure
-surf(XF,YF,ZF);
-title('Linear Interpolation')
+#These are the original data points.  x_grid_rough[:,0] is a 1-d array
+#that contains all of the x positions, y_grid_rough[0,:] holds the y positions
+rough_points = (x_grid_rough[:,0],y_grid_rough[0,:])
+#Make a tuple out of the grids that will be interpolated onto.
+fine_grid= (x_grid_fine,y_grid_fine)
 
-% Now use cubic interpolation to round the corners.  Note that
-% there is still trouble near the edge because these points
-% only have data on one side to work with, so interpolation
-% doesn't work very well
+#interpn uses three different methods: nearest,linear, and splinef2d.
+#Try each of them
 
-ZF=interpn(X,Y,Z,XF,YF,'cubic');
-figure
-surf(XF,YF,ZF);
-title('Cubic Interpolation')
 
-% Now use spline interpolation to also round the corners and
-% see how it is different from cubic.  You should notice that
-% it looks better, especially near the edges.  Spline
-% interpolation is often the best.
+#nearest - sets the value of the interploated point equal to the nearest data point
+Z_fine = interpn(rough_points,Z,fine_grid,method='nearest')
+fig = pyplot.figure()
+ax = fig.gca(projection='3d')
+ax.plot_surface(x_grid_fine,y_grid_fine,Z_fine)
+pyplot.title('Nearest')
+pyplot.show()
 
-ZF=interpn(X,Y,Z,XF,YF,'spline');
-figure
-surf(XF,YF,ZF);
-title('Spline Interpolation')
+'''
+linear interpolation
+Notice that when you plot it, the mesh is finer, and it is much
+smoother than nearest.
+However, since the interpolation is linear, the sharp corners of the
+rough grid are still there.
+'''
+
+Z_fine = interpn(rough_points,Z,fine_grid,method='linear')
+fig = pyplot.figure()
+ax = fig.gca(projection='3d')
+ax.plot_surface(x_grid_fine,y_grid_fine,Z_fine)
+pyplot.title('Linear')
+pyplot.show()
+
+'''
+splinef2d
+splinef2d does a two dimensional piecewise polynomial fit,
+which can fit curves. Notice the increased smoothness
+'''
+
+Z_fine = interpn((x_grid_rough[:,0],y_grid_rough[0,:]),Z,(x_grid_fine,y_grid_fine),method='splinef2d')
+fig = pyplot.figure()
+ax = fig.gca(projection='3d')
+ax.plot_surface(x_grid_fine,y_grid_fine,Z_fine)
+pyplot.title('2d Spline')
+pyplot.show()
 \end{VerbatimOut}
 \end{codeexample}
 
-In this example our grids were created using {\tt ndgrid}.  If you choose
-to use the {\tt meshgrid} command to create your grids, you'll need
-to use the command {\tt interp2} instead of {\tt interpn}.
+
