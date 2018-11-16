@@ -19,7 +19,7 @@ def derivs(y,dx):
     N=len(y)
     yp = zeros_like(y)  # Initialize array of zeros for first derivative
     ypp = zeros_like(y)  # Initialize array of zeros for second derivative
-
+    # Playing with Git
     yp[1:N-1]=(y[2:N]-y[0:N-2])/(2*dx)
     ypp[1:N-1]=(y[2:N]-2*y[1:N-1]+y[0:N-2])/(dx**2)
 
