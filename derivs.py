@@ -18,9 +18,9 @@ def derivs(y,dx):
     # Adding this line for git testing
     N=len(y)
     yp = zeros_like(y)  # Initialize array of zeros for first derivative
-    ypp = zeros_like(y)  # Initialize array of zeros for second derivative
+#    ypp = zeros_like(y)  # Initialize array of zeros for second derivative
     # Playing with Git
-    yp[1:N-1]=(y[2:N]-y[0:N-2])/(2*dx)
+#    yp[1:N-1]=(y[2:N]-y[0:N-2])/(2*dx)
     ypp[1:N-1]=(y[2:N]-2*y[1:N-1]+y[0:N-2])/(dx**2)
 
     # now use either linear or quadratic extrapolation to load the
@@ -28,7 +28,7 @@ def derivs(y,dx):
 
 
     # linear
-    #yp[0]=2*yp[1]-yp[2]
+    yp[0]=2*yp[1]-yp[2]
     #yp[N-1]=2*yp[N-2]-yp[N-3]
     #ypp[0]=2*ypp[1]-ypp[2]
     #ypp[N-1]=2*ypp[N-2]-ypp[N-3]
